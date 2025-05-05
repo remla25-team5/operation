@@ -1,0 +1,18 @@
+services:
+  app:
+    image: ghcr.io/remla25-team5/app:latest
+    ports:
+      - "8080:8080"
+    env_file:
+      - env/app.env
+    depends_on:
+      - model-service
+    restart: on-failure:3
+  model-service:
+    image: ghcr.io/remla25-team5/model-service:latest
+    volumes:
+      - ./model-cache:/app/model-cache/
+      - ./cv-cache:/app/cv-cache/
+    env_file:
+      - env/model_service.env
+    restart: on-failure:3
