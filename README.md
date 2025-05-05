@@ -39,7 +39,7 @@ docker run -p 8080:8080 --env-file=.env app-service
 
 ## Model-service
 
-The model service relies on the lib-ml library to get the model version and to encapsulate preprocessing, which is used
+The model service relies on the lib-ml library to encapsulate preprocessing, which is used
 both for training and inference. 
 Training is done in a [separate repository](https://github.com/remla25-team5/model-training) in a jupyter notebook, and the model is released on github.
 The model service downloads the model and the CountVectorizer from the release on github, and caches them in a local directory.
