@@ -8,6 +8,8 @@ services:
     depends_on:
       - model-service
     restart: on-failure:3
+    secrets:
+      - app_api_key
   model-service:
     image: ${MODEL_SERVICE_IMAGE}:${MODEL_SERVICE_VERSION}
     volumes:
@@ -16,3 +18,7 @@ services:
     env_file:
       - env/model_service.env
     restart: on-failure:3
+
+secrets:
+  app_api_key:
+    file: ./secrets/app_api_key.txt
