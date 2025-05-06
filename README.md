@@ -1,6 +1,6 @@
 # REMLA 25 Team 5 - Sentiment Analysis App
 
-Below we document Assignment 1: Versions, Releases, and Containerization. 
+Below we document **Assignment 1: Versions, Releases, and Containerization.** 
 
 For a quick start, you can run the app using [Docker Compose](#docker-compose).
 
@@ -84,3 +84,12 @@ Links to the repositories used in this project:
 ## Current status
 
 ✅ Assignment 1
+
+### Use of Generative AI
+
+- **operation**: …
+- **model-training**: ...
+- **model-service**: For model-service, ChatGPT was used to understand what Dockerfiles and release.yml files are, and what they should contain. Copilot was used to help with making environment variables that are used in the model_utils.py and service.py files. It was also used to speed up repetitive tasks, like downloading the CountVectorizer model the same way that the trained model is downloaded. It was also used to help with writing the README.md file.
+- **lib-ml**: ...
+- **app**: 
+- **lib-version**: 
