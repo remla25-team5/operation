@@ -69,6 +69,7 @@ Run with:
 ```bash
 docker-compose up
 ```
+The app can then be accessed at [http://localhost:8080](http://localhost:8080).
 
 ## Repositories
 
@@ -87,9 +88,9 @@ Links to the repositories used in this project:
 
 ### Use of Generative AI
 
-- **operation**: …
+We used generative AI in the following ways:
+
 - **model-training**: For model-training, Gemini was used to avoid doing repetitive tasks, such as duplicating code with small variations for the training of the classifiers.
 - **model-service**: For model-service, ChatGPT was used to understand what Dockerfiles and release.yml files are, and what they should contain. Copilot was used to help with making environment variables that are used in the model_utils.py and service.py files. It was also used to speed up repetitive tasks, like downloading the CountVectorizer model the same way that the trained model is downloaded. It was also used to help with writing the README.md file.
 - **lib-ml**: In lib-ml, Gemini was used to help determine the needed dependencies for the pyproject.toml file.
 - **app**: For the frontend, ChatGPT was only used for trivial and repetitive tasks. Examples include: adding try/catch blocks to code, adding console.log statements to code and defining datatypes in TypeScript as specified by me etc.
-- **lib-version**: 
