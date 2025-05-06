@@ -11,3 +11,7 @@ Approved PR: https://github.com/remla25-team5/lib-ml/pull/6
 -- Tadas Žaliauskas: --
 Created PR: https://github.com/remla25-team5/operation/pull/2
 Approved PR: https://github.com/remla25-team5/app/pull/16
+
+-- Reinier Schep: --
+Created PR: https://github.com/remla25-team5/app/pull/16
+Approved PR: https://github.com/remla25-team5/lib-ml/pull/6
