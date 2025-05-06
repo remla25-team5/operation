@@ -91,5 +91,5 @@ Links to the repositories used in this project:
 - **model-training**: ...
 - **model-service**: For model-service, ChatGPT was used to understand what Dockerfiles and release.yml files are, and what they should contain. Copilot was used to help with making environment variables that are used in the model_utils.py and service.py files. It was also used to speed up repetitive tasks, like downloading the CountVectorizer model the same way that the trained model is downloaded. It was also used to help with writing the README.md file.
 - **lib-ml**: ...
-- **app**: 
+- **app**: For the frontend, ChatGPT was only used for trivial and repetitive tasks. Examples include: adding try/catch blocks to code, adding console.log statments to code and defining datatypes in TypeScript as specified by me etc.
 - **lib-version**: 
