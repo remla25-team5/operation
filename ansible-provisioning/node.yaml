@@ -1,6 +1,6 @@
 # node.yaml
 ---
-- hosts: all
+- hosts: nodes
   become: yes
   # Pass variables from Vagrant to Ansible
   vars:

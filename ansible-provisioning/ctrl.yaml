@@ -1,6 +1,6 @@
 # ctrl.yaml
 ---
-- hosts: all
+- hosts: ctrl
   become: yes
   vars:
     # Pass variables from Vagrant to Ansible
