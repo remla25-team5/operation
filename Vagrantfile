@@ -25,6 +25,9 @@ Vagrant.configure("2") do |config|
       v.memory = CTRL_MEMORY
       v.cpus = CTRL_CPUS
     end
+    # Add private network for the controller node
+    ctrl.vm.network "private_network", ip: "192.168.56.100"
+    ctrl.vm.hostname = "ctrl"
     ctrl.vm.box = BOX_IMAGE
     ctrl.vm.box_version = BOX_VERSION
   end
@@ -37,6 +40,9 @@ Vagrant.configure("2") do |config|
         v.memory = NODE_MEMORY
         v.cpus = NODE_CPUS
       end
+      # Add private network for each worker node
+      node.vm.network "private_network", ip: "191.168.56.#{100 + n}"
+      node.vm.hostname = "node-#{n}"
       node.vm.box = BOX_IMAGE
       node.vm.box_version = BOX_VERSION
     end
