@@ -1,0 +1,4 @@
+# ctrl.yaml
+---
+- hosts: all
+  become: yes

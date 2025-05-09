@@ -1,0 +1,4 @@
+# node.yaml
+---
+- hosts: all
+  become: yes

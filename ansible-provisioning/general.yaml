@@ -1,7 +1,23 @@
-- name: Authorize SSH keys
-  ansible.posix.authorized_key:
-    user: vagrant
-    state: present
-    key: "{{ lookup('file', item) }}"
-  with_fileglob:
-    - "../ssh-keys/*.pub"
+# general.yaml
+---
+- hosts: all
+  become: yes
+  tasks:
+    # Step 4
+    - name: Authorize SSH keys
+      authorized_key:
+        user: vagrant
+        state: present
+        key: "{{ lookup('file', item) }}"
+      with_fileglob:
+        - "../ssh-keys/*.pub"
+
+    # Step 5
+    - name: Disable swap for the running system
+      shell: swapoff -a
+
+    - name: Remove swap entry in /etc/fstab
+      lineinfile:
+        path: /etc/fstab
+        regexp: '^.*swap.*$'
+        state: absent
