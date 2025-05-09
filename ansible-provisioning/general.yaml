@@ -15,8 +15,12 @@
         user: vagrant
         state: present
         key: "{{ lookup('file', item) }}"
-      with_fileglob:
-        - "../ssh-keys/*.pub"
+      with_items:
+        - "../ssh-keys/id_ed25519_jorn.pub"
+        - "../ssh-keys/id_ed25519_kevin.pub"
+        - "../ssh-keys/id_ed25519_kristof.pub"
+        - "../ssh-keys/id_ed25519_reinier.pub"
+        - "../ssh-keys/id_ed25519_tadas.pub"
 
     # Step 5
     - name: Disable swap for the running system
