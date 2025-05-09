@@ -2,3 +2,16 @@
 ---
 - hosts: all
   become: yes
+  vars:
+    # Pass variables from Vagrant to Ansible
+    node_count: "{{ node_count | default(2) }}"
+    ctrl_cpus: "{{ ctrl_cpus | default(1) }}"
+    ctrl_memory: "{{ ctrl_memory | default(4096) }}"
+    node_cpus: "{{ node_cpus | default(2) }}"
+    node_memory: "{{ node_memory | default(6144) }}"
+  tasks:
+    # Test step
+    - name: Print controller configuration
+      debug:
+        msg: "Controller node with {{ ctrl_cpus }} CPUs and {{ ctrl_memory }}MB memory, managing {{ node_count }} worker nodes"
+        
