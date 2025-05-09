@@ -1,0 +1,7 @@
+- name: Authorize SSH keys
+  ansible.posix.authorized_key:
+    user: vagrant
+    state: present
+    key: "{{ lookup('file', item) }}"
+  with_fileglob:
+    - "../ssh-keys/*.pub"
