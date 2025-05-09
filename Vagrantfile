@@ -30,6 +30,11 @@ Vagrant.configure("2") do |config|
     ctrl.vm.hostname = "ctrl"
     ctrl.vm.box = BOX_IMAGE
     ctrl.vm.box_version = BOX_VERSION
+
+    config.vm.provision :ansible do |a|
+      a.playbook = "playbooks/general.yaml"
+      a.playbook = "ansible-provisioning/ctrl.yaml"
+    end
   end
 
   # Create Vagrant boxes for the worker nodes
@@ -45,6 +50,11 @@ Vagrant.configure("2") do |config|
       node.vm.hostname = "node-#{n}"
       node.vm.box = BOX_IMAGE
       node.vm.box_version = BOX_VERSION
+
+      config.vm.provision :ansible do |a|
+        a.playbook = "playbooks/general.yaml"
+        a.playbook = "ansible-provisioning/node.yaml"
+      end
     end
   end
 
