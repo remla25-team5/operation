@@ -41,7 +41,7 @@ Vagrant.configure("2") do |config|
         v.cpus = NODE_CPUS
       end
       # Add private network for each worker node
-      node.vm.network "private_network", ip: "191.168.56.#{100 + n}"
+      node.vm.network "private_network", ip: "192.168.56.#{100 + n}"
       node.vm.hostname = "node-#{n}"
       node.vm.box = BOX_IMAGE
       node.vm.box_version = BOX_VERSION
