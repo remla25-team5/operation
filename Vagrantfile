@@ -31,8 +31,11 @@ Vagrant.configure("2") do |config|
     ctrl.vm.box = BOX_IMAGE
     ctrl.vm.box_version = BOX_VERSION
 
-    config.vm.provision :ansible do |a|
-      a.playbook = "playbooks/general.yaml"
+    ctrl.vm.provision :ansible do |a|
+      a.playbook = "ansible-provisioning/general.yaml"
+    end
+    
+    ctrl.vm.provision :ansible do |a|
       a.playbook = "ansible-provisioning/ctrl.yaml"
     end
   end
@@ -51,8 +54,11 @@ Vagrant.configure("2") do |config|
       node.vm.box = BOX_IMAGE
       node.vm.box_version = BOX_VERSION
 
-      config.vm.provision :ansible do |a|
-        a.playbook = "playbooks/general.yaml"
+      node.vm.provision :ansible do |a|
+        a.playbook = "ansible-provisioning/general.yaml"
+      end
+      
+      node.vm.provision :ansible do |a|
         a.playbook = "ansible-provisioning/node.yaml"
       end
     end
