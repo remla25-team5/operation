@@ -9,7 +9,7 @@ BOX_VERSION = "202502.21.0"
 NODE_COUNT = 2
 
 # Number of CPUs and memory for the controller node
-CTRL_CPUS = 1
+CTRL_CPUS = 2
 CTRL_MEMORY = 4096
 
 # Number of CPUs and memory for the worker nodes

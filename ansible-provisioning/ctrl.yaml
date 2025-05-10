@@ -15,3 +15,19 @@
       debug:
         msg: "Controller node with {{ ctrl_cpus }} CPUs and {{ ctrl_memory }}MB memory, managing {{ node_count }} worker nodes"
         
+# Step 13
+    # Check if Kubernetes is already initialized
+    - name: Check if Kubernetes is already initialized
+      stat:
+        path: /etc/kubernetes/admin.conf
+      register: kubeadm_config
+
+    # Initialize the Kubernetes cluster if not already done
+    - name: Initialize Kubernetes cluster with kubeadm
+      command: >
+        kubeadm init
+        --apiserver-advertise-address=192.168.56.100
+        --node-name=ctrl
+        --pod-network-cidr=10.244.0.0/16
+      when: not kubeadm_config.stat.exists
+      become: true
