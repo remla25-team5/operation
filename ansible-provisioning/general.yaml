@@ -109,3 +109,54 @@
     - name: Install the version '1.32.4' of package "kubectl"
       ansible.builtin.apt:
         name: kubectl=1.32.4*
+# Step 11
+    - name: Ensure /etc/containerd directory exists
+      file:
+        path: /etc/containerd
+        state: directory
+        mode: '0755'
+      become: true
+
+    - name: Dump containerd default config if missing
+      shell: containerd config default > /etc/containerd/config.toml
+      args:
+        creates: /etc/containerd/config.toml
+      become: true
+
+    - name: Wait for /etc/containerd/config.toml to be created
+      wait_for:
+        path: /etc/containerd/config.toml
+        state: present   # Corrected state
+        timeout: 30      # Wait up to 30 seconds for the file to exist
+      become: true
+
+    - name: Disable AppArmor in containerd config
+      lineinfile:
+        path: /etc/containerd/config.toml
+        insertafter: '^\[plugins\."io.containerd.grpc.v1.cri"\]'
+        regexp: '^\s*disable_apparmor\s*='
+        line: '  disable_apparmor = true'
+      become: true
+
+    - name: Set sandbox image version in containerd config
+      lineinfile:
+        path: /etc/containerd/config.toml
+        insertafter: '^\[plugins\."io.containerd.grpc.v1.cri"\]'
+        regexp: '^\s*sandbox_image\s*='
+        line: '  sandbox_image = "registry.k8s.io/pause:3.10"'
+      become: true
+
+    - name: Enable SystemdCgroup in containerd config
+      lineinfile:
+        path: /etc/containerd/config.toml
+        insertafter: '^\[plugins\."io.containerd.grpc.v1.cri"\.containerd\.runtimes\.runc\.options\]'
+        regexp: '^\s*SystemdCgroup\s*='
+        line: '  SystemdCgroup = true'
+      become: true
+
+    - name: Restart containerd
+      service:
+        name: containerd
+        state: restarted
+        enabled: true
+      become: true
