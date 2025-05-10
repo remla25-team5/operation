@@ -37,6 +37,7 @@
       debug:
         msg: "Node count: {{ node_count }}, Controller CPUs: {{ ctrl_cpus }}, Controller Memory: {{ ctrl_memory }}MB, Node CPUs: {{ node_cpus }}, Node Memory: {{ node_memory }}MB"
 
+    # Step 6
     - name: br_netfilter
       ansible.builtin.copy:
         content: 'overlay br_netfilter'
@@ -47,33 +48,25 @@
         name: br_netfilter
         state: present
 
+    # Step 7
     # Set ip forwarding on in /proc and verify token value with the sysctl command
     - ansible.posix.sysctl:
-        name: net.ipv4.ip_forward
+        name: "{{ item }}"
         value: '1'
         sysctl_set: true
+      loop:
+        - net.ipv4.ip_forward
+        - net.bridge.bridge-nf-call-iptables
+        - net.bridge.bridge-nf-call-ip6tables
 
-    - ansible.posix.sysctl:
-        name: net.bridge.bridge-nf-call-iptables
-        value: '1'
-        sysctl_set: true
-
-    - ansible.posix.sysctl:
-        name: net.bridge.bridge-nf-call-ip6tables
-        value: '1'
-        sysctl_set: true
-
+    # Step 8
     - name: Add mappings to /etc/hosts
       ansible.builtin.blockinfile:
         path: /etc/hosts
-        block: |
-          {{ item.ip }} {{ item.name }}
-        marker: "# {mark} ANSIBLE MANAGED BLOCK {{ item.name }}"
-      loop:
-        - { name: ctrl, ip: 192.168.56.100 }
-        - { name: node-1, ip: 192.168.56.101 }
-        - { name: node-2, ip: 192.168.56.102 }
+        block: "{{ lookup('ansible.builtin.template', './hosts.j2') }}"
+        marker: "# {mark} ANSIBLE MANAGED BLOCK "
 
+    # Step 9
     - name: Add kubernetes repository
       block:
         - name: somerepo |no apt key
@@ -90,22 +83,12 @@
       ansible.builtin.apt:
         update_cache: yes
 
-    - name: Install the version '1.7.24' of package "containerd"
+    # Step 10
+    - name: Install K8s tools
       ansible.builtin.apt:
-        name: containerd=1.7.24*
-
-    - name: Install the version '1.1.12' of package "runc"
-      ansible.builtin.apt:
-        name: runc=1.1.12*
-
-    - name: Install the version '1.32.4' of package "kubeadm"
-      ansible.builtin.apt:
-        name: kubeadm=1.32.4*
-
-    - name: Install the version '1.32.4' of package "kubelet"
-      ansible.builtin.apt:
-        name: kubelet=1.32.4*
-
-    - name: Install the version '1.32.4' of package "kubectl"
-      ansible.builtin.apt:
-        name: kubectl=1.32.4*
+        pkg:
+          - containerd=1.7.24*
+          - runc=1.1.12*
+          - kubeadm=1.32.4*
+          - kubelet=1.32.4*
+          - kubectl=1.32.4*
