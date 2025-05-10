@@ -160,3 +160,12 @@
         state: restarted
         enabled: true
       become: true
+
+# Step 12
+    - name: Enable and start kubelet service
+      service:
+        name: kubelet
+        state: started
+        enabled: true
+      become: true
+
