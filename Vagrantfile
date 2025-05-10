@@ -9,7 +9,7 @@ BOX_VERSION = "202502.21.0"
 NODE_COUNT = 2
 
 # Number of CPUs and memory for the controller node
-CTRL_CPUS = 2
+CTRL_CPUS = 2 # This was changed from 1 to 2 due to step 13
 CTRL_MEMORY = 4096
 
 # Number of CPUs and memory for the worker nodes
@@ -34,6 +34,8 @@ Vagrant.configure("2") do |config|
     ctrl.vm.hostname = "ctrl"
     ctrl.vm.box = BOX_IMAGE
     ctrl.vm.box_version = BOX_VERSION
+
+    ctrl.vm.synced_folder ".", "/vagrant", type: "virtualbox"
 
     ctrl.vm.provision :ansible do |a|
       a.playbook = "ansible-provisioning/general.yaml"

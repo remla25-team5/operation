@@ -31,3 +31,33 @@
         --pod-network-cidr=10.244.0.0/16
       when: not kubeadm_config.stat.exists
       become: true
+
+# Step 14
+    - name: Ensure .kube directory exists for vagrant user
+      file:
+        path: /home/vagrant/.kube
+        state: directory
+        owner: vagrant
+        group: vagrant
+        mode: '0755'
+      become: true
+
+    - name: Copy Kubernetes admin.conf to vagrant's kube config
+      copy:
+        src: /etc/kubernetes/admin.conf
+        dest: /home/vagrant/.kube/config
+        remote_src: yes
+        owner: vagrant
+        group: vagrant
+        mode: '0644'
+      become: true
+
+    - name: Copy admin.conf to shared synced folder (host access)
+      copy:
+        src: /etc/kubernetes/admin.conf
+        dest: /vagrant/admin.conf
+        remote_src: yes
+        owner: vagrant
+        group: vagrant
+        mode: '0644'
+      become: true
