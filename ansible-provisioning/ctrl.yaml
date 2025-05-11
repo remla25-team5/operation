@@ -10,30 +10,38 @@
     node_cpus: "{{ node_cpus | default(2) }}"
     node_memory: "{{ node_memory | default(6144) }}"
   tasks:
-    # Test step
-    - name: Print controller configuration
+    - name: "Print controller configuration"
       debug:
         msg: "Controller node with {{ ctrl_cpus }} CPUs and {{ ctrl_memory }}MB memory, managing {{ node_count }} worker nodes"
-        
-# Step 13
-    # Check if Kubernetes is already initialized
-    - name: Check if Kubernetes is already initialized
+
+# Step 13: Initialize Kubernetes Cluster
+    - name: "Check if Kubernetes is already initialized (admin.conf exists)"
       stat:
         path: /etc/kubernetes/admin.conf
       register: kubeadm_config
 
-    # Initialize the Kubernetes cluster if not already done
-    - name: Initialize Kubernetes cluster with kubeadm
+    - name: "Kubernetes already initialized — skipping kubeadm init"
+      debug:
+        msg: "Kubernetes is already initialized; skipping cluster init step"
+      when: kubeadm_config.stat.exists
+
+    - name: "Initialize Kubernetes cluster with kubeadm"
       command: >
         kubeadm init
         --apiserver-advertise-address=192.168.56.100
         --node-name=ctrl
         --pod-network-cidr=10.244.0.0/16
       when: not kubeadm_config.stat.exists
+      register: kubeadm_result
       become: true
 
-# Step 14
-    - name: Ensure .kube directory exists for vagrant user
+    - name: "Output from kubeadm init"
+      debug:
+        var: kubeadm_result.stdout_lines
+      when: kubeadm_result is defined and not kubeadm_config.stat.exists
+
+# Step 14: Set up kubeconfig for vagrant and host access
+    - name: "Ensure .kube directory exists for vagrant user"
       file:
         path: /home/vagrant/.kube
         state: directory
@@ -42,7 +50,7 @@
         mode: '0755'
       become: true
 
-    - name: Copy Kubernetes admin.conf to vagrant's kube config
+    - name: "Copy Kubernetes admin.conf to vagrant's kube config"
       copy:
         src: /etc/kubernetes/admin.conf
         dest: /home/vagrant/.kube/config
@@ -52,7 +60,7 @@
         mode: '0644'
       become: true
 
-    - name: Copy admin.conf to shared synced folder (host access)
+    - name: "Copy admin.conf to shared synced folder (host access)"
       copy:
         src: /etc/kubernetes/admin.conf
         dest: /vagrant/admin.conf
@@ -63,12 +71,12 @@
       become: true
 
 # Step 15: Install Flannel network plugin
-    - name: Download Flannel manifest
+    - name: "Download Flannel CNI manifest"
       get_url:
         url: https://raw.githubusercontent.com/flannel-io/flannel/v0.26.7/Documentation/kube-flannel.yml
         dest: /tmp/kube-flannel.yml
 
-    - name: Patch Flannel manifest with --iface=eth1
+    - name: "Patch Flannel manifest with --iface=eth1"
       replace:
         path: /tmp/kube-flannel.yml
         regexp: 'args:\s*\n\s*- "--ip-masq"'
@@ -77,7 +85,13 @@
             - "--ip-masq"
             - "--iface=eth1"
 
-    - name: Apply Flannel network plugin
+    - name: "Apply Flannel network plugin to the cluster"
       command: kubectl apply -f /tmp/kube-flannel.yml
       environment:
         KUBECONFIG: /etc/kubernetes/admin.conf
+      register: flannel_result
+
+    - name: "Flannel network deployed"
+      debug:
+        var: flannel_result.stdout_lines
+      when: flannel_result is defined

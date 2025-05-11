@@ -92,7 +92,8 @@
           - kubeadm=1.32.4*
           - kubelet=1.32.4*
           - kubectl=1.32.4*
-    # Step 11
+    # Step 11: Configure containerd for Kubernetes
+
     - name: Ensure /etc/containerd directory exists
       file:
         path: /etc/containerd
@@ -105,12 +106,18 @@
       args:
         creates: /etc/containerd/config.toml
       become: true
+      register: containerd_config_dump
+
+    - name: Show output from containerd config dump
+      debug:
+        var: containerd_config_dump.stdout_lines
+      when: containerd_config_dump is defined
 
     - name: Wait for /etc/containerd/config.toml to be created
       wait_for:
         path: /etc/containerd/config.toml
-        state: present   # Corrected state
-        timeout: 30      # Wait up to 30 seconds for the file to exist
+        state: present
+        timeout: 30
       become: true
 
     - name: Disable AppArmor in containerd config
@@ -137,18 +144,31 @@
         line: '  SystemdCgroup = true'
       become: true
 
-    - name: Restart containerd
+    - name: Restart containerd service
       service:
         name: containerd
         state: restarted
         enabled: true
       become: true
+      register: containerd_restart
 
-# Step 12
+    - name: Show containerd service restart result
+      debug:
+        var: containerd_restart
+      when: containerd_restart is defined
+
+    # Step 12: Enable and start kubelet
+
     - name: Enable and start kubelet service
       service:
         name: kubelet
         state: started
         enabled: true
       become: true
+      register: kubelet_service
+
+    - name: Show kubelet service status
+      debug:
+        msg: "kubelet service started and enabled successfully"
+      when: kubelet_service is defined and kubelet_service.state == "started"
 
