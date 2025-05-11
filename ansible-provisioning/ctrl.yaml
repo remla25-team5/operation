@@ -61,3 +61,23 @@
         group: vagrant
         mode: '0644'
       become: true
+
+# Step 15: Install Flannel network plugin
+    - name: Download Flannel manifest
+      get_url:
+        url: https://raw.githubusercontent.com/flannel-io/flannel/v0.26.7/Documentation/kube-flannel.yml
+        dest: /tmp/kube-flannel.yml
+
+    - name: Patch Flannel manifest with --iface=eth1
+      replace:
+        path: /tmp/kube-flannel.yml
+        regexp: 'args:\s*\n\s*- "--ip-masq"'
+        replace: |
+          args:
+            - "--ip-masq"
+            - "--iface=eth1"
+
+    - name: Apply Flannel network plugin
+      command: kubectl apply -f /tmp/kube-flannel.yml
+      environment:
+        KUBECONFIG: /etc/kubernetes/admin.conf
