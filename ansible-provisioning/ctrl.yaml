@@ -96,52 +96,34 @@
         var: flannel_result.stdout_lines
       when: flannel_result is defined
 
-    # Step 16: Install Helm 
+# Step 16: Install Helm 
 
     - name: Ensure apt-transport-https is installed (required for HTTPS APT)
-      ansible.builtin.apt:
+      apt:
         name: apt-transport-https
         state: present
         update_cache: yes
 
-    - name: Download Helm signing key
-      ansible.builtin.get_url:
-        url: https://baltocdn.com/helm/signing.asc
-        dest: /usr/share/keyrings/helm.gpg
-        mode: '0644'
-      register: helm_key
 
-    - name: Confirm Helm key downloaded
-      debug:
-        var: helm_key
-      when: helm_key is defined
-
+    - name: Add Helm signing key
+      ansible.builtin.shell: |
+        curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | tee /usr/share/keyrings/helm.gpg > /dev/null
+      
     - name: Add Helm APT repository
-      ansible.builtin.apt_repository:
-        repo: "deb [arch={{ ansible_architecture | lower }} signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main"
-        filename: helm-stable-debian
-        state: present
-      register: helm_repo
-
-    - name: Confirm Helm APT repo added
-      debug:
-        var: helm_repo
-      when: helm_repo is defined
-
+      shell: |
+        echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" > /etc/apt/sources.list.d/helm-stable-debian.list
+      
+      
     - name: Update APT package index
       ansible.builtin.apt:
         update_cache: yes
       register: apt_update
 
-    - name: Show Helm APT update result
-      debug:
-        msg: "APT package cache updated for Helm."
-      when: apt_update.cache_updated
-
-    - name: Install Helm
+    - name: Install Helm package using Ansible apt module
       ansible.builtin.apt:
         name: helm
         state: present
+
 
     # Step 17: Install Helm Diff plugin
     - name: Install Helm Diff plugin if not already installed
