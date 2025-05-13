@@ -72,6 +72,11 @@
         - net.bridge.bridge-nf-call-iptables
         - net.bridge.bridge-nf-call-ip6tables
       register: sysctl_results
+      
+    - name: Display sysctl settings applied
+      debug:
+        var: sysctl_results
+      when: sysctl_results is defined
 
     - name: Display sysctl settings applied
       debug:
@@ -102,6 +107,7 @@
       debug:
         var: apt_key
       when: apt_key is defined
+
 
     - name: Add Kubernetes APT repository
       ansible.builtin.apt_repository:
@@ -285,4 +291,3 @@
       debug:
         var: metallb_l2_advertisement
       when: metallb_l2_advertisement is defined
-

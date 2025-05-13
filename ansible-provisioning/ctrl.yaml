@@ -96,7 +96,7 @@
         var: flannel_result.stdout_lines
       when: flannel_result is defined
 
-# Step 16: Install Helm 
+    # Step 16: Install Helm 
 
     - name: Ensure apt-transport-https is installed (required for HTTPS APT)
       ansible.builtin.apt:
