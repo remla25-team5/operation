@@ -8,9 +8,10 @@
     ctrl_memory: "{{ ctrl_memory | default(4096) }}"
     node_cpus: "{{ node_cpus | default(2) }}"
     node_memory: "{{ node_memory | default(6144) }}"
+
   tasks:
-    # Step 4
-    - name: Authorize SSH keys
+    # Step 4: SSH Key Authorization
+    - name: Authorize SSH keys for vagrant user
       authorized_key:
         user: vagrant
         state: present
@@ -21,36 +22,48 @@
         - "../ssh-keys/id_ed25519_kristof.pub"
         - "../ssh-keys/id_ed25519_reinier.pub"
         - "../ssh-keys/id_ed25519_tadas.pub"
+      register: ssh_key_result
 
-    # Step 5
-    - name: Disable swap for the running system
+    - name: Show SSH key setup result
+      debug:
+        var: ssh_key_result
+      when: ssh_key_result is defined
+
+    # Step 5: Disable Swap
+    - name: Disable swap temporarily
       shell: swapoff -a
+      register: swapoff_result
 
-    - name: Remove swap entry in /etc/fstab
+    - name: Confirm swapoff executed
+      debug:
+        var: swapoff_result.stdout_lines
+      when: swapoff_result is defined
+
+    - name: Permanently disable swap in /etc/fstab
       lineinfile:
         path: /etc/fstab
         regexp: '^.*swap.*$'
         state: absent
 
-     # Test step 
-    - name: Print configuration info
+    # Test Step: Print Configuration Info
+    - name: Print cluster hardware configuration
       debug:
         msg: "Node count: {{ node_count }}, Controller CPUs: {{ ctrl_cpus }}, Controller Memory: {{ ctrl_memory }}MB, Node CPUs: {{ node_cpus }}, Node Memory: {{ node_memory }}MB"
 
-    # Step 6
-    - name: br_netfilter
+    # Step 6: Enable br_netfilter
+    - name: Ensure br_netfilter is loaded on boot
       ansible.builtin.copy:
         content: 'overlay br_netfilter'
         dest: /etc/modules-load.d/k8s.conf
 
-    - name: Add the br_netfilter module
+    - name: Load br_netfilter module now
       community.general.modprobe:
         name: br_netfilter
         state: present
 
-    # Step 7
-    # Set ip forwarding on in /proc and verify token value with the sysctl command
-    - ansible.posix.sysctl:
+    # Step 7: Set Kernel Parameters
+    - name: Enable required sysctl parameters for Kubernetes networking
+      ansible.posix.sysctl:
         name: "{{ item }}"
         value: '1'
         sysctl_set: true
@@ -58,33 +71,61 @@
         - net.ipv4.ip_forward
         - net.bridge.bridge-nf-call-iptables
         - net.bridge.bridge-nf-call-ip6tables
+      register: sysctl_results
 
-    # Step 8
-    - name: Add mappings to /etc/hosts
+    - name: Display sysctl settings applied
+      debug:
+        var: sysctl_results
+      when: sysctl_results is defined
+
+    # Step 8: Add host entries
+    - name: Add custom host entries to /etc/hosts
       ansible.builtin.blockinfile:
         path: /etc/hosts
         block: "{{ lookup('ansible.builtin.template', './hosts.j2') }}"
         marker: "# {mark} ANSIBLE MANAGED BLOCK "
+      register: hosts_block
 
-    # Step 9
-    - name: Add kubernetes repository
-      block:
-        - name: somerepo |no apt key
-          ansible.builtin.get_url:
-            url: https://pkgs.k8s.io/core:/stable:/v1.32/deb/Release.key
-            dest: /etc/apt/keyrings/kubernetes-apt-keyring.asc
+    - name: Confirm host entries updated
+      debug:
+        var: hosts_block
+      when: hosts_block is defined
 
-        - name: somerepo | apt source
-          ansible.builtin.apt_repository:
-            repo: "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.asc] https://pkgs.k8s.io/core:/stable:/v1.32/deb/ /"
-            state: present
+    # Step 9: Add Kubernetes repository
+    - name: Download Kubernetes APT key
+      ansible.builtin.get_url:
+        url: https://pkgs.k8s.io/core:/stable:/v1.32/deb/Release.key
+        dest: /etc/apt/keyrings/kubernetes-apt-keyring.asc
+      register: apt_key
 
-    - name: Run the equivalent of "apt-get update" as a separate step
+    - name: Confirm APT key downloaded
+      debug:
+        var: apt_key
+      when: apt_key is defined
+
+    - name: Add Kubernetes APT repository
+      ansible.builtin.apt_repository:
+        repo: "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.asc] https://pkgs.k8s.io/core:/stable:/v1.32/deb/ /"
+        state: present
+      register: k8s_repo
+
+    - name: Confirm Kubernetes APT repo added
+      debug:
+        var: k8s_repo
+      when: k8s_repo is defined
+
+    - name: Update APT package index
       ansible.builtin.apt:
         update_cache: yes
+      register: apt_update
 
-    # Step 10
-    - name: Install K8s tools
+    - name: Show APT update result
+      debug:
+        msg: "APT package cache updated."
+      when: apt_update.cache_updated
+
+    # Step 10: Install Kubernetes tools and container runtime
+    - name: Install containerd, runc, kubeadm, kubelet, kubectl
       ansible.builtin.apt:
         pkg:
           - containerd=1.7.24*
@@ -92,3 +133,90 @@
           - kubeadm=1.32.4*
           - kubelet=1.32.4*
           - kubectl=1.32.4*
+      register: k8s_packages
+
+    - name: Show installation result
+      debug:
+        var: k8s_packages
+      when: k8s_packages is defined
+
+    # Step 11: Configure containerd for Kubernetes
+
+    - name: Ensure /etc/containerd directory exists
+      file:
+        path: /etc/containerd
+        state: directory
+        mode: '0755'
+      become: true
+
+    - name: Dump containerd default config if missing
+      shell: containerd config default > /etc/containerd/config.toml
+      args:
+        creates: /etc/containerd/config.toml
+      become: true
+      register: containerd_config_dump
+
+    - name: Show output from containerd config dump
+      debug:
+        var: containerd_config_dump.stdout_lines
+      when: containerd_config_dump is defined
+
+    - name: Wait for /etc/containerd/config.toml to be created
+      wait_for:
+        path: /etc/containerd/config.toml
+        state: present
+        timeout: 30
+      become: true
+
+    - name: Disable AppArmor in containerd config
+      lineinfile:
+        path: /etc/containerd/config.toml
+        insertafter: '^\[plugins\."io.containerd.grpc.v1.cri"\]'
+        regexp: '^\s*disable_apparmor\s*='
+        line: '  disable_apparmor = true'
+      become: true
+
+    - name: Set sandbox image version in containerd config
+      lineinfile:
+        path: /etc/containerd/config.toml
+        insertafter: '^\[plugins\."io.containerd.grpc.v1.cri"\]'
+        regexp: '^\s*sandbox_image\s*='
+        line: '  sandbox_image = "registry.k8s.io/pause:3.10"'
+      become: true
+
+    - name: Enable SystemdCgroup in containerd config
+      lineinfile:
+        path: /etc/containerd/config.toml
+        insertafter: '^\[plugins\."io.containerd.grpc.v1.cri"\.containerd\.runtimes\.runc\.options\]'
+        regexp: '^\s*SystemdCgroup\s*='
+        line: '  SystemdCgroup = true'
+      become: true
+
+    - name: Restart containerd service
+      service:
+        name: containerd
+        state: restarted
+        enabled: true
+      become: true
+      register: containerd_restart
+
+    - name: Show containerd service restart result
+      debug:
+        var: containerd_restart
+      when: containerd_restart is defined
+
+    # Step 12: Enable and start kubelet
+
+    - name: Enable and start kubelet service
+      service:
+        name: kubelet
+        state: started
+        enabled: true
+      become: true
+      register: kubelet_service
+
+    - name: Show kubelet service status
+      debug:
+        msg: "kubelet service started and enabled successfully"
+      when: kubelet_service is defined and kubelet_service.state == "started"
+
