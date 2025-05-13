@@ -15,3 +15,18 @@
     - name: Print worker node configuration
       debug:
         msg: "Worker node {{ node_id }} of {{ node_count }} with {{ node_cpus }} CPUs and {{ node_memory }}MB memory"
+
+    # Step 18: Generate Join Command for Worker Nodes
+    - name: "Generate join command for worker nodes"
+      command: kubeadm token create --print-join-command
+      register: join_command
+      when: not kubeadm_config.stat.exists
+      delegate_to: ctrl
+
+    # Step 19: Run Join Command on Worker Nodes
+    # run the captured command on the worker nodes
+    - name: "Run join command on worker nodes"
+      ansible.builtin.shell: "{{ join_command.stdout }}"
+      when: not kubeadm_config.stat.exists
+      register: join_result
+      become: true
