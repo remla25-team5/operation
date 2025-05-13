@@ -35,7 +35,7 @@ Created PR: https://github.com/remla25-team5/operation/pull/8
 Approved PR: https://github.com/remla25-team5/operation/pull/6
 
 -- Jorn Dijk --
-Created PR: https://github.com/remla25-team5/operation/pull/12 
+Created PR: https://github.com/remla25-team5/operation/pull/15 
 Approved PR: https://github.com/remla25-team5/operation/pull/10 
 
 -- Reinier Schep: --
