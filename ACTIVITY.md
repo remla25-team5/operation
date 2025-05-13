@@ -39,5 +39,5 @@ Created PR:
 Approved PR: 
 
 -- Reinier Schep: --
-Created PR: 
-Approved PR: 
+Created PR: https://github.com/remla25-team5/operation/pull/10
+Approved PR: https://github.com/remla25-team5/operation/pull/12 
