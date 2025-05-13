@@ -133,6 +133,22 @@ If you only want to provision after running `vagrant up`, you can run the follow
 vagrant provision
 ```
 
+To setup the dashboard once the kubernetes cluster is provisoned:
+```bash
+# Navigate to the operation directory
+cd operation
+
+# Run the finalization playbook
+ansible-playbook -u vagrant -i 192.168.56.100, \
+                 --private-key=~/.ssh/id_ed25519 \ # or the PATH to your private key (should be matched to a registered public key)
+                 ansible-provisioning/finalization.yaml
+
+# Get a token to access the dashboard
+kubectl -n kubernetes-dashboard create token admin-user 
+```
+Remember to add '192.168.56.90 dashboard.local' to your host's DNS file (sudo nano /etc/hosts on Mac)
+Once this is done you can access https://dashboard.local in your browser to access the dashboard.
+
 ## Repositories
 
 Links to the repositories used in this project:
