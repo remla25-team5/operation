@@ -23,8 +23,8 @@ Approved PR: https://github.com/remla25-team5/lib-ml/pull/6
 # A2
 
 -- Kristóf Sándor: --
-Created PR: 
-Approved PR: 
+Created PR: https://github.com/remla25-team5/operation/pull/12/
+Approved PR: https://github.com/remla25-team5/operation/pull/10
 
 -- Kevin Hoxha: --
 Created PR: https://github.com/remla25-team5/operation/pull/6
