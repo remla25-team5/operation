@@ -222,67 +222,67 @@
 
     # Step 20: Install MetalLB
 
-    - name: Download MetalLB CRDs
-      ansible.builtin.get_url:
-        url: https://github.com/metallb/metallb/blob/5765ee504d21a3a237d9dab223ca707661269ecd/config/manifests/metallb-native.yaml
-        dest: /tmp/metallb-native.yaml
-      register: metallb_crds
+    # - name: Download MetalLB CRDs
+    #   ansible.builtin.get_url:
+    #     url: https://github.com/metallb/metallb/blob/5765ee504d21a3a237d9dab223ca707661269ecd/config/manifests/metallb-native.yaml
+    #     dest: /tmp/metallb-native.yaml
+    #   register: metallb_crds
 
-    - name: Apply MetalLB CRDs
-      ansible.builtin.command:
-        cmd: kubectl apply -f /tmp/metallb-native.yaml
-      register: metallb_crds_apply
-      when: metallb_crds is defined
+    # - name: Apply MetalLB CRDs
+    #   ansible.builtin.command:
+    #     cmd: kubectl apply -f /tmp/metallb-native.yaml
+    #   register: metallb_crds_apply
+    #   when: metallb_crds is defined
 
-    - name: Confirm MetalLB CRDs applied
-      debug:
-        var: metallb_crds_apply
-      when: metallb_crds_apply is defined
+    # - name: Confirm MetalLB CRDs applied
+    #   debug:
+    #     var: metallb_crds_apply
+    #   when: metallb_crds_apply is defined
 
-      apiVersion: metallb.io/v1beta1
-      kind: IPAddressPool
-      metadata:
-        name: cheap
-        namespace: metallb-system
-      spec:
-        addresses:
-        - 192.168.10.0/24
+    #   apiVersion: metallb.io/v1beta1
+    #   kind: IPAddressPool
+    #   metadata:
+    #     name: cheap
+    #     namespace: metallb-system
+    #   spec:
+    #     addresses:
+    #     - 192.168.10.0/24
 
-    - name: Create MetalLB IPAddressPool
-      ansible.builtin.command:
-        cmd: kubectl apply -f -
-      args:
-        stdin: |
-          apiVersion: metallb.io/v1beta1
-          kind: IPAddressPool
-          metadata:
-            name: default-address-pool
-            namespace: metallb-system
-          spec:
-            addresses:
-            - 192.168.56.90-192.168.56.99
-      register: metallb_ip_pool
+    # - name: Create MetalLB IPAddressPool
+    #   ansible.builtin.command:
+    #     cmd: kubectl apply -f -
+    #   args:
+    #     stdin: |
+    #       apiVersion: metallb.io/v1beta1
+    #       kind: IPAddressPool
+    #       metadata:
+    #         name: default-address-pool
+    #         namespace: metallb-system
+    #       spec:
+    #         addresses:
+    #         - 192.168.56.90-192.168.56.99
+    #   register: metallb_ip_pool
 
-    - name: Confirm MetalLB IPAddressPool created
-      debug:
-        var: metallb_ip_pool
-      when: metallb_ip_pool is defined
+    # - name: Confirm MetalLB IPAddressPool created
+    #   debug:
+    #     var: metallb_ip_pool
+    #   when: metallb_ip_pool is defined
 
-    - name: Create MetalLB L2Advertisement
-      ansible.builtin.command:
-        cmd: kubectl apply -f -
-      args:
-        stdin: |
-          apiVersion: metallb.io/v1beta1
-          kind: L2Advertisement
-          metadata:
-            name: default-l2-advertisement
-            namespace: metallb-system
-          spec: {}
-      register: metallb_l2_advertisement
+    # - name: Create MetalLB L2Advertisement
+    #   ansible.builtin.command:
+    #     cmd: kubectl apply -f -
+    #   args:
+    #     stdin: |
+    #       apiVersion: metallb.io/v1beta1
+    #       kind: L2Advertisement
+    #       metadata:
+    #         name: default-l2-advertisement
+    #         namespace: metallb-system
+    #       spec: {}
+    #   register: metallb_l2_advertisement
 
-    - name: Confirm MetalLB L2Advertisement created
-      debug:
-        var: metallb_l2_advertisement
-      when: metallb_l2_advertisement is defined
+    # - name: Confirm MetalLB L2Advertisement created
+    #   debug:
+    #     var: metallb_l2_advertisement
+    #   when: metallb_l2_advertisement is defined
 

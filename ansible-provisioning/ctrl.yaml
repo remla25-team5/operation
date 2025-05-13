@@ -98,50 +98,81 @@
 
 # Step 16: Install Helm 
 
-    - name: Ensure apt-transport-https is installed (required for HTTPS APT)
-      ansible.builtin.apt:
+    - name: nsure apt-transport-https is installed (required for HTTPS APT)
+      apt:
         name: apt-transport-https
         state: present
         update_cache: yes
 
-    - name: Download Helm signing key
-      ansible.builtin.get_url:
-        url: https://baltocdn.com/helm/signing.asc
-        dest: /usr/share/keyrings/helm.gpg
-        mode: '0644'
-      register: helm_key
+    # - name: Download Helm signing key
+    #   ansible.builtin.get_url:
+    #     url: https://baltocdn.com/helm/signing.asc
+    #     dest: /usr/share/keyrings/helm.gpg
+    #     mode: '0644'
+    #   register: helm_key
 
-    - name: Confirm Helm key downloaded
-      debug:
-        var: helm_key
-      when: helm_key is defined
+    # - name: Download and Install helm
+    #   ansible.builtin.shell: >
+    #     curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
+    #     sudo apt-get install apt-transport-https --yes
+    #     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+    #     sudo apt-get update
 
+    # - name: Install Helm package using Ansible apt module
+    #   ansible.builtin.apt:
+    #     name: helm
+    #     state: present
+
+    - name: Add Helm signing key
+      ansible.builtin.shell: |
+        curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | tee /usr/share/keyrings/helm.gpg > /dev/null
+      
     - name: Add Helm APT repository
-      ansible.builtin.apt_repository:
-        repo: "deb [arch={{ ansible_architecture | lower }} signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main"
-        filename: helm-stable-debian
-        state: present
-      register: helm_repo
-
-    - name: Confirm Helm APT repo added
-      debug:
-        var: helm_repo
-      when: helm_repo is defined
-
+      shell: |
+        echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" > /etc/apt/sources.list.d/helm-stable-debian.list
+      
+      
     - name: Update APT package index
       ansible.builtin.apt:
         update_cache: yes
       register: apt_update
 
-    - name: Show Helm APT update result
-      debug:
-        msg: "APT package cache updated for Helm."
-      when: apt_update.cache_updated
-
-    - name: Install Helm
+    - name: Install Helm package using Ansible apt module
       ansible.builtin.apt:
         name: helm
         state: present
+
+    - name: Install Helm diff plugin
+      become_user: vagrant
+      shell: helm plugin install https://github.com/databus23/helm-diff
+      args:
+        creates: /home/vagrant/.local/share/helm/plugins/helm-diff
+  
+
+    
+
+    # - name: Add Helm APT repository
+    #   ansible.builtin.apt_repository:
+    #     repo: "deb [signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main"
+    #     state: present
+    #   register: helm_repo
+
+    # - name: Confirm Helm APT repo added
+    #   debug:
+    #     var: helm_repo
+    #   when: helm_repo is defined
+
+    
+
+    # - name: Show Helm APT update result
+    #   debug:
+    #     msg: "APT package cache updated for Helm."
+    #   when: apt_update.cache_updated
+
+    # - name: Install Helm
+    #   ansible.builtin.apt:
+    #     name: helm
+    #     state: present
 
     # Step 17: Install Helm Diff plugin
     - name: Install Helm Diff plugin if not already installed
@@ -152,6 +183,7 @@
       environment:
         HOME: "{{ ansible_env.HOME }}"
       register: helm_diff_install
+
 
     - name: Confirm Helm Diff plugin installation
       debug:

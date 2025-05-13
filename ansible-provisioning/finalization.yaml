@@ -1,0 +1,204 @@
+---
+- hosts: 192.168.56.100
+  become: yes
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
+  vars:
+    metallb_ip_range: "192.168.56.90-192.168.56.99"
+    ip_address_pool_yaml: |
+      apiVersion: metallb.io/v1beta1
+      kind: IPAddressPool
+      metadata:
+        name: node-pool
+        namespace: metallb-system
+      spec:
+        addresses:
+        - {{ metallb_ip_range }} 
+    l2_advertisement_yaml: |
+      apiVersion: metallb.io/v1beta1
+      kind: L2Advertisement
+      metadata:
+        name: expose
+        namespace: metallb-system
+      spec:
+        ipAddressPools:
+        - node-pool
+    nginx_ingress_repo_url: "https://kubernetes.github.io/ingress-nginx"
+    nginx_ingress_repo_name: "ingress-nginx"
+    nginx_ingress_chart_ref: "ingress-nginx/ingress-nginx"
+    kubernetes_dashboard_repo_url: "https://kubernetes.github.io/dashboard/"
+    dashboard_chart_name: "kubernetes-dashboard/kubernetes-dashboard"
+    dashboard_namespace: "kubernetes-dashboard"
+    dashboard_service_account_name: "admin-user"
+    dashboard_service_account_yaml: |
+      apiVersion: v1
+      kind: ServiceAccount
+      metadata:
+        name: {{ dashboard_service_account_name }}
+        namespace: {{ dashboard_namespace }}
+    dashboard_service_ClusterRoleBinding_yaml: |
+      apiVersion: rbac.authorization.k8s.io/v1
+      kind: ClusterRoleBinding
+      metadata:
+        name: {{ dashboard_service_account_name }}-cluster-admin
+      subjects:
+      - kind: ServiceAccount
+        name: {{ dashboard_service_account_name }}
+        namespace: {{ dashboard_namespace }}
+      roleRef:
+        kind: ClusterRole
+        name: cluster-admin
+        apiGroup: rbac.authorization.k8s.io
+    dashboard_ingress_setup_yaml: |
+      apiVersion: networking.k8s.io/v1
+      kind: Ingress
+      metadata:
+        name: "dashboard-http-ingress"
+        namespace: {{ dashboard_namespace }}
+        annotations:
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+      spec:
+        ingressClassName: nginx
+        rules:
+          - host: "dashboard.local"
+            http:
+              paths:
+                - path: /
+                  pathType: Prefix
+                  backend:
+                    service:
+                      name: kubernetes-dashboard-kong-proxy
+                      port:
+                        number: 443
+  
+  tasks:
+    # Step 20: Install MetalLB
+    - name: "Get the MetalLB yaml file"
+      get_url:
+        url: https://raw.githubusercontent.com/metallb/metallb/v0.14.9/config/manifests/metallb-native.yaml
+        dest: "/tmp/metallb-native.yaml"
+
+    - name: "Apply MetalLB manifest"
+      command: >
+        kubectl apply -f "/tmp/metallb-native.yaml"
+
+    - name: "Wait for MetalLB provisioning"
+      command: >
+        kubectl wait -n metallb-system
+        -l app=metallb,component=controller
+        --for=condition=ready pod
+        --timeout=300s
+
+    - name: "Create IPAddressPool config file"
+      copy: 
+        content: "{{ ip_address_pool_yaml }}"
+        dest: "/tmp/ip_address_pool.yaml"
+
+    - name: "Apply IPAddressPool configuration"
+      command: >
+        kubectl apply -f /tmp/ip_address_pool.yaml
+      
+
+    - name: "Create L2Advertisement config file on ctrl VM"
+      copy:
+        content: "{{ l2_advertisement_yaml }}"
+        dest: "/tmp/l2_advertisement.yaml"
+
+    - name: "Apply L2Advertisement configuration"
+      command: >
+        kubectl apply -f /tmp/l2_advertisement.yaml
+
+    # Step 21: Install the Nginx Ingress Controller
+    - name: "Add Helm repository"
+      kubernetes.core.helm_repository:
+        name: "{{ nginx_ingress_repo_name }}"
+        repo_url: "{{ nginx_ingress_repo_url }}"
+        state: present
+
+    - name: "Install Helm chart"
+      kubernetes.core.helm:
+        name: "{{ nginx_ingress_repo_name }}"
+        chart_ref: "{{ nginx_ingress_chart_ref }}"
+        release_namespace: "{{ nginx_ingress_repo_name }}"
+        create_namespace: yes
+        state: present
+        values:
+          controller:
+            service:
+              loadBalancerIP: 192.168.56.90
+
+    # Step 22: Add Kubernetes Dashboard
+    - name: "Add dahsboard repository"
+      kubernetes.core.helm_repository:
+        name: "kubernetes-dashboard"
+        repo_url: "{{ kubernetes_dashboard_repo_url }}"
+        state: present
+
+    - name: "Install Helm chart"
+      kubernetes.core.helm:
+        name: "kubernetes-dashboard"    
+        chart_ref: "{{ dashboard_chart_name }}" 
+        release_namespace: "{{ dashboard_namespace }}" 
+        create_namespace: yes        
+        state: present       
+
+    - name: "Create temporary ServiceAccount YAML file "
+      ansible.builtin.copy:
+        content: "{{ dashboard_service_account_yaml }}"
+        dest: "/tmp/dashboard-sa.yaml" 
+        mode: '0644'
+
+    - name: "Apply ServiceAccount '{{ dashboard_service_account_name }}'"
+      ansible.builtin.command:
+        cmd: kubectl apply -f /tmp/dashboard-sa.yaml
+      register: dashboard_sa_apply_status
+      changed_when: >
+        'created' in dashboard_sa_apply_status.stdout or
+        'configured' in dashboard_sa_apply_status.stdout
+
+    - name: "Remove temporary ServiceAccount YAML file"
+      ansible.builtin.file:
+        path: "/tmp/dashboard-sa.yaml"
+        state: absent
+
+    - name: "Create temporary ClusterRoleBinding YAML file"
+      ansible.builtin.copy:
+        content: "{{ dashboard_service_ClusterRoleBinding_yaml }}"
+        dest: "/tmp/dashboard-crb.yaml"
+        mode: '0644'
+
+    - name: "Apply ClusterRoleBinding for '{{ dashboard_service_account_name }}'"
+      ansible.builtin.command:
+        cmd: kubectl apply -f /tmp/dashboard-crb.yaml
+
+    - name: "Remove temporary ClusterRoleBinding YAML file"
+      ansible.builtin.file:
+        path: "/tmp/dashboard-crb.yaml"
+        state: absent
+
+    - name: "Create temporary Ingress YAML file"
+      ansible.builtin.copy:
+        content: "{{ dashboard_ingress_setup_yaml }}"
+        dest: "/tmp/dashboard-ingress.yaml"
+        mode: '0644'
+
+    - name: "Apply Ingress for {{ dashboard_hostname }}"
+      ansible.builtin.command: >
+        kubectl apply -f /tmp/dashboard-ingress.yaml
+ 
+
+    - name: "Remove temporary Ingress YAML file"
+      ansible.builtin.file:
+        path: "/tmp/dashboard-ingress.yaml"
+        state: absent
+
+    - name: "Reminder for manual token generation"
+      ansible.builtin.debug:
+        msg:
+          - "To log into the Dashboard, get the token for '{{ dashboard_service_account_name }}' manually."
+          - "Run on the ctrl VM: kubectl -n {{ dashboard_namespace }} create token {{ dashboard_service_account_name }}" 
+          - "Access Dashboard at: https://{{ dashboard_hostname }}"
+          - "Remember to add '{{ nginx_ingress_loadbalancer_ip }} {{ dashboard_hostname }}' to your host's DNS file."
+      vars:
+        nginx_ingress_loadbalancer_ip: "192.168.56.90"
+
