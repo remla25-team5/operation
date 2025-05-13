@@ -31,8 +31,8 @@ Created PR: https://github.com/remla25-team5/operation/pull/6
 Approved PR: https://github.com/remla25-team5/operation/pull/8
 
 -- Tadas Žaliauskas: --
-Created PR: 
-Approved PR: 
+Created PR: https://github.com/remla25-team5/operation/pull/8
+Approved PR: https://github.com/remla25-team5/operation/pull/6
 
 -- Jorn Dijk --
 Created PR: 
