@@ -22,6 +22,36 @@ NODE_IPS = (1..NODE_COUNT).map { |n| "192.168.56.#{100 + n}" }
 
 Vagrant.configure("2") do |config|
 
+  # Create the Ansible inventory file after running `vagrant up`
+  config.trigger.after [:up, :reload] do |trigger|
+    trigger.name = "Generate Ansible inventory.cfg"
+    trigger.ruby do
+      # Define the inventory file path
+      inventory_file_path = File.join(File.dirname(__FILE__), "ansible-provisioning", "inventory.cfg")
+      
+      # Create inventory file with controller and node information
+      File.open(inventory_file_path, 'w') do |file|
+        # Add controller section
+        file.puts "[controller]"
+        file.puts "ctrl ansible_host=#{CTRL_IP}"
+        file.puts ""
+        
+        # Add nodes section
+        file.puts "[nodes]"
+        NODE_IPS.each_with_index do |ip, i|
+          file.puts "node-#{i + 1} ansible_host=#{ip}"
+        end
+
+        file.puts ""
+        file.puts "[all:children]"
+        file.puts "controller"
+        file.puts "nodes"
+      end
+      
+      puts "Successfully created inventory file at #{inventory_file_path}"
+    end
+  end
+
   # Create a Vagrant box for the controller node
   config.vm.define "ctrl" do |ctrl|
     # Assign memory and CPUs to the controller node
@@ -39,6 +69,7 @@ Vagrant.configure("2") do |config|
 
     ctrl.vm.provision :ansible do |a|
       a.playbook = "ansible-provisioning/general.yaml"
+      a.inventory_path = INVENTORY_PATH
       a.extra_vars = {
         node_count: NODE_COUNT,
         ctrl_cpus: CTRL_CPUS,
@@ -50,6 +81,7 @@ Vagrant.configure("2") do |config|
     
     ctrl.vm.provision :ansible do |a|
       a.playbook = "ansible-provisioning/ctrl.yaml"
+      a.inventory_path = INVENTORY_PATH
       a.extra_vars = {
         node_count: NODE_COUNT,
         ctrl_cpus: CTRL_CPUS,
@@ -77,6 +109,7 @@ Vagrant.configure("2") do |config|
 
       node.vm.provision :ansible do |a|
         a.playbook = "ansible-provisioning/general.yaml"
+        a.inventory_path = INVENTORY_PATH
         a.extra_vars = {
           node_count: NODE_COUNT,
           node_id: n,
@@ -89,6 +122,7 @@ Vagrant.configure("2") do |config|
       
       node.vm.provision :ansible do |a|
         a.playbook = "ansible-provisioning/node.yaml"
+        a.inventory_path = INVENTORY_PATH
         a.extra_vars = {
           node_count: NODE_COUNT,
           node_id: n,
@@ -98,31 +132,6 @@ Vagrant.configure("2") do |config|
           node_memory: NODE_MEMORY
         }
       end
-    end
-  end
-
-  # Create the Ansible inventory file after running `vagrant up`
-  config.trigger.after [:up, :reload] do |trigger|
-    trigger.name = "Generate Ansible inventory.cfg"
-    trigger.ruby do
-      # Define the inventory file path
-      inventory_file_path = File.join(File.dirname(__FILE__), "ansible-provisioning", "inventory.cfg")
-      
-      # Create inventory file with controller and node information
-      File.open(inventory_file_path, 'w') do |file|
-        # Add controller section
-        file.puts "[ctrl]"
-        file.puts "#{CTRL_IP}"
-        file.puts ""
-        
-        # Add nodes section
-        file.puts "[nodes]"
-        NODE_IPS.each_with_index do |ip, i|
-          file.puts "#{ip}"
-        end
-      end
-      
-      puts "Successfully created inventory file at #{inventory_file_path}"
     end
   end
 end
