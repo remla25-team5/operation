@@ -22,6 +22,8 @@ NODE_IPS = (1..NODE_COUNT).map { |n| "192.168.56.#{100 + n}" }
 
 Vagrant.configure("2") do |config|
 
+  config.ssh.forward_agent = true
+
   # Create the Ansible inventory file after running `vagrant up`
   config.trigger.after [:up, :reload] do |trigger|
     trigger.name = "Generate Ansible inventory.cfg"
@@ -46,6 +48,13 @@ Vagrant.configure("2") do |config|
         file.puts "[all:children]"
         file.puts "controller"
         file.puts "nodes"
+        
+        # Add SSH configuration for all hosts
+        file.puts ""
+        file.puts "[all:vars]"
+        file.puts "ansible_user=vagrant"
+        file.puts "ansible_ssh_private_key_file=/home/vagrant/.ssh/id_rsa"
+        file.puts "ansible_ssh_common_args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'"
       end
       
       puts "Successfully created inventory file at #{inventory_file_path}"
