@@ -197,10 +197,10 @@
       become: true
       register: containerd_config_dump
 
-    # - name: Show output from containerd config dump
-    #   debug:
-    #     var: containerd_config_dump.stdout_lines
-    #   when: containerd_config_dump is defined
+    - name: Show output from containerd config dump
+      debug:
+        var: containerd_config_dump.stdout_lines
+      when: containerd_config_dump is defined
 
     - name: Wait for /etc/containerd/config.toml to be created
       wait_for:
@@ -241,10 +241,10 @@
       become: true
       register: containerd_restart
 
-    # - name: Show containerd service restart result
-    #   debug:
-    #     var: containerd_restart
-    #   when: containerd_restart is defined
+    - name: Show containerd service restart result
+      debug:
+        var: containerd_restart
+      when: containerd_restart is defined
 
     # Step 12: Enable and start kubelet
 
