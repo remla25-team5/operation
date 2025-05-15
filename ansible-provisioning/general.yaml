@@ -96,7 +96,12 @@
       ansible.builtin.get_url:
         url: https://pkgs.k8s.io/core:/stable:/v1.32/deb/Release.key
         dest: /etc/apt/keyrings/kubernetes-apt-keyring.asc
+        validate_certs: no
+        timeout: 60
       register: apt_key
+      retries: 5
+      delay: 10
+      until: apt_key is success
 
     - name: Confirm APT key downloaded
       debug:
@@ -156,10 +161,10 @@
       become: true
       register: containerd_config_dump
 
-    - name: Show output from containerd config dump
-      debug:
-        var: containerd_config_dump.stdout_lines
-      when: containerd_config_dump is defined
+    # - name: Show output from containerd config dump
+    #   debug:
+    #     var: containerd_config_dump.stdout_lines
+    #   when: containerd_config_dump is defined
 
     - name: Wait for /etc/containerd/config.toml to be created
       wait_for:
@@ -200,10 +205,10 @@
       become: true
       register: containerd_restart
 
-    - name: Show containerd service restart result
-      debug:
-        var: containerd_restart
-      when: containerd_restart is defined
+    # - name: Show containerd service restart result
+    #   debug:
+    #     var: containerd_restart
+    #   when: containerd_restart is defined
 
     # Step 12: Enable and start kubelet
 
@@ -220,4 +225,3 @@
         msg: "kubelet service started and enabled successfully"
       when: kubelet_service is defined and kubelet_service.state == "started"
 
-   
