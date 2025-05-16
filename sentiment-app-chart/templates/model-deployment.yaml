@@ -2,15 +2,19 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "sentiment-app-chart.fullname" . }}-model-service
+  labels:
+    {{- include "sentiment-app-chart.labels" . | nindent 4 }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.replica_count }}
   selector:
     matchLabels:
       app: model
+      {{- include "sentiment-app-chart.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
         app: model
+        {{- include "sentiment-app-chart.selectorLabels" . | nindent 8 }}
     spec:
       containers:
         - name: model

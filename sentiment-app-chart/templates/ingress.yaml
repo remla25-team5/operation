@@ -4,6 +4,8 @@ metadata:
   name: {{ include "sentiment-app-chart.fullname" . }}
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
+  labels:
+    {{- include "sentiment-app-chart.labels" . | nindent 4 }}
 spec:
   ingressClassName: nginx
   rules:
