@@ -4,11 +4,6 @@ app:
   image: ghcr.io/remla25-team5/app
   tag: latest
   port: 8080
-  env:
-    APP_SERVICE_HOST: "0.0.0.0"
-    APP_SERVICE_PORT: "8080"
-    MODEL_SERVICE_HOST: "http://model-service"
-    MODEL_SERVICE_PORT: "5000"
   secret:
     apiKey: "TEST_API_KEY"
 
@@ -16,13 +11,5 @@ modelService:
   image: ghcr.io/remla25-team5/model-service
   tag: latest
   port: 5000
-  env:
-    CV_CACHE_DIR: ./cv-cache
-    CV_URL: https://github.com/remla25-team5/model-training/releases/download/{MODEL_VERSION}/c1_BoW_Sentiment_Model.pkl
-    MODEL_CACHE_DIR: ./model-cache
-    MODEL_URL: https://github.com/remla25-team5/model-training/releases/download/{MODEL_VERSION}/c2_Classifier_Sentiment_Model.joblib
-    MODEL_VERSION: 0.0.1
-    MODEL_SERVICE_HOST: "0.0.0.0"
-    MODEL_SERVICE_PORT: "5000"
 
 persistentVolumeSize: 100Mi
