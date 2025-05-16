@@ -15,15 +15,14 @@ spec:
       containers:
         - name: app
           image: "{{ .Values.app.image }}:{{ .Values.app.tag }}"
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: {{ .Values.app.port }}
-          env:
-{{- range $key, $val := .Values.app.env }}
-            - name: {{ $key }}
-              value: {{ $val | quote }}
-{{- end }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "sentiment-app-chart.fullname" . }}-app-env
           volumeMounts:
-            - mountPath: /run/secrets
+            - mountPath: /run/secrets/app-api-key
               name: app-api-key
               subPath: app-api-key
       volumes:

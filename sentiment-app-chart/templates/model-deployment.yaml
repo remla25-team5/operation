@@ -1,41 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "sentiment-app-chart.fullname" . }}-model
-  labels:
-    {{- include "sentiment-app-chart.labels" . | nindent 4 }}
+  name: {{ include "sentiment-app-chart.fullname" . }}-model-service
 spec:
-  replicas: {{ .Values.replica_count }}
+  replicas: 1
   selector:
     matchLabels:
-      {{- include "sentiment-app-chart.selectorLabels" . | nindent 6 }}
-      app.kubernetes.io/component: model
-  strategy:
-    type: Recreate
+      app: model
   template:
     metadata:
       labels:
-        {{- include "sentiment-app-chart.selectorLabels" . | nindent 8 }}
-        app.kubernetes.io/component: model
+        app: model
     spec:
       containers:
-        - name: {{ .Chart.Name }}-model-service
+        - name: model
           image: "{{ .Values.modelService.image }}:{{ .Values.modelService.tag }}"
-          env:
-            - name: MODEL_SERVICE_HOST
-              value: {{ .Values.modelService.env.MODEL_SERVICE_HOST | quote }}
-            - name: MODEL_SERVICE_PORT
-              value: {{ .Values.modelService.env.MODEL_SERVICE_PORT | quote }}
-            - name: MODEL_CACHE_DIR
-              value: {{ .Values.modelService.env.MODEL_CACHE_DIR }}
-            - name: CV_CACHE_DIR
-              value: {{ .Values.modelService.env.CV_CACHE_DIR }}
-            - name: MODEL_URL
-              value: {{ .Values.modelService.env.MODEL_URL }}
-            - name: CV_URL
-              value: {{ .Values.modelService.env.CV_URL }}
-            - name: MODEL_VERSION
-              value: {{ .Values.modelService.env.MODEL_VERSION }}
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: {{ .Values.modelService.port }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "sentiment-app-chart.fullname" . }}-model-env
           volumeMounts:
             - name: model-cache
               mountPath: /app/model-cache

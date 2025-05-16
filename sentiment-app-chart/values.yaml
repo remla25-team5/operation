@@ -26,24 +26,3 @@ modelService:
     MODEL_SERVICE_PORT: "5000"
 
 persistentVolumeSize: 100Mi
-
-# Ingress configuration
-ingress:
-  enabled: false  # Set to true to enable the ingress
-  className: "nginx"
-  annotations:
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-    nginx.ingress.kubernetes.io/rewrite-target: /
-  hosts:
-    - host: sentiment.local
-      appPaths:
-        - path: /
-          pathType: Prefix
-      modelPaths:
-        - path: /api/model
-          pathType: Prefix
-  tls: []
-  # - secretName: sentiment-tls
-  #   hosts:
-  #     - sentiment.local
