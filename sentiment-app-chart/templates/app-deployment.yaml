@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "sentiment-app-chart.fullname" . }}-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+        - name: app
+          image: "{{ .Values.app.image }}:{{ .Values.app.tag }}"
+          ports:
+            - containerPort: {{ .Values.app.port }}
+          env:
+{{- range $key, $val := .Values.app.env }}
+            - name: {{ $key }}
+              value: {{ $val | quote }}
+{{- end }}
+          volumeMounts:
+            - mountPath: /run/secrets
+              name: app-api-key
+              subPath: app-api-key
+      volumes:
+        - name: app-api-key
+          secret:
+            secretName: {{ include "sentiment-app-chart.fullname" . }}-app-secret
+            items:
+              - key: app-api-key
+                path: app-api-key

@@ -28,16 +28,27 @@ spec:
     - host: {{ .host | quote }}
       http:
         paths:
-          {{- range .paths }}
+          {{- if .appPaths }}
+          {{- range .appPaths }}
           - path: {{ .path }}
-            {{- with .pathType }}
-            pathType: {{ . }}
-            {{- end }}
+            pathType: {{ .pathType | default "Prefix" }}
             backend:
               service:
-                name: {{ include "sentiment-app-chart.fullname" $ }}
+                name: {{ include "sentiment-app-chart.fullname" $ }}-app
                 port:
-                  number: {{ $.Values.service.port }}
+                  number: {{ $.Values.app.port }}
+          {{- end }}
+          {{- end }}
+          {{- if .modelPaths }}
+          {{- range .modelPaths }}
+          - path: {{ .path }}
+            pathType: {{ .pathType | default "Prefix" }}
+            backend:
+              service:
+                name: {{ include "sentiment-app-chart.fullname" $ }}-model
+                port:
+                  number: {{ $.Values.modelService.port }}
+          {{- end }}
           {{- end }}
     {{- end }}
 {{- end }}

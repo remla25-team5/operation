@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "sentiment-app-chart.fullname" . }}-model
+  labels:
+    {{- include "sentiment-app-chart.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replica_count }}
+  selector:
+    matchLabels:
+      {{- include "sentiment-app-chart.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: model
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        {{- include "sentiment-app-chart.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: model
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}-model-service
+          image: "{{ .Values.modelService.image }}:{{ .Values.modelService.tag }}"
+          env:
+            - name: MODEL_SERVICE_HOST
+              value: {{ .Values.modelService.env.MODEL_SERVICE_HOST | quote }}
+            - name: MODEL_SERVICE_PORT
+              value: {{ .Values.modelService.env.MODEL_SERVICE_PORT | quote }}
+            - name: MODEL_CACHE_DIR
+              value: {{ .Values.modelService.env.MODEL_CACHE_DIR }}
+            - name: CV_CACHE_DIR
+              value: {{ .Values.modelService.env.CV_CACHE_DIR }}
+            - name: MODEL_URL
+              value: {{ .Values.modelService.env.MODEL_URL }}
+            - name: CV_URL
+              value: {{ .Values.modelService.env.CV_URL }}
+            - name: MODEL_VERSION
+              value: {{ .Values.modelService.env.MODEL_VERSION }}
+          volumeMounts:
+            - name: model-cache
+              mountPath: /app/model-cache
+            - name: cv-cache
+              mountPath: /app/cv-cache
+      volumes:
+        - name: model-cache
+          persistentVolumeClaim:
+            claimName: {{ include "sentiment-app-chart.fullname" . }}-model-cache
+        - name: cv-cache
+          persistentVolumeClaim:
+            claimName: {{ include "sentiment-app-chart.fullname" . }}-cv-cache

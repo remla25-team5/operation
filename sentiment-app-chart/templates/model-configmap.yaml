@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "sentiment-app-chart.fullname" . }}-model-env
+  labels:
+    {{- include "sentiment-app-chart.labels" . | nindent 4 }}
+data:
+  MODEL_SERVICE_HOST: {{ .Values.modelService.env.MODEL_SERVICE_HOST }}
+  MODEL_SERVICE_PORT: {{ .Values.modelService.env.MODEL_SERVICE_PORT | quote }}
+  MODEL_CACHE_DIR: {{ .Values.modelService.env.MODEL_CACHE_DIR }}
+  CV_CACHE_DIR: {{ .Values.modelService.env.CV_CACHE_DIR }}
+  MODEL_URL: {{ .Values.modelService.env.MODEL_URL }}
+  CV_URL: {{ .Values.modelService.env.CV_URL }}
+  MODEL_VERSION: {{ .Values.modelService.env.MODEL_VERSION }}
