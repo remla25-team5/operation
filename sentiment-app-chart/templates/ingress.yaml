@@ -1,0 +1,35 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "sentiment-app-chart.fullname" . }}
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  labels:
+    {{- include "sentiment-app-chart.labels" . | nindent 4 }}
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: {{ include "sentiment-app-chart.fullname" . }}-{{ .Values.ingress.host }}
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ include "sentiment-app-chart.fullname" . }}-app
+            port:
+              number: {{ .Values.app.port }}
+      - path: /version
+        pathType: Exact
+        backend:
+          service:
+            name: {{ include "sentiment-app-chart.fullname" . }}-model
+            port:
+              number: {{ .Values.modelService.port }}
+      - path: /predict
+        pathType: Exact
+        backend:
+          service:
+            name: {{ include "sentiment-app-chart.fullname" . }}-model
+            port:
+              number: {{ .Values.modelService.port }}

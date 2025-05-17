@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "sentiment-app-chart.fullname" . }}-app
+  labels:
+    {{- include "sentiment-app-chart.labels" . | nindent 4 }}
+spec:
+  ports:
+    - name: http
+      protocol: TCP
+      port: {{ .Values.app.port }}
+      targetPort: {{ .Values.app.port }}
+  selector:
+    app: app
+    {{- include "sentiment-app-chart.selectorLabels" . | nindent 4 }}
