@@ -4,8 +4,6 @@ app:
   image: ghcr.io/remla25-team5/app
   tag: latest
   port: 8080
-  secret:
-    apiKey: "TEST_API_KEY"
 
 modelService:
   image: ghcr.io/remla25-team5/model-service

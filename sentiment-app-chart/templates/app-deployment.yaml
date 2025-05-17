@@ -27,9 +27,6 @@ spec:
                 name: {{ include "sentiment-app-chart.fullname" . }}-app-env
             - secretRef:
                 name: {{ include "sentiment-app-chart.fullname" . }}-app-secret
-          env:
-            - name: MODEL_SERVICE_HOST
-              value: "{{ .Values.modelService.serviceName }}"
           volumeMounts:
             - name: shared-data
               mountPath: /mnt/shared
