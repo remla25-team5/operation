@@ -12,4 +12,7 @@ modelService:
   tag: latest
   port: 5000
 
+ingress:
+  host: sentiment-app.local
+
 persistentVolumeSize: 100Mi

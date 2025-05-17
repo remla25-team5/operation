@@ -25,14 +25,15 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "sentiment-app-chart.fullname" . }}-app-env
+            - secretRef:
+                name: {{ include "sentiment-app-chart.fullname" . }}-app-secret
+          env:
+            - name: MODEL_SERVICE_HOST
+              value: "{{ .Values.modelService.serviceName }}"
           volumeMounts:
-            - mountPath: /run/secrets/app-api-key
-              name: app-api-key
-              subPath: app-api-key
+            - name: shared-data
+              mountPath: /mnt/shared
       volumes:
-        - name: app-api-key
-          secret:
-            secretName: {{ include "sentiment-app-chart.fullname" . }}-app-secret
-            items:
-              - key: app-api-key
-                path: app-api-key
+        - name: shared-data
+          hostPath:
+            path: /mnt/shared
