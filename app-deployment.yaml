@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.34.0 (cbf2835db)
+  labels:
+    io.kompose.service: app
+  name: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: app
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.34.0 (cbf2835db)
+      labels:
+        io.kompose.service: app
+    spec:
+      containers:
+        - env:
+            - name: APP_SERVICE_HOST
+              valueFrom:
+                configMapKeyRef:
+                  key: APP_SERVICE_HOST
+                  name: app-env
+            - name: APP_SERVICE_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: APP_SERVICE_PORT
+                  name: app-env
+            - name: MODEL_SERVICE_HOST
+              valueFrom:
+                configMapKeyRef:
+                  key: MODEL_SERVICE_HOST
+                  name: app-env
+            - name: MODEL_SERVICE_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: MODEL_SERVICE_PORT
+                  name: app-env
+          image: ghcr.io/remla25-team5/app:latest
+          name: app
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /run/secrets
+              name: app-api-key
+              subPath: app-api-key
+      restartPolicy: Always
+      volumes:
+        - name: app-api-key
+          secret:
+            items:
+              - key: app-api-key
+                path: app-api-key
+            secretName: app-api-key
