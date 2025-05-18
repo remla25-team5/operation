@@ -9,8 +9,5 @@ modelService:
   image: ghcr.io/remla25-team5/model-service
   tag: latest
   port: 5000
-
-ingress:
-  host: sentiment-app.local
-
+  
 persistentVolumeSize: 100Mi

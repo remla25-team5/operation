@@ -194,11 +194,11 @@ helm install sentiment-app ./sentiment-app-chart
 kubectl get pods
 kubectl get services
 
-# Set up port-forwarding to access the app on localhost:8080
-kubectl port-forward svc/sentiment-app-chart-app-service 8080:8080
+# Copy the IngressController IP address to etc/hosts
+echo "$(minikube ip) sentiment-app.local" | sudo tee -a /etc/hosts
 ```
 
-With the port-forwarding active, you can access the application at [http://localhost:8080](http://localhost:8080) in your browser.
+Then, you can access the app at [http://sentiment-app.local](http://sentiment-app.local).
 
 ##### Uninstalling the Chart
 
