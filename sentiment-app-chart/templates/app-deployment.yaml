@@ -19,7 +19,7 @@ spec:
       containers:
         - name: {{ include "sentiment-app-chart.fullname" . }}-app
           image: "{{ .Values.app.image }}:{{ .Values.app.tag }}"
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: {{ .Values.app.port }}
           envFrom:

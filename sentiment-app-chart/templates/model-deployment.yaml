@@ -19,9 +19,9 @@ spec:
       containers:
         - name: {{ include "sentiment-app-chart.fullname" . }}-model-service
           image: "{{ .Values.modelService.image }}:{{ .Values.modelService.tag }}"
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
-            - containerPort: {{ .Values.modelService.port }}
+            - containerPort: 80
           envFrom:
             - configMapRef:
                 name: {{ include "sentiment-app-chart.fullname" . }}-model-env
