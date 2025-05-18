@@ -48,7 +48,7 @@ spec:
             - containerPort: 8080
               protocol: TCP
           volumeMounts:
-            - mountPath: /run/secrets
+            - mountPath: /run/secrets/app-api-key
               name: app-api-key
               subPath: app-api-key
       restartPolicy: Always

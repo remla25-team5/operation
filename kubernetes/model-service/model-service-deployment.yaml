@@ -42,12 +42,12 @@ spec:
             - name: model-service_HOST
               valueFrom:
                 configMapKeyRef:
-                  key: model_service_HOST
+                  key: MODEL_SERVICE_HOST
                   name: model-service-env
             - name: model-service_PORT
               valueFrom:
                 configMapKeyRef:
-                  key: model_service_PORT
+                  key: MODEL_SERVICE_PORT
                   name: model-service-env
             - name: MODEL_URL
               valueFrom:
