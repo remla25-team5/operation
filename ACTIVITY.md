@@ -45,8 +45,8 @@ Approved PR: https://github.com/remla25-team5/operation/pull/12
 # Week 4
 
 -- Kristóf Sándor: --
-Created PR: 
-Approved PR: 
+Created PR: https://github.com/remla25-team5/operation/pull/22
+Approved PR: https://github.com/remla25-team5/operation/pull/26
 
 -- Kevin Hoxha: --
 Created PR: https://github.com/remla25-team5/operation/pull/21 (Contributed to A3, Implemented the Helm Chart)
