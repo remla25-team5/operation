@@ -149,18 +149,31 @@ kubectl -n kubernetes-dashboard create token admin-user
 Remember to add '192.168.56.90 dashboard.local' to your host's DNS file (sudo nano /etc/hosts on Mac)
 Once this is done you can access https://dashboard.local in your browser to access the dashboard.
 
-### **Assignment 3: Operate and Monitor Kubernetes**
+##**Assignment 3: Operate and Monitor Kubernetes**
 
-#### Using Helm for Deployment
+### Migrate from docker-compose to kubernetes
+
+To run the migrated setup with kubernetes, you need minikube and kubectl. Then run:
+
+```
+minikube start --driver=docker
+minikube addons enable ingress
+kubectl apply -f kubernetes --recursive
+minikube service list 
+```
+
+Then go to the first IP that is listed at ingress-nginx-controller
+
+### Using Helm for Deployment
 
 The sentiment analysis application can be deployed to Kubernetes using Helm. The Helm chart `sentiment-app-chart` is included in this repository and contains all the necessary configuration to deploy both the sentiment analysis app and the model service together.
 
-##### Prerequisites
+#### Prerequisites
 
 - A running Kubernetes cluster (either the Vagrant setup described above or minikube)
 - Helm installed (version 3.x)
 
-##### Deploying with Helm on Vagrant Kubernetes Cluster
+#### Deploying with Helm on Vagrant Kubernetes Cluster
 
 To deploy the application on the Vagrant Kubernetes cluster after having provisioned `finalization.yaml`:
 
@@ -179,7 +192,7 @@ kubectl get pods
 kubectl get services
 ```
 
-##### Deploying with Helm on Minikube
+#### Deploying with Helm on Minikube
 
 If you're using minikube instead of the Vagrant setup:
 
