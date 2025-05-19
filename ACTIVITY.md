@@ -13,7 +13,7 @@ Created PR: https://github.com/remla25-team5/operation/pull/2
 Approved PR: https://github.com/remla25-team5/app/pull/16
 
 -- Jorn Dijk --
-Created PR: https://github.com/remla25-team5/lib-ml/pull/5
+Created PR: https://github.com/remla25-team5/lib-ml/pull/5 (Contributed to A1, Implemented lib-ml and model-training)
 Approved PR: https://github.com/remla25-team5/model-service/pull/7
 
 -- Reinier Schep: --
@@ -35,7 +35,7 @@ Created PR: https://github.com/remla25-team5/operation/pull/8
 Approved PR: https://github.com/remla25-team5/operation/pull/6
 
 -- Jorn Dijk --
-Created PR: https://github.com/remla25-team5/operation/pull/15 
+Created PR: https://github.com/remla25-team5/operation/pull/15 (Contributed to A2, Implemented steps 20 to 23)
 Approved PR: https://github.com/remla25-team5/operation/pull/10 
 
 -- Reinier Schep: --
@@ -57,7 +57,7 @@ Created PR:
 Approved PR: 
 
 -- Jorn Dijk --
-Created PR: 
+Created PR: https://github.com/remla25-team5/operation/pull/25 (Contributed to A3, Implemented Prometheus in the kubernetes cluster and set up monitoring with Grafana)
 Approved PR: 
 
 -- Reinier Schep: --
