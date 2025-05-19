@@ -205,8 +205,8 @@ cd ./sentiment-app-chart
 helm dependency build
 cd ..
 
-# Install the Helm chart
-helm install sentiment-app ./sentiment-app-chart --set monitoring.enabled=<value>
+# Install the Helm chart (optionally, Gmail inbox and App password https://support.google.com/accounts/answer/185833?hl=en are needed for receiving alerts)
+helm install sentiment-app ./sentiment-app-chart --set monitoring.enabled=true --set gmailEmail=<value>@gmail.com --set emailPassword=<value>
 
 # Verify the deployment
 kubectl get pods
@@ -225,10 +225,16 @@ If monitoring is enabled you can run the following command to open the port-forw
 ```bash
 kubectl port-forward -n kube-prometheus-stack svc/kube-prometheus-stack-prometheus 9090:9090
 ```
+or alternatively
+`minikube service sentiment-app-kube-prometh-prometheus --url`
 This can then be accessed at [http://127.0.0.1:9090](http://localhost:9090)
 
 
 The grafana UI can be accessed at [http://grafana.local](http://grafana.local) with username: admin, password: prom-operator
+
+In order to see alert manager dashboard, call `minikube service sentiment-app-kube-prometh-alertmanager --url`.
+Submissions can be simulated easily with the command:
+`for i in `seq 1 100`; do curl 'http://127.0.0.1:<app service port>/api/submit' -H 'Content-Type: application/json' --data-raw '{"text":"review"}'; done`
 
 ##### Uninstalling the Chart
 

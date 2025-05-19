@@ -16,6 +16,9 @@ monitoring:
   enabled: false
   scrapeInterval: 15s
 
+gmailEmail: "@gmail.com"
+emailPassword: value
+
 grafana:
   ingress:
     host: grafana.local

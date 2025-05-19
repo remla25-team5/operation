@@ -1,39 +1,23 @@
 {{- if .Values.monitoring.enabled }}
-apiVersion: monitoring.coreos.com/v1alpha1 
+apiVersion: monitoring.coreos.com/v1alpha1
 kind: AlertmanagerConfig
 metadata:
   name: {{ include "sentiment-app-chart.fullname" . }}-am-config
   labels:
-    alertmanagerConfig: "true" 
-    release: {{ .Release.Name }} 
+    release: {{ .Release.Name }}
 spec:
   route:
-    receiver: 'null-receiver'
-    groupBy: ['alertname'] 
-    groupWait: 30s
-    groupInterval: 1m
-    repeatInterval: 1m
-    routes:
-    - receiver: 'gmail-notifications' 
-      matchers:
-      - name: "app" 
-        value: {{ include "sentiment-app-chart.name" . }} 
-        matchType: "="
-      continue: false
+    receiver: 'gmail-notifications'
   receivers:
-  - name: 'gmail-notifications' 
+  - name: 'gmail-notifications'
     emailConfigs:
-    - to: 'group5remla@gmail.com'
-      from: 'group5remla@gmail.com' 
-      smarthost: 'smtp.gmail.com:587'
-      authUsername: 'group5remla@gmail.com' 
+    - to: "{{ .Values.gmailEmail }}"
+      from: "{{ .Values.gmailEmail }}"
+      smarthost: smtp.gmail.com:587
+      authUsername: "{{ .Values.gmailEmail }}"
       authPassword:
-        name: gmail-smtp-credentials  
-        key: appPassword  
-      authIdentity: 'group5remla@gmail.com'
-      headers :
-        - key: subject
-          value: "Warning"
-      text: "Testing AlertManager"
-  - name: 'null-receiver' 
+        name: gmail-smtp-credentials
+        key: appPassword
+      authIdentity: "{{ .Values.gmailEmail }}"
+      sendResolved: true
 {{- end }}
