@@ -16,7 +16,7 @@ monitoring:
   enabled: false
   scrapeInterval: 15s
 
-gmailEmail: @gmail.com
+gmailEmail: "@gmail.com"
 emailPassword: value
 
 grafana:
