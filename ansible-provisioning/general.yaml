@@ -29,6 +29,42 @@
         var: ssh_key_result
       when: ssh_key_result is defined
 
+    # ChatGPT helped with fixing the SSH key authorization issue in Step 18
+    # Enable SSH between nodes without password prompts
+    - name: Create SSH directory if it doesn't exist
+      file:
+        path: /home/vagrant/.ssh
+        state: directory
+        mode: '0700'
+        owner: vagrant
+        group: vagrant
+
+    - name: Generate SSH key for vagrant user if not exists
+      user:
+        name: vagrant
+        generate_ssh_key: yes
+        ssh_key_type: rsa
+        ssh_key_bits: 2048
+      become: yes
+      become_user: vagrant
+      register: ssh_key_gen
+
+    - name: Get content of vagrant user's public key
+      slurp:
+        src: /home/vagrant/.ssh/id_rsa.pub
+      register: pubkey_content
+      become: yes
+      become_user: vagrant
+
+    - name: Share public key with all hosts
+      authorized_key:
+        user: vagrant
+        state: present
+        key: "{{ hostvars[item]['pubkey_content']['content'] | b64decode }}"
+      loop: "{{ ansible_play_hosts }}"
+      when: hostvars[item]['pubkey_content'] is defined
+      ignore_errors: yes
+
     # Step 5: Disable Swap
     - name: Disable swap temporarily
       shell: swapoff -a
@@ -96,7 +132,12 @@
       ansible.builtin.get_url:
         url: https://pkgs.k8s.io/core:/stable:/v1.32/deb/Release.key
         dest: /etc/apt/keyrings/kubernetes-apt-keyring.asc
+        validate_certs: no
+        timeout: 60
       register: apt_key
+      retries: 5
+      delay: 10
+      until: apt_key is success
 
     - name: Confirm APT key downloaded
       debug:
@@ -220,4 +261,3 @@
         msg: "kubelet service started and enabled successfully"
       when: kubelet_service is defined and kubelet_service.state == "started"
 
-   
