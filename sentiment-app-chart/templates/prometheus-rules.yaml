@@ -10,10 +10,13 @@ spec:
   - name: {{ include "sentiment-app-chart.name" . }}.rules
     rules:
     - alert: RapidSubmissionIncrease
-      expr: |
-        increase(total_submissions_total{sentiment="true"}[1m]) >= 5
-      for: 0m
+      expr: rate(total_submissions_total[60s]) > 0.25
+      for: 2m
+      annotations:
+        title: 'the service receives more than 15 submissions per minute for two minutes straight'
+        description: 'the service receives more than 15 submissions per minute for two minutes straight'
       labels:
         severity: warning
         app: {{ include "sentiment-app-chart.name" . }}
+        namespace: 'default'
 {{- end }}
