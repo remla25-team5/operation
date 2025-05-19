@@ -1,65 +1,65 @@
-# A1
+# Week 2
 
 -- Kristóf Sándor: --
 Created PR: https://github.com/remla25-team5/app/pull/9
 Approved PR: https://github.com/remla25-team5/model-training/pull/4
 
 -- Kevin Hoxha: --
-Created PR: https://github.com/remla25-team5/model-service/pull/5
+Created PR: https://github.com/remla25-team5/model-service/pull/5  (Contributed to A1, Implemented the model service)
 Approved PR: https://github.com/remla25-team5/lib-ml/pull/6
 
 -- Tadas Žaliauskas: --
-Created PR: https://github.com/remla25-team5/operation/pull/2
+Created PR: https://github.com/remla25-team5/operation/pull/2 (Contributed to A1, implemented lib-version, timestamped pre-release strategy with Github actions, added docker compose file)
 Approved PR: https://github.com/remla25-team5/app/pull/16
 
 -- Jorn Dijk --
-Created PR: https://github.com/remla25-team5/lib-ml/pull/5
+Created PR: https://github.com/remla25-team5/lib-ml/pull/5 (Contributed to A1, Implemented lib-ml and model-training)
 Approved PR: https://github.com/remla25-team5/model-service/pull/7
 
 -- Reinier Schep: --
 Created PR: https://github.com/remla25-team5/app/pull/16
 Approved PR: https://github.com/remla25-team5/lib-ml/pull/6
 
-# A2
+# Week 3
 
 -- Kristóf Sándor: --
 Created PR: https://github.com/remla25-team5/operation/pull/12/
 Approved PR: https://github.com/remla25-team5/operation/pull/10
 
 -- Kevin Hoxha: --
-Created PR: https://github.com/remla25-team5/operation/pull/6
+Created PR: https://github.com/remla25-team5/operation/pull/6 (Contributed to A2, Implemented steps 1 to 5)
 Approved PR: https://github.com/remla25-team5/operation/pull/8
 
 -- Tadas Žaliauskas: --
-Created PR: https://github.com/remla25-team5/operation/pull/8
+Created PR: https://github.com/remla25-team5/operation/pull/8 (Contributed to A2, Implemented steps 6 to 10)
 Approved PR: https://github.com/remla25-team5/operation/pull/6
 
 -- Jorn Dijk --
-Created PR: https://github.com/remla25-team5/operation/pull/15 
+Created PR: https://github.com/remla25-team5/operation/pull/15 (Contributed to A2, Implemented steps 20 to 23)
 Approved PR: https://github.com/remla25-team5/operation/pull/10 
 
 -- Reinier Schep: --
 Created PR: https://github.com/remla25-team5/operation/pull/10
 Approved PR: https://github.com/remla25-team5/operation/pull/12 
 
-# A3
+# Week 4
 
 -- Kristóf Sándor: --
-Created PR: 
-Approved PR: 
+Created PR: https://github.com/remla25-team5/operation/pull/22
+Approved PR: https://github.com/remla25-team5/operation/pull/26
 
 -- Kevin Hoxha: --
-Created PR: https://github.com/remla25-team5/operation/pull/21
-Approved PR: 
+Created PR: https://github.com/remla25-team5/operation/pull/21 (Contributed to A3, Implemented the Helm Chart)
+Approved PR: https://github.com/remla25-team5/operation/pull/22
 
 -- Tadas Žaliauskas: --
-Created PR: 
-Approved PR: 
+Created PR: https://github.com/remla25-team5/operation/pull/26 (Contributed to A3, Monitoring - Alerting)
+Approved PR: https://github.com/remla25-team5/app/pull/24
 
 -- Jorn Dijk --
-Created PR: 
-Approved PR: 
+Created PR: https://github.com/remla25-team5/operation/pull/25 (Contributed to A3, Implemented Prometheus in the kubernetes cluster and set up monitoring with Grafana)
+Approved PR: https://github.com/remla25-team5/operation/pull/26
 
 -- Reinier Schep: --
 Created PR: https://github.com/remla25-team5/app/pull/24
-Approved PR: 
+Approved PR: https://github.com/remla25-team5/operation/pull/12 
