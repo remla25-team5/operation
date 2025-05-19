@@ -8,18 +8,18 @@ spec:
   replicas: {{ .Values.replica_count }}
   selector:
     matchLabels:
-      app: app
+      app: {{ include "sentiment-app-chart.fullname" . }}-app
       {{- include "sentiment-app-chart.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app: app
+        app: {{ include "sentiment-app-chart.fullname" . }}-app
         {{- include "sentiment-app-chart.selectorLabels" . | nindent 8 }}
     spec:
       containers:
-        - name: app
+        - name: {{ include "sentiment-app-chart.fullname" . }}-app
           image: "{{ .Values.app.image }}:{{ .Values.app.tag }}"
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: {{ .Values.app.port }}
           envFrom:
@@ -27,9 +27,6 @@ spec:
                 name: {{ include "sentiment-app-chart.fullname" . }}-app-env
             - secretRef:
                 name: {{ include "sentiment-app-chart.fullname" . }}-app-secret
-          env:
-            - name: MODEL_SERVICE_HOST
-              value: "{{ .Values.modelService.serviceName }}"
           volumeMounts:
             - name: shared-data
               mountPath: /mnt/shared

@@ -41,3 +41,25 @@ Approved PR: https://github.com/remla25-team5/operation/pull/10
 -- Reinier Schep: --
 Created PR: https://github.com/remla25-team5/operation/pull/10
 Approved PR: https://github.com/remla25-team5/operation/pull/12 
+
+# A3
+
+-- Kristóf Sándor: --
+Created PR: 
+Approved PR: 
+
+-- Kevin Hoxha: --
+Created PR: https://github.com/remla25-team5/operation/pull/21
+Approved PR: 
+
+-- Tadas Žaliauskas: --
+Created PR: 
+Approved PR: 
+
+-- Jorn Dijk --
+Created PR: 
+Approved PR: 
+
+-- Reinier Schep: --
+Created PR: https://github.com/remla25-team5/app/pull/24
+Approved PR: 

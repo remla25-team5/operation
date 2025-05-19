@@ -8,8 +8,8 @@ spec:
   ports:
     - name: http
       protocol: TCP
-      port: {{ .Values.app.port }}
+      port: 80
       targetPort: {{ .Values.app.port }}
   selector:
-    app: app
+    app: {{ include "sentiment-app-chart.fullname" . }}-app
     {{- include "sentiment-app-chart.selectorLabels" . | nindent 4 }}

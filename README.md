@@ -149,6 +149,65 @@ kubectl -n kubernetes-dashboard create token admin-user
 Remember to add '192.168.56.90 dashboard.local' to your host's DNS file (sudo nano /etc/hosts on Mac)
 Once this is done you can access https://dashboard.local in your browser to access the dashboard.
 
+### **Assignment 3: Operate and Monitor Kubernetes**
+
+#### Using Helm for Deployment
+
+The sentiment analysis application can be deployed to Kubernetes using Helm. The Helm chart `sentiment-app-chart` is included in this repository and contains all the necessary configuration to deploy both the sentiment analysis app and the model service together.
+
+##### Prerequisites
+
+- A running Kubernetes cluster (either the Vagrant setup described above or minikube)
+- Helm installed (version 3.x)
+
+##### Deploying with Helm on Vagrant Kubernetes Cluster
+
+To deploy the application on the Vagrant Kubernetes cluster after having provisioned `finalization.yaml`:
+
+```bash
+# SSH into the controller node
+vagrant ssh ctrl
+
+# Navigate to the shared operation folder
+cd /vagrant
+
+# Install the Helm chart
+helm install sentiment-app ./sentiment-app-chart
+
+# Verify the deployment
+kubectl get pods
+kubectl get services
+```
+
+##### Deploying with Helm on Minikube
+
+If you're using minikube instead of the Vagrant setup:
+
+```bash
+# Start minikube if not already running
+minikube start
+
+# Install the Helm chart
+helm install sentiment-app ./sentiment-app-chart
+
+# Verify the deployment
+kubectl get pods
+kubectl get services
+
+# Copy the IngressController IP address to etc/hosts
+echo "$(minikube ip) sentiment-app.local" | sudo tee -a /etc/hosts
+```
+
+Then, you can access the app at [http://sentiment-app.local](http://sentiment-app.local).
+
+##### Uninstalling the Chart
+
+To remove the deployment:
+
+```bash
+helm uninstall sentiment-app
+```
+
 ## Repositories
 
 Links to the repositories used in this project:
@@ -166,6 +225,8 @@ Links to the repositories used in this project:
 
 ✅ Assignment 2
 
+✅ Assignment 3
+
 ### Use of Generative AI
 
 We used generative AI in the following ways:
@@ -174,4 +235,4 @@ We used generative AI in the following ways:
 - **model-service**: For model-service, ChatGPT was used to understand what Dockerfiles and release.yml files are, and what they should contain. Copilot was used to help with making environment variables that are used in the model_utils.py and service.py files. It was also used to speed up repetitive tasks, like downloading the CountVectorizer model the same way that the trained model is downloaded. It was also used to help with writing the README.md file.
 - **lib-ml**: In lib-ml, Gemini was used to help determine the needed dependencies for the pyproject.toml file.
 - **app**: For the frontend, ChatGPT was only used for trivial and repetitive tasks. Examples include: adding try/catch blocks to code, adding console.log statements to code and defining datatypes in TypeScript as specified by me etc.
-- **operation**: For operation, GitHub Copilot was used to help with writing the README.md file. It was also used to help with understanding how `Vagrantfile works`, especially in combination with Ansible. For steps 1 - 5, it was used to help with understanding the setup of the Ansible `general.yaml` playbook. For steps 11-15 I used ChatGPT to enhance my personal understanding of how to specify things in the .yaml file, I read the documentation and then challenged my belief with ChatGPT to make sure i didn't miss any subtleties.
+- **operation**: For operation, GitHub Copilot was used to help with writing the README.md file. It was also used to help with understanding how `Vagrantfile works`, especially in combination with Ansible. For steps 1 - 5, it was used to help with understanding the setup of the Ansible `general.yaml` playbook. For steps 11-15 we used ChatGPT to enhance our personal understanding of how to specify things in the .yaml file, we read the documentation and then challenged our belief with ChatGPT to make sure we didn't miss any subtleties. For the Helm chart, we used ChatGPT to help understand the structure of the chart and how to use it. We also used it to help with writing the README.md file.

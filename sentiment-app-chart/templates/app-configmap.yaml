@@ -7,5 +7,5 @@ metadata:
 data:
   APP_SERVICE_HOST: "0.0.0.0"
   APP_SERVICE_PORT: "8080"
-  MODEL_SERVICE_HOST: "http://{{ include "sentiment-app-chart.fullname" . }}-model"
+  MODEL_SERVICE_HOST: "{{ include "sentiment-app-chart.fullname" . }}-model-service"
   MODEL_SERVICE_PORT: "5000"
