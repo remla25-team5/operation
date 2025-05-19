@@ -1,11 +1,11 @@
-# A1
+# Week 2
 
 -- Kristóf Sándor: --
 Created PR: https://github.com/remla25-team5/app/pull/9
 Approved PR: https://github.com/remla25-team5/model-training/pull/4
 
 -- Kevin Hoxha: --
-Created PR: https://github.com/remla25-team5/model-service/pull/5
+Created PR: https://github.com/remla25-team5/model-service/pull/5  (Contributed to A1, Implemented the model service)
 Approved PR: https://github.com/remla25-team5/lib-ml/pull/6
 
 -- Tadas Žaliauskas: --
@@ -20,14 +20,14 @@ Approved PR: https://github.com/remla25-team5/model-service/pull/7
 Created PR: https://github.com/remla25-team5/app/pull/16
 Approved PR: https://github.com/remla25-team5/lib-ml/pull/6
 
-# A2
+# Week 3
 
 -- Kristóf Sándor: --
 Created PR: https://github.com/remla25-team5/operation/pull/12/
 Approved PR: https://github.com/remla25-team5/operation/pull/10
 
 -- Kevin Hoxha: --
-Created PR: https://github.com/remla25-team5/operation/pull/6
+Created PR: https://github.com/remla25-team5/operation/pull/6 (Contributed to A2, Implemented steps 1 to 5)
 Approved PR: https://github.com/remla25-team5/operation/pull/8
 
 -- Tadas Žaliauskas: --
@@ -42,15 +42,15 @@ Approved PR: https://github.com/remla25-team5/operation/pull/10
 Created PR: https://github.com/remla25-team5/operation/pull/10
 Approved PR: https://github.com/remla25-team5/operation/pull/12 
 
-# A3
+# Week 4
 
 -- Kristóf Sándor: --
 Created PR: 
 Approved PR: 
 
 -- Kevin Hoxha: --
-Created PR: https://github.com/remla25-team5/operation/pull/21
-Approved PR: 
+Created PR: https://github.com/remla25-team5/operation/pull/21 (Contributed to A3, Implemented the Helm Chart)
+Approved PR: https://github.com/remla25-team5/operation/pull/22
 
 -- Tadas Žaliauskas: --
 Created PR: 
