@@ -8,7 +8,7 @@ metadata:
     io.kompose.service: app
   name: app
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       io.kompose.service: app
@@ -21,27 +21,9 @@ spec:
         io.kompose.service: app
     spec:
       containers:
-        - env:
-            - name: APP_SERVICE_HOST
-              valueFrom:
-                configMapKeyRef:
-                  key: APP_SERVICE_HOST
-                  name: app-env
-            - name: APP_SERVICE_PORT
-              valueFrom:
-                configMapKeyRef:
-                  key: APP_SERVICE_PORT
-                  name: app-env
-            - name: MODEL_SERVICE_HOST
-              valueFrom:
-                configMapKeyRef:
-                  key: MODEL_SERVICE_HOST
-                  name: app-env
-            - name: MODEL_SERVICE_PORT
-              valueFrom:
-                configMapKeyRef:
-                  key: MODEL_SERVICE_PORT
-                  name: app-env
+        - envFrom:
+            - configMapRef:
+                name: app-env
           image: ghcr.io/remla25-team5/app:latest
           name: app
           ports:
