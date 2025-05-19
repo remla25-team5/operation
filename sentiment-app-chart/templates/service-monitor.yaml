@@ -1,0 +1,17 @@
+{{- if .Values.monitoring.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: prometheus-service-monitor
+  labels:
+    release: {{ .Release.Name }}
+spec:
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 15s
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: sentiment-app 
+      app.kubernetes.io/name: sentiment-app-chart 
+{{- end }}

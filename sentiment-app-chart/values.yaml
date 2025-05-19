@@ -11,3 +11,7 @@ modelService:
   port: 5000
   
 persistentVolumeSize: 100Mi
+
+monitoring:
+  enabled: false
+  scrapeInterval: 15s
