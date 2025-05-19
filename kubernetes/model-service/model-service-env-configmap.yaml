@@ -3,8 +3,8 @@ data:
   CV_CACHE_DIR: ./cv-cache
   CV_URL: https://github.com/remla25-team5/model-training/releases/download/{MODEL_VERSION}/c1_BoW_Sentiment_Model.pkl
   MODEL_CACHE_DIR: ./model-cache
-  MODEL_SERVICE_HOST: localhost
-  MODEL_SERVICE_PORT: "5000"
+  MODEL_SERVICE_HOST: 0.0.0.0
+  MODEL_SERVICE_PORT_NUMBER: "5000"
   MODEL_URL: https://github.com/remla25-team5/model-training/releases/download/{MODEL_VERSION}/c2_Classifier_Sentiment_Model.joblib
   MODEL_VERSION: 0.0.1
 kind: ConfigMap

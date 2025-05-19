@@ -4,7 +4,8 @@ metadata:
   name: model-service
 spec:
   selector:
-    app: model-service
+    io.kompose.service: model-service
   ports:
-    - port: 5000
+    - protocol: TCP
+      port: 5000
       targetPort: 5000

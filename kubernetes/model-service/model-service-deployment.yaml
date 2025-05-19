@@ -47,7 +47,7 @@ spec:
             - name: model-service_PORT
               valueFrom:
                 configMapKeyRef:
-                  key: MODEL_SERVICE_PORT
+                  key: MODEL_SERVICE_PORT_NUMBER
                   name: model-service-env
             - name: MODEL_URL
               valueFrom:
@@ -61,9 +61,11 @@ spec:
                   name: model-service-env
           image: ghcr.io/remla25-team5/model-service:latest
           name: model-service
+          ports:
+            - containerPort: 5000
           volumeMounts:
             - mountPath: /app/model-cache
-              name: model-service-claim0
+              name: model-service-claim1
             - mountPath: /app/cv-cache
               name: model-service-claim1
       restartPolicy: Always
