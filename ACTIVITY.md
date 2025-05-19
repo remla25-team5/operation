@@ -9,7 +9,7 @@ Created PR: https://github.com/remla25-team5/model-service/pull/5  (Contributed 
 Approved PR: https://github.com/remla25-team5/lib-ml/pull/6
 
 -- Tadas Žaliauskas: --
-Created PR: https://github.com/remla25-team5/operation/pull/2
+Created PR: https://github.com/remla25-team5/operation/pull/2 (Contributed to A1, implemented lib-version, timestamped pre-release strategy with Github actions, added docker compose file)
 Approved PR: https://github.com/remla25-team5/app/pull/16
 
 -- Jorn Dijk --
@@ -31,7 +31,7 @@ Created PR: https://github.com/remla25-team5/operation/pull/6 (Contributed to A2
 Approved PR: https://github.com/remla25-team5/operation/pull/8
 
 -- Tadas Žaliauskas: --
-Created PR: https://github.com/remla25-team5/operation/pull/8
+Created PR: https://github.com/remla25-team5/operation/pull/8 (Contributed to A2, Implemented steps 6 to 10)
 Approved PR: https://github.com/remla25-team5/operation/pull/6
 
 -- Jorn Dijk --
@@ -53,8 +53,8 @@ Created PR: https://github.com/remla25-team5/operation/pull/21 (Contributed to A
 Approved PR: https://github.com/remla25-team5/operation/pull/22
 
 -- Tadas Žaliauskas: --
-Created PR: 
-Approved PR: 
+Created PR: https://github.com/remla25-team5/operation/pull/26 (Contributed to A3, Monitoring - Alerting)
+Approved PR: https://github.com/remla25-team5/app/pull/24
 
 -- Jorn Dijk --
 Created PR: https://github.com/remla25-team5/operation/pull/25 (Contributed to A3, Implemented Prometheus in the kubernetes cluster and set up monitoring with Grafana)
