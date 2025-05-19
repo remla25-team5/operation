@@ -214,11 +214,8 @@ kubectl port-forward -n kube-prometheus-stack svc/kube-prometheus-stack-promethe
 ```
 This can then be accessed at [http://127.0.0.1:9090](http://localhost:9090)
 
-The grafana UI can also be accessed when the following command is ran to open the port-forwarding:
-```bash
-kubectl port-forward svc/sentiment-app-grafana 8080:80
-```
-This can then be accessed at [http://grafana.local](http://grafana.local) with username: admin, password: prom-operator
+
+The grafana UI can be accessed at [http://grafana.local](http://grafana.local) with username: admin, password: prom-operator
 
 ##### Uninstalling the Chart
 
