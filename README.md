@@ -201,6 +201,9 @@ kubectl get services
 
 # Copy the IngressController IP address to etc/hosts
 echo "$(minikube ip) sentiment-app.local" | sudo tee -a /etc/hosts
+
+# If you enabled monitoring also copy the grafana url to etc/hosts
+echo "$(minikube ip) grafana.local" | sudo tee -a /etc/hosts
 ```
 
 Then, you can access the app at [http://sentiment-app.local](http://sentiment-app.local).
@@ -215,7 +218,7 @@ The grafana UI can also be accessed when the following command is ran to open th
 ```bash
 kubectl port-forward svc/sentiment-app-grafana 8080:80
 ```
-This can then be accessed at [http://127.0.0.1:80](http://localhost:80) with username: admin, password: prom-operator
+This can then be accessed at [http://grafana.local](http://grafana.local) with username: admin, password: prom-operator
 
 ##### Uninstalling the Chart
 

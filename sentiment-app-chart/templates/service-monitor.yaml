@@ -2,7 +2,7 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: prometheus-service-monitor
+  name: {{ include "sentiment-app-chart.fullname" . }}-service-monitor
   labels:
     release: {{ .Release.Name }}
 spec:
@@ -12,6 +12,5 @@ spec:
       interval: 15s
   selector:
     matchLabels:
-      app.kubernetes.io/instance: sentiment-app 
-      app.kubernetes.io/name: sentiment-app-chart 
+      {{- include "sentiment-app-chart.labels" . | nindent 4 }}
 {{- end }}

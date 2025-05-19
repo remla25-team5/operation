@@ -15,3 +15,8 @@ persistentVolumeSize: 100Mi
 monitoring:
   enabled: false
   scrapeInterval: 15s
+
+grafana:
+  ingress:
+    host: grafana.local
+    servicePort: 80
