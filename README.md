@@ -200,8 +200,13 @@ If you're using minikube instead of the Vagrant setup:
 # Start minikube if not already running
 minikube start
 
+# Prometheus is added as a dependency which should be fetched is you want monitoring
+cd ./sentiment-app-chart
+helm dependency build
+cd ..
+
 # Install the Helm chart
-helm install sentiment-app ./sentiment-app-chart
+helm install sentiment-app ./sentiment-app-chart --set monitoring.enabled=<value>
 
 # Verify the deployment
 kubectl get pods
@@ -209,11 +214,23 @@ kubectl get services
 
 # Copy the IngressController IP address to etc/hosts
 echo "$(minikube ip) sentiment-app.local" | sudo tee -a /etc/hosts
+
+# If you enabled monitoring also copy the grafana url to etc/hosts
+echo "$(minikube ip) grafana.local" | sudo tee -a /etc/hosts
 ```
 
 Then, you can access the app at [http://sentiment-app.local](http://sentiment-app.local).
 
-#### Uninstalling the Chart
+If monitoring is enabled you can run the following command to open the port-forwarding to the Prometheus UI:
+```bash
+kubectl port-forward -n kube-prometheus-stack svc/kube-prometheus-stack-prometheus 9090:9090
+```
+This can then be accessed at [http://127.0.0.1:9090](http://localhost:9090)
+
+
+The grafana UI can be accessed at [http://grafana.local](http://grafana.local) with username: admin, password: prom-operator
+
+##### Uninstalling the Chart
 
 To remove the deployment:
 

@@ -1,0 +1,19 @@
+{{- if .Values.monitoring.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{ include "sentiment-app-chart.fullname" . }}-app-rules
+  labels:
+    release: {{ .Release.Name }}
+spec:
+  groups:
+  - name: {{ include "sentiment-app-chart.name" . }}.rules
+    rules:
+    - alert: RapidSubmissionIncrease
+      expr: |
+        increase(total_submissions_total{sentiment="true"}[1m]) >= 5
+      for: 0m
+      labels:
+        severity: warning
+        app: {{ include "sentiment-app-chart.name" . }}
+{{- end }}
