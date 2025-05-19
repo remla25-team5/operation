@@ -21,34 +21,16 @@ spec:
         io.kompose.service: app
     spec:
       containers:
-        - env:
-            - name: APP_SERVICE_HOST
-              valueFrom:
-                configMapKeyRef:
-                  key: APP_SERVICE_HOST
-                  name: app-env
-            - name: APP_SERVICE_PORT
-              valueFrom:
-                configMapKeyRef:
-                  key: APP_SERVICE_PORT
-                  name: app-env
-            - name: MODEL_SERVICE_HOST
-              valueFrom:
-                configMapKeyRef:
-                  key: MODEL_SERVICE_HOST
-                  name: app-env
-            - name: MODEL_SERVICE_PORT
-              valueFrom:
-                configMapKeyRef:
-                  key: MODEL_SERVICE_PORT
-                  name: app-env
+        - envFrom:
+            - configMapRef:
+                name: app-env
           image: ghcr.io/remla25-team5/app:latest
           name: app
           ports:
             - containerPort: 8080
               protocol: TCP
           volumeMounts:
-            - mountPath: /run/secrets
+            - mountPath: /run/secrets/app-api-key
               name: app-api-key
               subPath: app-api-key
       restartPolicy: Always
