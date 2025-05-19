@@ -149,6 +149,19 @@ kubectl -n kubernetes-dashboard create token admin-user
 Remember to add '192.168.56.90 dashboard.local' to your host's DNS file (sudo nano /etc/hosts on Mac)
 Once this is done you can access https://dashboard.local in your browser to access the dashboard.
 
+## Migrate from docker-compose to kubernetes
+
+To run the migrated setup with kubernetes, you need minikube and kubectl. Then run:
+
+```
+minikube start --driver=docker
+minikube addons enable ingress
+kubectl apply -f kubernetes --recursive
+minikube service list 
+```
+
+Then go to the first IP that is listed at ingress-nginx-controller
+
 ## Repositories
 
 Links to the repositories used in this project:
