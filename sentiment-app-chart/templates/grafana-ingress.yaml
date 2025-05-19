@@ -13,7 +13,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: sentiment-app-grafana 
+                name: sentiment-app-grafana
                 port:
                   number: {{ .Values.grafana.ingress.servicePort }}
 {{- end }}
