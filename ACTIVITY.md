@@ -58,7 +58,7 @@ Approved PR:
 
 -- Jorn Dijk --
 Created PR: https://github.com/remla25-team5/operation/pull/25 (Contributed to A3, Implemented Prometheus in the kubernetes cluster and set up monitoring with Grafana)
-Approved PR: 
+Approved PR: https://github.com/remla25-team5/operation/pull/26
 
 -- Reinier Schep: --
 Created PR: https://github.com/remla25-team5/app/pull/24
