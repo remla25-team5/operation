@@ -63,3 +63,25 @@ Approved PR: https://github.com/remla25-team5/operation/pull/26
 -- Reinier Schep: --
 Created PR: https://github.com/remla25-team5/app/pull/24
 Approved PR: https://github.com/remla25-team5/operation/pull/12 
+
+# Week 5
+
+-- Kristóf Sándor: --
+Created PR: 
+Approved PR: 
+
+-- Kevin Hoxha: --
+Created PR: https://github.com/remla25-team5/model-training/pull/12 (Contributed to A4, Implemented the DVC pipeline management)
+Approved PR: https://github.com/remla25-team5/model-training/pull/8
+
+-- Tadas Žaliauskas: --
+Created PR: 
+Approved PR: 
+
+-- Jorn Dijk --
+Created PR: 
+Approved PR: 
+
+-- Reinier Schep: --
+Created PR: 
+Approved PR: 
