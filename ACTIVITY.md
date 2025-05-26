@@ -83,5 +83,5 @@ Created PR: https://github.com/remla25-team5/model-training/pull/14 (Contributed
 Approved PR: https://github.com/remla25-team5/model-training/pull/8 
 
 -- Reinier Schep: --
-Created PR: 
-Approved PR: 
+Created PR: https://github.com/remla25-team5/model-training/pull/8
+Approved PR: https://github.com/remla25-team5/model-training/pull/12
