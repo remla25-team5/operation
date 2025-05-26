@@ -1,6 +1,6 @@
 # REMLA 25 Team 5 - Sentiment Analysis App
 
-### **Assignment 1: Versions, Releases, and Containerization.** 
+## **Assignment 1: Versions, Releases, and Containerization.** 
 
 For a quick start, you can run the app using [Docker Compose](#docker-compose).
 
@@ -15,7 +15,7 @@ The whole project contains two docker images, the architecture is taken from the
 
 The two images are detailed in the next two sections.
 
-## App-service
+### App-service
 
 The Vue frontend can be found in [app-frontend](https://github.com/remla25-team5/app/tree/main/app-frontend) 
 and the Flask backend is in [app-backend](https://github.com/remla25-team5/app/tree/main/app-backend).
@@ -37,7 +37,7 @@ The app image is run with:
 docker run -p 8080:8080 --env-file=.env app-service 
 ```
 
-## Model-service
+### Model-service
 
 The model service relies on the lib-ml library to encapsulate preprocessing, which is used
 both for training and inference. 
@@ -58,7 +58,7 @@ The model service is run with:
 docker run -p 5000:5000 model-service
 ```
 
-## Docker Compose
+### Docker Compose
 
 The two images are combined using Docker Compose, using the `docker-compose.yml` file in this repository.
 The environment variables from the env files are passed to the app and model images.
@@ -71,11 +71,11 @@ docker-compose up
 ```
 The app can then be accessed at [http://localhost:8080](http://localhost:8080).
 
-### **Assignment 2: Provisioning a Kubernetes Cluster**
+## **Assignment 2: Provisioning a Kubernetes Cluster**
 
 The Kubernetes cluster is provisioned using Vagrant and Ansible. The infrastructure consists of one controller node and two worker nodes, all running Ubuntu 24.04.
 
-#### Vagrant Configuration
+### Vagrant Configuration
 
 The `Vagrantfile` located in the `operation` directory defines:
 - 1 control plane node (`ctrl`)
@@ -83,7 +83,7 @@ The `Vagrantfile` located in the `operation` directory defines:
 - A private network with fixed IPs for all nodes (192.168.56.100 for controller)
 - Provisioning using Ansible playbooks
 
-#### Ansible Provisioning
+### Ansible Provisioning
 
 The Ansible playbooks are located in the `operation/ansible-provisioning` directory:
 
@@ -104,7 +104,7 @@ The Ansible playbooks are located in the `operation/ansible-provisioning` direct
   - Joins nodes to the Kubernetes cluster
   - Etc.
 
-#### Usage Instructions
+### Usage Instructions
 
 To provision the Kubernetes cluster:
 
@@ -149,7 +149,7 @@ kubectl -n kubernetes-dashboard create token admin-user
 Remember to add '192.168.56.90 dashboard.local' to your host's DNS file (sudo nano /etc/hosts on Mac)
 Once this is done you can access https://dashboard.local in your browser to access the dashboard.
 
-##**Assignment 3: Operate and Monitor Kubernetes**
+## **Assignment 3: Operate and Monitor Kubernetes**
 
 ### Migrate from docker-compose to kubernetes
 
@@ -244,6 +244,18 @@ To remove the deployment:
 helm uninstall sentiment-app
 ```
 
+## Assignment 4
+
+### Automated tests
+
+Feature and Data here: https://github.com/remla25-team5/lib-ml with pytest
+Model Development: already done before: 
+- Model 1: Every model specification undergoes a
+code review and is checked in to a repository
+- Model 3: All hyperparameters have been tuned:
+ML Infra here: https://github.com/remla25-team5/model-training with pytest
+Monitoring: rubric with Prometheus in operations + code in app to measure if error rate gets worse than a set number
+
 ## Repositories
 
 Links to the repositories used in this project:
@@ -262,6 +274,8 @@ Links to the repositories used in this project:
 ✅ Assignment 2
 
 ✅ Assignment 3
+
+✅ Assignment 4
 
 ### Use of Generative AI
 
