@@ -79,8 +79,8 @@ Created PR:
 Approved PR: 
 
 -- Jorn Dijk --
-Created PR: 
-Approved PR: 
+Created PR: https://github.com/remla25-team5/model-training/pull/14 (Contributed to A4, Implemented the linter configurations and custom plugin)
+Approved PR: https://github.com/remla25-team5/model-training/pull/8 
 
 -- Reinier Schep: --
 Created PR: 
