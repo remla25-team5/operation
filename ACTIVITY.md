@@ -75,8 +75,8 @@ Created PR: https://github.com/remla25-team5/model-training/pull/12 (Contributed
 Approved PR: https://github.com/remla25-team5/model-training/pull/8
 
 -- Tadas Žaliauskas: --
-Created PR: 
-Approved PR: 
+Created PR: https://github.com/remla25-team5/model-training/pull/13 (Contributed to A4, implemented Continuous Training requirements part)
+Approved PR: https://github.com/remla25-team5/model-training/pull/8
 
 -- Jorn Dijk --
 Created PR: https://github.com/remla25-team5/model-training/pull/14 (Contributed to A4, Implemented the linter configurations and custom plugin)
