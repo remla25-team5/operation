@@ -1,7 +1,7 @@
 # Week 2
 
 -- Kristóf Sándor: --
-Created PR: https://github.com/remla25-team5/app/pull/9
+Created PR: https://github.com/remla25-team5/app/pull/9 (Related to A1)
 Approved PR: https://github.com/remla25-team5/model-training/pull/4
 
 -- Kevin Hoxha: --
@@ -23,7 +23,7 @@ Approved PR: https://github.com/remla25-team5/lib-ml/pull/6
 # Week 3
 
 -- Kristóf Sándor: --
-Created PR: https://github.com/remla25-team5/operation/pull/12/
+Created PR: https://github.com/remla25-team5/operation/pull/12/ (Related to A2)
 Approved PR: https://github.com/remla25-team5/operation/pull/10
 
 -- Kevin Hoxha: --
@@ -45,7 +45,7 @@ Approved PR: https://github.com/remla25-team5/operation/pull/12
 # Week 4
 
 -- Kristóf Sándor: --
-Created PR: https://github.com/remla25-team5/operation/pull/22
+Created PR: https://github.com/remla25-team5/operation/pull/22 (Related to A3)
 Approved PR: https://github.com/remla25-team5/operation/pull/26
 
 -- Kevin Hoxha: --
@@ -63,3 +63,25 @@ Approved PR: https://github.com/remla25-team5/operation/pull/26
 -- Reinier Schep: --
 Created PR: https://github.com/remla25-team5/app/pull/24
 Approved PR: https://github.com/remla25-team5/operation/pull/12 
+
+# Week 5
+
+-- Kristóf Sándor: --
+Created PR: https://github.com/remla25-team5/lib-ml/pull/9 (Related to A4)
+Approved PR: https://github.com/remla25-team5/model-training/pull/13
+
+-- Kevin Hoxha: --
+Created PR: https://github.com/remla25-team5/model-training/pull/12 (Contributed to A4, Implemented the DVC pipeline management)
+Approved PR: https://github.com/remla25-team5/model-training/pull/8
+
+-- Tadas Žaliauskas: --
+Created PR: https://github.com/remla25-team5/model-training/pull/13 (Contributed to A4, implemented Continuous Training requirements part)
+Approved PR: https://github.com/remla25-team5/model-training/pull/8
+
+-- Jorn Dijk --
+Created PR: https://github.com/remla25-team5/model-training/pull/14 (Contributed to A4, Implemented the linter configurations and custom plugin)
+Approved PR: https://github.com/remla25-team5/model-training/pull/8 
+
+-- Reinier Schep: --
+Created PR: https://github.com/remla25-team5/model-training/pull/8
+Approved PR: https://github.com/remla25-team5/model-training/pull/12
