@@ -4,11 +4,13 @@ app:
   image: ghcr.io/remla25-team5/app
   tag: latest
   port: 8080
+  tagv2: latest
 
 modelService:
   image: ghcr.io/remla25-team5/model-service
   tag: latest
   port: 5000
+  tagv2: latest
   
 persistentVolumeSize: 100Mi
 
