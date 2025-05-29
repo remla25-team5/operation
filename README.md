@@ -334,6 +334,8 @@ Links to the repositories used in this project:
 
 ✅ Assignment 4
 
+✅ Assignment 5
+
 ### Use of Generative AI
 
 We used generative AI in the following ways:
@@ -342,4 +344,4 @@ We used generative AI in the following ways:
 - **model-service**: For model-service, ChatGPT was used to understand what Dockerfiles and release.yml files are, and what they should contain. Copilot was used to help with making environment variables that are used in the model_utils.py and service.py files. It was also used to speed up repetitive tasks, like downloading the CountVectorizer model the same way that the trained model is downloaded. It was also used to help with writing the README.md file.
 - **lib-ml**: In lib-ml, Gemini was used to help determine the needed dependencies for the pyproject.toml file.
 - **app**: For the frontend, ChatGPT was only used for trivial and repetitive tasks. Examples include: adding try/catch blocks to code, adding console.log statements to code and defining datatypes in TypeScript as specified by me etc.
-- **operation**: For operation, GitHub Copilot was used to help with writing the README.md file. It was also used to help with understanding how `Vagrantfile works`, especially in combination with Ansible. For steps 1 - 5, it was used to help with understanding the setup of the Ansible `general.yaml` playbook. For steps 11-15 we used ChatGPT to enhance our personal understanding of how to specify things in the .yaml file, we read the documentation and then challenged our belief with ChatGPT to make sure we didn't miss any subtleties. For the Helm chart, we used ChatGPT to help understand the structure of the chart and how to use it. We also used it to help with writing the README.md file. For Assignment 5, ChatGPT was used to help with adding a section to the README.md file about how to use Istio with the Helm chart.
+- **operation**: For operation, GitHub Copilot was used to help with writing the README.md file. It was also used to help with understanding how `Vagrantfile` works, especially in combination with Ansible. For steps 1 - 5, it was used to help with understanding the setup of the Ansible `general.yaml` playbook. For steps 11-15 we used ChatGPT to enhance our personal understanding of how to specify things in the .yaml file, we read the documentation and then challenged our belief with ChatGPT to make sure we didn't miss any subtleties. For the Helm chart, we used ChatGPT to help understand the structure of the chart and how to use it. We also used it to help with writing the `README.md` file. For Assignment 5, ChatGPT was used to help with adding a section to the `README.md` file about how to use Istio with the Helm chart.
