@@ -2,9 +2,9 @@ apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata: { name: {{ include "sentiment-app-chart.fullname" . }}-model-service-dr }
 spec:
-host: {{ include "sentiment-app-chart.fullname" . }}-model-service
-subsets:
-- name: v1
-labels: { version: v1 }
-- name: v2
-labels: { version: v2 }
+    host: {{ include "sentiment-app-chart.fullname" . }}-model-service
+    subsets:
+    - name: v1
+      labels: { version: v1 }
+    - name: v2
+      labels: { version: v2 }

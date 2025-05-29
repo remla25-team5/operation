@@ -5,8 +5,8 @@ spec:
     hosts: [ {{ include "sentiment-app-chart.fullname" . }}-model-service ]
     http:
     - match:
-        - sourceLabels: { version: v2 }
-        route:
-        - destination: { host: {{ include "sentiment-app-chart.fullname" . }}-model-service, subset: v2 }
+      - sourceLabels: { version: v2 }
+      route:
+      - destination: { host: {{ include "sentiment-app-chart.fullname" . }}-model-service, subset: v2 }
     - route:
-        - destination: { host: {{ include "sentiment-app-chart.fullname" . }}-model-service, subset: v1 }
+      - destination: { host: {{ include "sentiment-app-chart.fullname" . }}-model-service, subset: v1 }
