@@ -6,6 +6,28 @@ spec:
     hosts: [ "*" ]
     http:
     - match:
+        - headers:
+            x-experiment:
+              exact: "true"
+          uri:
+            prefix: /
+      route:
+        - destination:
+            host: {{ include "sentiment-app-chart.fullname" . }}-app
+            subset: v2
+          weight: 100
+    - match:
+        - headers:
+            x-experiment:
+              exact: "false"
+          uri:
+            prefix: /
+      route:
+        - destination:
+            host: {{ include "sentiment-app-chart.fullname" . }}-app
+            subset: v1
+          weight: 100
+    - match:
         - uri: { prefix: / }
       route:
       - destination: { host: {{ include "sentiment-app-chart.fullname" . }}-app, subset: v1 }
