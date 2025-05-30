@@ -6,7 +6,7 @@ BOX_IMAGE = "bento/ubuntu-24.04"
 BOX_VERSION = "202502.21.0"
 
 # Number of worker nodes
-NODE_COUNT = 1
+NODE_COUNT = 2
 
 # Number of CPUs and memory for the controller node
 CTRL_CPUS = 2 # This was changed from 1 to 2 due to step 13
