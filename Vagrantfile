@@ -6,7 +6,7 @@ BOX_IMAGE = "bento/ubuntu-24.04"
 BOX_VERSION = "202502.21.0"
 
 # Number of worker nodes
-NODE_COUNT = 2
+NODE_COUNT = 1
 
 # Number of CPUs and memory for the controller node
 CTRL_CPUS = 2 # This was changed from 1 to 2 due to step 13
@@ -21,9 +21,6 @@ CTRL_IP = "192.168.56.100"
 NODE_IPS = (1..NODE_COUNT).map { |n| "192.168.56.#{100 + n}" }
 
 Vagrant.configure("2") do |config|
-
-  config.ssh.forward_agent = true
-
   # Create the Ansible inventory file after running `vagrant up`
   config.trigger.after [:up, :reload] do |trigger|
     trigger.name = "Generate Ansible inventory.cfg"
@@ -35,13 +32,13 @@ Vagrant.configure("2") do |config|
       File.open(inventory_file_path, 'w') do |file|
         # Add controller section
         file.puts "[controller]"
-        file.puts "ctrl ansible_host=#{CTRL_IP}"
+        file.puts "ctrl ansible_host=#{CTRL_IP} ansible_ssh_private_key_file=./.vagrant/machines/ctrl/virtualbox/private_key ansible_ssh_common_args='-o IdentitiesOnly=yes'"
         file.puts ""
         
         # Add nodes section
         file.puts "[nodes]"
         NODE_IPS.each_with_index do |ip, i|
-          file.puts "node-#{i + 1} ansible_host=#{ip}"
+          file.puts "node-#{i + 1} ansible_host=#{ip} ansible_ssh_private_key_file=./.vagrant/machines/node-#{i + 1}/virtualbox/private_key ansible_ssh_common_args='-o IdentitiesOnly=yes'"
         end
 
         file.puts ""
@@ -53,8 +50,6 @@ Vagrant.configure("2") do |config|
         file.puts ""
         file.puts "[all:vars]"
         file.puts "ansible_user=vagrant"
-        file.puts "ansible_ssh_private_key_file=/home/vagrant/.ssh/id_rsa"
-        file.puts "ansible_ssh_common_args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'"
       end
       
       puts "Successfully created inventory file at #{inventory_file_path}"
