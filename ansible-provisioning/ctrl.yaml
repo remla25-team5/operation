@@ -72,18 +72,9 @@
 
 # Step 15: Install Flannel network plugin
     - name: "Download Flannel CNI manifest"
-      get_url:
-        url: https://raw.githubusercontent.com/flannel-io/flannel/v0.26.7/Documentation/kube-flannel.yml
+      ansible.builtin.copy:
+        src: kube-flannel.yml
         dest: /tmp/kube-flannel.yml
-
-    - name: "Patch Flannel manifest with --iface=eth1"
-      replace:
-        path: /tmp/kube-flannel.yml
-        regexp: 'args:\s*\n\s*- "--ip-masq"'
-        replace: |
-          args:
-            - "--ip-masq"
-            - "--iface=eth1"
 
     - name: "Apply Flannel network plugin to the cluster"
       command: kubectl apply -f /tmp/kube-flannel.yml
