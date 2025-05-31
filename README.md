@@ -256,6 +256,63 @@ code review and is checked in to a repository
 ML Infra here: https://github.com/remla25-team5/model-training with pytest
 Monitoring: rubric with Prometheus in operations + code in app to measure if error rate gets worse than a set number
 
+## Assignment 5
+
+### Running the Helm Chart with Istio
+
+After deploying with Helm (either on Minikube or the Vagrant-based Kubernetes cluster), Istio’s IngressGateway handles traffic routing.
+
+Ensure you have Istio installed in your cluster. If not, follow the [Istio installation guide](https://istio.io/latest/docs/setup/getting-started/).
+
+#### Checking the Istio Ingress Gateway IP on Minikube
+
+Istio routes traffic through its IngressGateway. To check the **Ingress Gateway’s IP address**, run:
+
+```bash
+minikube service list
+```
+
+This will expose the IP of the `istio-ingressgateway` service, which is what you’ll use to access your app. Open the second URL (the URL with the `http2/80` target port) under the `istio-ingressgateway` service in your browser.
+
+#### Testing with Postman or Curl
+
+✅ **Access the app normally (no experiment header):**
+
+* Open your browser and navigate to `http://<GATEWAY_IP>`.
+* Or use curl:
+
+  ```bash
+  curl http://<GATEWAY_IP>
+  ```
+
+✅ **Test experiment traffic (header-based sticky sessions):**
+If you want to force a user into the **new version** (`v2`) of the app, use the header `x-experiment: true`.
+For example, using curl:
+
+```bash
+curl -H "x-experiment: true" http://<GATEWAY_IP>
+```
+
+You can also test with **Postman**:
+
+* Set the URL: `http://<GATEWAY_IP>`
+* In the Headers tab, add:
+
+  ```
+  Key: x-experiment
+  Value: true
+  ```
+* Send the request to see responses from **v2**.
+
+#### 90/10 Canary Split Testing
+
+If no header is present (`x-experiment` not sent), Istio **dynamically splits traffic 90/10**:
+
+* **90%** of users will be routed to `v1`.
+* **10%** will see `v2`.
+
+You can verify this by repeatedly refreshing the page or sending multiple curl requests without the header.
+
 ## Repositories
 
 Links to the repositories used in this project:
@@ -277,6 +334,8 @@ Links to the repositories used in this project:
 
 ✅ Assignment 4
 
+✅ Assignment 5
+
 ### Use of Generative AI
 
 We used generative AI in the following ways:
@@ -285,4 +344,4 @@ We used generative AI in the following ways:
 - **model-service**: For model-service, ChatGPT was used to understand what Dockerfiles and release.yml files are, and what they should contain. Copilot was used to help with making environment variables that are used in the model_utils.py and service.py files. It was also used to speed up repetitive tasks, like downloading the CountVectorizer model the same way that the trained model is downloaded. It was also used to help with writing the README.md file.
 - **lib-ml**: In lib-ml, Gemini was used to help determine the needed dependencies for the pyproject.toml file.
 - **app**: For the frontend, ChatGPT was only used for trivial and repetitive tasks. Examples include: adding try/catch blocks to code, adding console.log statements to code and defining datatypes in TypeScript as specified by me etc.
-- **operation**: For operation, GitHub Copilot was used to help with writing the README.md file. It was also used to help with understanding how `Vagrantfile works`, especially in combination with Ansible. For steps 1 - 5, it was used to help with understanding the setup of the Ansible `general.yaml` playbook. For steps 11-15 we used ChatGPT to enhance our personal understanding of how to specify things in the .yaml file, we read the documentation and then challenged our belief with ChatGPT to make sure we didn't miss any subtleties. For the Helm chart, we used ChatGPT to help understand the structure of the chart and how to use it. We also used it to help with writing the README.md file.
+- **operation**: For operation, GitHub Copilot was used to help with writing the README.md file. It was also used to help with understanding how `Vagrantfile` works, especially in combination with Ansible. For steps 1 - 5, it was used to help with understanding the setup of the Ansible `general.yaml` playbook. For steps 11-15 we used ChatGPT to enhance our personal understanding of how to specify things in the .yaml file, we read the documentation and then challenged our belief with ChatGPT to make sure we didn't miss any subtleties. For the Helm chart, we used ChatGPT to help understand the structure of the chart and how to use it. We also used it to help with writing the `README.md` file. For Assignment 5, ChatGPT was used to help with adding a section to the `README.md` file about how to use Istio with the Helm chart.

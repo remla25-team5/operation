@@ -1,24 +1,68 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "sentiment-app-chart.fullname" . }}-app
+  name: {{ include "sentiment-app-chart.fullname" . }}-app-v1
   labels:
     {{- include "sentiment-app-chart.labels" . | nindent 4 }}
+    version: v1
 spec:
   replicas: {{ .Values.replica_count }}
   selector:
     matchLabels:
       app: {{ include "sentiment-app-chart.fullname" . }}-app
       {{- include "sentiment-app-chart.selectorLabels" . | nindent 6 }}
+      version: v1
   template:
     metadata:
       labels:
         app: {{ include "sentiment-app-chart.fullname" . }}-app
         {{- include "sentiment-app-chart.selectorLabels" . | nindent 8 }}
+        version: v1
     spec:
       containers:
         - name: {{ include "sentiment-app-chart.fullname" . }}-app
           image: "{{ .Values.app.image }}:{{ .Values.app.tag }}"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: {{ .Values.app.port }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "sentiment-app-chart.fullname" . }}-app-env
+            - secretRef:
+                name: {{ include "sentiment-app-chart.fullname" . }}-app-secret
+          volumeMounts:
+            - name: shared-data
+              mountPath: /mnt/shared
+      volumes:
+        - name: shared-data
+          hostPath:
+            path: /mnt/shared
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "sentiment-app-chart.fullname" . }}-app-v2
+  labels:
+    {{- include "sentiment-app-chart.labels" . | nindent 4 }}
+    version: v2
+spec:
+  replicas: {{ .Values.replica_count }}
+  selector:
+    matchLabels:
+      app: {{ include "sentiment-app-chart.fullname" . }}-app
+      {{- include "sentiment-app-chart.selectorLabels" . | nindent 6 }}
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: {{ include "sentiment-app-chart.fullname" . }}-app
+        {{- include "sentiment-app-chart.selectorLabels" . | nindent 8 }}
+        version: v2
+    spec:
+      containers:
+        - name: {{ include "sentiment-app-chart.fullname" . }}-app
+          image: "{{ .Values.app.image }}:{{ .Values.app.tagv2 }}"
           imagePullPolicy: Always
           ports:
             - containerPort: {{ .Values.app.port }}
