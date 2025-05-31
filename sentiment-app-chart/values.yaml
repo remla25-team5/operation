@@ -4,13 +4,13 @@ app:
   image: ghcr.io/remla25-team5/app
   tag: latest
   port: 8080
-  tagv2: latest
+  tagv2: v2.latest
 
 modelService:
   image: ghcr.io/remla25-team5/model-service
   tag: latest
   port: 5000
-  tagv2: latest
+  tagv2: v2.latest
   
 persistentVolumeSize: 100Mi
 
@@ -25,3 +25,16 @@ grafana:
   ingress:
     host: grafana.local
     servicePort: 80
+
+
+kube-prometheus-stack:
+  prometheusOperator:
+    admissionWebhooks:
+    # Istio tries to inject sidecars into all pods, including those managed by the Prometheus Operator.
+    # The prometheus certificate generation pods created are temporary and the sidecar injection tries to continue to run even tho the pod has exited.
+    # This causes the intallation to timeout as the sidecar injection tries to inject into pods that are not running.
+    # To avoid this, we disable the sidecar injection for the temporary webhook pods created by the Prometheus Operator.
+      patch:
+        enabled: true 
+        podAnnotations:
+          sidecar.istio.io/inject: "false"
