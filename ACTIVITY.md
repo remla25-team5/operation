@@ -154,6 +154,6 @@ Approved PR:
 
 -- **Reinier Schep**: --
 
-Created PR: 
+Created PR: https://github.com/remla25-team5/operation/pull/33
 
-Approved PR: 
+Approved PR: https://github.com/remla25-team5/model-service/pull/14
