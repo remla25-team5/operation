@@ -207,6 +207,7 @@ cd ..
 
 # Install the Helm chart (optionally, Gmail inbox and App password https://support.google.com/accounts/answer/185833?hl=en are needed for receiving alerts)
 helm install sentiment-app ./sentiment-app-chart --set monitoring.enabled=true --set gmailEmail=<value>@gmail.com --set emailPassword=<value>
+helm install sentiment-app --dry-run --debug ./sentiment-app-chart --set monitoring.enabled=true > chartas.yaml
 
 # Verify the deployment
 kubectl get pods
@@ -262,7 +263,29 @@ Monitoring: rubric with Prometheus in operations + code in app to measure if err
 
 After deploying with Helm (either on Minikube or the Vagrant-based Kubernetes cluster), Istio’s IngressGateway handles traffic routing.
 
-Ensure you have Istio installed in your cluster. If not, follow the [Istio installation guide](https://istio.io/latest/docs/setup/getting-started/).
+Ensure you have Istio installed in your cluster. If not, download the [latest release](https://github.com/istio/istio/releases/) (1.26.0) that corresponds with your system architecture and OS and unpack it.
+We will need several Istio addons. You can find the install files in the unpacked Istio folder in `samples/addons/` . 
+
+```bash
+minikube delete
+minikube start --memory=4096 --cpus=4 --driver=docker
+#minikube start --memory=16384 --cpus=4 --driver=docker
+minikube addons enable ingress
+istioctl install
+#kubectl apply -f istio-1.26.0/samples/addons/prometheus.yaml
+kubectl apply -f istio-1.26.0/samples/addons/jaeger.yaml
+kubectl apply -f istio-1.26.0/samples/addons/kiali.yaml
+kubectl label ns default istio-injection=enabled
+```
+
+minikube ssh
+top
+istioctl analyze
+minikube service lib
+minikube tunnel
+kubectl get pods -n istio-system
+kubectl describe pods istio-ingressgateway-864db96c47-5j6rt -n istio-system
+istio:ingressgateway
 
 #### Checking the Istio Ingress Gateway IP on Minikube
 
