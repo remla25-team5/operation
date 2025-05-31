@@ -25,10 +25,26 @@ grafana:
   ingress:
     host: grafana.local
     servicePort: 80
+  
 
 
 kube-prometheus-stack:
+  grafana:
+    podAnnotations:
+      sidecar.istio.io/inject: "false"    
+  prometheus: 
+    prometheusSpec: 
+      podAnnotations: 
+        sidecar.istio.io/inject: "false" 
+  alertmanager: 
+    podAnnotations: 
+      sidecar.istio.io/inject: "false"
+  kubeStateMetrics: 
+    podAnnotations: 
+      sidecar.istio.io/inject: "false"
   prometheusOperator:
+    podAnnotations: 
+      sidecar.istio.io/inject: "false"
     admissionWebhooks:
     # Istio tries to inject sidecars into all pods, including those managed by the Prometheus Operator.
     # The prometheus certificate generation pods created are temporary and the sidecar injection tries to continue to run even tho the pod has exited.
@@ -38,3 +54,4 @@ kube-prometheus-stack:
         enabled: true 
         podAnnotations:
           sidecar.istio.io/inject: "false"
+

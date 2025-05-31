@@ -3,7 +3,7 @@ kind: VirtualService
 metadata: { name: {{ include "sentiment-app-chart.fullname" . }}-virtualservice }
 spec:
     gateways: [ {{ include "sentiment-app-chart.fullname" . }}-gateway ]
-    hosts: [ "*" ]
+    hosts: [ "sentiment-app.local" ]
     http:
     - match:
         - headers:

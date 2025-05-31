@@ -37,7 +37,6 @@ spec:
         - name: shared-data
           hostPath:
             path: /mnt/shared
-
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -51,7 +50,7 @@ spec:
   selector:
     matchLabels:
       app: {{ include "sentiment-app-chart.fullname" . }}-app
-      {{- include "sentiment-app-chart.selectorLabels" . | nindent 6 }}
+      {{- include "sentiment-app-chart.selectorLabels" .  | nindent 6 }}
       version: v2
   template:
     metadata:

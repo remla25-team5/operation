@@ -4,7 +4,7 @@ kind: ServiceMonitor
 metadata:
   name: {{ include "sentiment-app-chart.fullname" . }}-service-monitor
   labels:
-    release: {{ .Release.Name }}
+    release: sentiment-app
 spec:
   endpoints:
     - port: http
