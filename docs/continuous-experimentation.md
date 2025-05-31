@@ -61,16 +61,16 @@ These visualizations help determine whether the experimental version shows meani
 
 ![Grafana Dashboard Screenshot](./grafana-sentiment-experiment.png)
 
----
 
 ## 7. Decision Process
 
-We compare the agreement rates between the control and experiment using a **two-proportion z-test** to determine statistical significance.
+We compare the agreement rates between the control (Version A) and the experiment (Version B) using a **two-proportion z-test** to assess statistical significance.
 
-- **Null Hypothesis (H₀)**: There is no difference in agreement rate between versions A and B.
-- **Alternative Hypothesis (H₁)**: Version B has a higher agreement rate than Version A.
-- **Significance Threshold**: *p* < 0.05
+- **Null Hypothesis (H₀)**: There is no difference in agreement rates between Version A and Version B (i.e., Version B’s agreement rate is less than or equal to Version A’s).
+- **Alternative Hypothesis (H₁)**: The agreement rate of Version B is **different** from that of Version A.
 
-### Outcome:
+If this initial test suggests a statistically significant difference, we follow up with a **one-tailed test** to determine whether Version B’s agreement rate is actually **higher** than Version A’s.
 
-If the computed *p*-value is below 0.05, we reject the null hypothesis and conclude that the experimental version provides a statistically significant improvement in user agreement rate. In this case, the new version should be adopted and rolled out to all users.
+### Outcome
+
+If we encounter p-values below 0.05 and that this new version has a higher agreement rate, then we conclude there is statistical significant difference and the new version should be rolled out to all users.
