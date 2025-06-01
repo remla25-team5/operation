@@ -142,9 +142,9 @@ Approved PR:
 
 -- **Tadas Žaliauskas**: --
 
-Created PR: 
+Created PR: https://github.com/remla25-team5/operation/pull/36 (contributed to A5, implemented Additional Use Case)
 
-Approved PR: 
+Approved PR: https://github.com/remla25-team5/operation/pull/31
 
 -- **Jorn Dijk** --
 
