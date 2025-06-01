@@ -40,7 +40,7 @@
       apiVersion: rbac.authorization.k8s.io/v1
       kind: ClusterRoleBinding
       metadata:
-        name: {{ dashboard_service_account_name }}-cluster-admin
+        name: {{ dashboard_service_account_name }}
       subjects:
       - kind: ServiceAccount
         name: {{ dashboard_service_account_name }}
@@ -182,7 +182,12 @@
         dest: "/tmp/dashboard-ingress.yaml"
         mode: '0644'
 
-    - name: "Apply Ingress for {{ dashboard_hostname }}"
+    - name: Wait ingress-nginx
+      ansible.builtin.shell: kubectl wait -n {{ nginx_ingress_repo_name|quote }} --all --for=condition=ready pod --timeout=60s
+    - name: Wait kubernetes-dashboard
+      ansible.builtin.shell: kubectl wait -n {{ dashboard_namespace|quote }} --all --for=condition=ready pod --timeout=60s
+
+    - name: "Apply Ingress for dashboard.local"
       ansible.builtin.command: >
         kubectl apply -f /tmp/dashboard-ingress.yaml
  
@@ -197,8 +202,38 @@
         msg:
           - "To log into the Dashboard, get the token for '{{ dashboard_service_account_name }}' manually."
           - "Run on the ctrl VM: kubectl -n {{ dashboard_namespace }} create token {{ dashboard_service_account_name }}" 
-          - "Access Dashboard at: https://{{ dashboard_hostname }}"
-          - "Remember to add '{{ nginx_ingress_loadbalancer_ip }} {{ dashboard_hostname }}' to your host's DNS file."
+          - "Access Dashboard at: https://dashboard.local"
+          - "Remember to add '{{ nginx_ingress_loadbalancer_ip }} dashboard.local' to your host's DNS file."
       vars:
         nginx_ingress_loadbalancer_ip: "192.168.56.90"
 
+    # Step 23: Install Istio
+    - name: Download Istio-1.25.2 and unpack it
+      ansible.builtin.unarchive:
+        src: https://github.com/istio/istio/releases/download/1.25.2/istio-1.25.2-linux-amd64.tar.gz
+        dest: /usr/local/bin
+        remote_src: yes
+    - name: Add the istioctl binary to the PATH variable
+      ansible.builtin.copy:
+        src: /usr/local/bin/istio-1.25.2/bin/istioctl
+        dest: /usr/local/bin/istioctl
+        remote_src: yes
+        mode: "0755"
+    - name: IstioOperator
+      ansible.builtin.copy:
+        content: |
+          apiVersion: install.istio.io/v1alpha1
+          kind: IstioOperator
+          spec:
+            components:
+              ingressGateways:
+              - name: istio-ingressgateway
+                enabled: true
+                k8s:
+                  service:
+                    loadBalancerIP: 192.168.56.91
+        dest: config.yml
+    - name: Install Istio
+      ansible.builtin.shell: istioctl install -y -f config.yml
+    - name: Enable Istio
+      ansible.builtin.shell: kubectl label ns default istio-injection=enabled
