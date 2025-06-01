@@ -207,7 +207,6 @@ cd ..
 
 # Install the Helm chart (optionally, Gmail inbox and App password https://support.google.com/accounts/answer/185833?hl=en are needed for receiving alerts)
 helm install sentiment-app ./sentiment-app-chart --set monitoring.enabled=true --set gmailEmail=<value>@gmail.com --set emailPassword=<value>
-helm install sentiment-app --dry-run --debug ./sentiment-app-chart --set monitoring.enabled=true > chartas.yaml
 
 # Verify the deployment
 kubectl get pods
@@ -268,24 +267,13 @@ We will need several Istio addons. You can find the install files in the unpacke
 
 ```bash
 minikube delete
-minikube start --memory=4096 --cpus=4 --driver=docker
-#minikube start --memory=16384 --cpus=4 --driver=docker
+minikube start --memory=16384 --cpus=4 --driver=docker
 minikube addons enable ingress
 istioctl install
-#kubectl apply -f istio-1.26.0/samples/addons/prometheus.yaml
 kubectl apply -f istio-1.26.0/samples/addons/jaeger.yaml
 kubectl apply -f istio-1.26.0/samples/addons/kiali.yaml
 kubectl label ns default istio-injection=enabled
 ```
-
-minikube ssh
-top
-istioctl analyze
-minikube service lib
-minikube tunnel
-kubectl get pods -n istio-system
-kubectl describe pods istio-ingressgateway-864db96c47-5j6rt -n istio-system
-istio:ingressgateway
 
 #### Checking the Istio Ingress Gateway IP on Minikube
 
@@ -335,6 +323,13 @@ If no header is present (`x-experiment` not sent), Istio **dynamically splits tr
 * **10%** will see `v2`.
 
 You can verify this by repeatedly refreshing the page or sending multiple curl requests without the header.
+
+To test rate limiting, call 
+```bash
+minikube tunnel
+for i in {1..11}; do curl -s "http://localhost/api/submit" -H 'Content-Type: application/json' -H 'x-user: ricky' --data '{"text":"review"}' -o /dev/null -w "%{http_code}\n"; sleep 1; done
+```
+You can vary `x-user` header parameter to notice that limit is being applied per user header for a specific service API (users that send more than 10 requests per minute get temporarily blocked).
 
 ## Repositories
 
