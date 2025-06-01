@@ -7,19 +7,12 @@ data:
     domain: ratelimit
     descriptors:
       - key: PATH
-        value: "/productpage"
-        rate_limit:
-          unit: minute
-          requests_per_unit: 1
-      - key: PATH
         value: "api"
-        rate_limit:
-          unit: minute
-          requests_per_unit: 2
-      - key: PATH
-        rate_limit:
-          unit: minute
-          requests_per_unit: 100
+        descriptors:
+          - key: x-user
+            rate_limit:
+              unit: minute
+              requests_per_unit: 10
 ---
 apiVersion: v1
 kind: Service
@@ -179,68 +172,6 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
-  name: filter-ratelimit-svc
-  namespace: istio-system
-spec:
-  workloadSelector:
-    labels:
-      istio: ingressgateway
-  configPatches:
-    - applyTo: VIRTUAL_HOST
-      match:
-        context: GATEWAY
-        routeConfiguration:
-          vhost:
-            name: ""
-            route:
-              action: ANY
-      patch:
-        operation: MERGE
-        value:
-          rate_limits:
-            - actions:
-              - request_headers:
-                  header_name: ":path"
-                  descriptor_key: "PATH"
----
-###
-apiVersion: networking.istio.io/v1
-kind: VirtualService
-metadata:
-  name: bookinfo
-spec:
-  gateways:
-  - bookinfo-gateway #GW name
-  hosts:
-  - '*'
-  http:
-  - match:
-    - uri:
-        exact: /productpage
-    - uri:
-        prefix: /static
-    - uri:
-        exact: /login
-    - uri:
-        exact: /logout
-    route:
-    - destination:
-        host: productpage
-        port:
-          number: 9080
-  - match:
-    - uri:
-        prefix: /api/v1/products
-    route:
-    - destination:
-        host: productpage
-        port:
-          number: 9080
-    name: api
----
-apiVersion: networking.istio.io/v1alpha3
-kind: EnvoyFilter
-metadata:
   name: filter-ratelimit-svc-api
   namespace: istio-system
 spec:
@@ -253,7 +184,7 @@ spec:
         context: GATEWAY
         routeConfiguration:
           vhost:
-            name: "*:8080"
+            name: "*:80"
             route:
               name: "api"
       patch:
@@ -269,113 +200,7 @@ spec:
                     - name: ":path"
                       safe_regex_match:
                         google_re2: {}
-                        regex: "/api/v1/products/[1-9]{1,2}"
----
-apiVersion: networking.istio.io/v1alpha3
-kind: EnvoyFilter
-metadata:
-  name: filter-local-ratelimit-svc
-  namespace: istio-system
-spec:
-  workloadSelector:
-    labels:
-      app: productpage
-  configPatches:
-    - applyTo: HTTP_FILTER
-      match:
-        context: SIDECAR_INBOUND
-        listener:
-          filterChain:
-            filter:
-              name: "envoy.filters.network.http_connection_manager"
-      patch:
-        operation: INSERT_BEFORE
-        value:
-          name: envoy.filters.http.local_ratelimit
-          typed_config:
-            "@type": type.googleapis.com/udpa.type.v1.TypedStruct
-            type_url: type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
-            value:
-              stat_prefix: http_local_rate_limiter
-              token_bucket:
-                max_tokens: 4
-                tokens_per_fill: 4
-                fill_interval: 60s
-              filter_enabled:
-                runtime_key: local_rate_limit_enabled
-                default_value:
-                  numerator: 100
-                  denominator: HUNDRED
-              filter_enforced:
-                runtime_key: local_rate_limit_enforced
-                default_value:
-                  numerator: 100
-                  denominator: HUNDRED
-              response_headers_to_add:
-                - append: false
-                  header:
-                    key: x-local-rate-limit
-                    value: 'true'
----
-apiVersion: networking.istio.io/v1alpha3
-kind: EnvoyFilter
-metadata:
-  name: filter-local-ratelimit-svc
-  namespace: istio-system
-spec:
-  workloadSelector:
-    labels:
-      app: productpage
-  configPatches:
-    - applyTo: HTTP_FILTER
-      match:
-        context: SIDECAR_INBOUND
-        listener:
-          filterChain:
-            filter:
-              name: "envoy.filters.network.http_connection_manager"
-      patch:
-        operation: INSERT_BEFORE
-        value:
-          name: envoy.filters.http.local_ratelimit
-          typed_config:
-            "@type": type.googleapis.com/udpa.type.v1.TypedStruct
-            type_url: type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
-            value:
-              stat_prefix: http_local_rate_limiter
-    - applyTo: HTTP_ROUTE
-      match:
-        context: SIDECAR_INBOUND
-        routeConfiguration:
-          vhost:
-            name: "inbound|http|9080"
-            route:
-              action: ANY
-      patch:
-        operation: MERGE
-        value:
-          typed_per_filter_config:
-            envoy.filters.http.local_ratelimit:
-              "@type": type.googleapis.com/udpa.type.v1.TypedStruct
-              type_url: type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
-              value:
-                stat_prefix: http_local_rate_limiter
-                token_bucket:
-                  max_tokens: 4
-                  tokens_per_fill: 4
-                  fill_interval: 60s
-                filter_enabled:
-                  runtime_key: local_rate_limit_enabled
-                  default_value:
-                    numerator: 100
-                    denominator: HUNDRED
-                filter_enforced:
-                  runtime_key: local_rate_limit_enforced
-                  default_value:
-                    numerator: 100
-                    denominator: HUNDRED
-                response_headers_to_add:
-                  - append: false
-                    header:
-                      key: x-local-rate-limit
-                      value: 'true'
+                        regex: "/api/submit"
+              - request_headers:
+                  header_name: "x-user"
+                  descriptor_key: "x-user"
