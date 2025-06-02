@@ -138,7 +138,7 @@ Approved PR:
 
 Created PR: https://github.com/remla25-team5/operation/pull/31 (Contributed to A5, Implemented the Istio Traffic Management)
 
-Approved PR: 
+Approved PR: https://github.com/remla25-team5/operation/pull/33
 
 -- **Tadas Žaliauskas**: --
 
