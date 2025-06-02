@@ -26,7 +26,7 @@ Approved PR: https://github.com/remla25-team5/model-service/pull/7
 
 -- **Reinier Schep**: --
 
-Created PR: https://github.com/remla25-team5/app/pull/16
+Created PR: https://github.com/remla25-team5/app/pull/16 (Contributed to A1, Implemented "app")
 
 Approved PR: https://github.com/remla25-team5/lib-ml/pull/6
 
@@ -58,7 +58,7 @@ Approved PR: https://github.com/remla25-team5/operation/pull/10
 
 -- **Reinier Schep**: --
 
-Created PR: https://github.com/remla25-team5/operation/pull/10
+Created PR: https://github.com/remla25-team5/operation/pull/10 (Contributed to A2, Implemented steps 11-15)
 
 Approved PR: https://github.com/remla25-team5/operation/pull/12 
 
@@ -90,7 +90,7 @@ Approved PR: https://github.com/remla25-team5/operation/pull/26
 
 -- **Reinier Schep**: --
 
-Created PR: https://github.com/remla25-team5/app/pull/24
+Created PR: https://github.com/remla25-team5/app/pull/24 (Contributed to A3, Implemented "enable monitoring" which exposes /metrics endpoint)
 
 Approved PR: https://github.com/remla25-team5/operation/pull/12 
 
@@ -122,7 +122,7 @@ Approved PR: https://github.com/remla25-team5/model-training/pull/8
 
 -- **Reinier Schep**: --
 
-Created PR: https://github.com/remla25-team5/model-training/pull/8
+Created PR: https://github.com/remla25-team5/model-training/pull/8 (Contributed to A4, Implemented "Project Organization" by using the cookiecutter-data-science template)
 
 Approved PR: https://github.com/remla25-team5/model-training/pull/12
 
@@ -154,6 +154,6 @@ Approved PR:
 
 -- **Reinier Schep**: --
 
-Created PR: https://github.com/remla25-team5/operation/pull/33
+Created PR: https://github.com/remla25-team5/operation/pull/33 (Contributed to A5, "Continuous Experimentation")
 
 Approved PR: https://github.com/remla25-team5/model-service/pull/14
