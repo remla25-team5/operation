@@ -19,4 +19,14 @@ spec:
         severity: warning
         app: {{ include "sentiment-app-chart.name" . }}
         namespace: 'default'
+  - name: model_quality
+  # Test Monitor 7: the model has not experienced a regression in prediction quality on served data
+    rules:
+      - alert: ModelPredictionErrorRateHigh
+        expr: verification_error_rate_last_week > 0.2
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Model prediction error rate is above 20% in the last week"
 {{- end }}
