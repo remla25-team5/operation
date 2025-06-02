@@ -25,6 +25,9 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: {{ .Values.app.port }}
+          env:
+            - name: APP_VERSION 
+              value: "v1"
           envFrom:
             - configMapRef:
                 name: {{ include "sentiment-app-chart.fullname" . }}-app-env
@@ -37,7 +40,6 @@ spec:
         - name: shared-data
           hostPath:
             path: /mnt/shared
-
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -51,7 +53,7 @@ spec:
   selector:
     matchLabels:
       app: {{ include "sentiment-app-chart.fullname" . }}-app
-      {{- include "sentiment-app-chart.selectorLabels" . | nindent 6 }}
+      {{- include "sentiment-app-chart.selectorLabels" .  | nindent 6 }}
       version: v2
   template:
     metadata:
@@ -66,6 +68,9 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: {{ .Values.app.port }}
+          env:
+            - name: APP_VERSION 
+              value: "v2"
           envFrom:
             - configMapRef:
                 name: {{ include "sentiment-app-chart.fullname" . }}-app-env

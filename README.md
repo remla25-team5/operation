@@ -274,6 +274,12 @@ kubectl apply -f istio-1.26.0/samples/addons/jaeger.yaml
 kubectl apply -f istio-1.26.0/samples/addons/kiali.yaml
 kubectl label ns default istio-injection=enabled
 ```
+If you want to measure prometheus scraping from the service mesh, you should also install the prometheus addon and enable the dashboard of kiali:
+```bash
+kubectl apply -f istio-1.26.0/samples/addons/prometheus.yaml
+istioctl dashboard kiali
+```
+This will run next to the prometheus installation outside the cluster. This setup was decided so the custom dashboard can be automatically injected and seen. 
 
 #### Checking the Istio Ingress Gateway IP on Minikube
 
