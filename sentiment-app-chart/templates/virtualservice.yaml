@@ -34,3 +34,4 @@ spec:
         weight: 90
       - destination: { host: {{ include "sentiment-app-chart.fullname" . }}-app, subset: v2 }
         weight: 10
+      name: api
