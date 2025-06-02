@@ -130,9 +130,9 @@ Approved PR: https://github.com/remla25-team5/model-training/pull/12
 
 -- **Kristóf Sándor**: --
 
-Created PR: 
+Created PR: https://github.com/remla25-team5/operation/pull/39 (Contributed to A5, Extension Proposal)
 
-Approved PR: 
+Approved PR: https://github.com/remla25-team5/operation/pull/36
 
 -- **Kevin Hoxha**: --
 
