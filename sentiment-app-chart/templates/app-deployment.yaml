@@ -25,6 +25,9 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: {{ .Values.app.port }}
+          env:
+            - name: APP_VERSION 
+              value: "v1"
           envFrom:
             - configMapRef:
                 name: {{ include "sentiment-app-chart.fullname" . }}-app-env
@@ -65,6 +68,9 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: {{ .Values.app.port }}
+          env:
+            - name: APP_VERSION 
+              value: "v2"
           envFrom:
             - configMapRef:
                 name: {{ include "sentiment-app-chart.fullname" . }}-app-env

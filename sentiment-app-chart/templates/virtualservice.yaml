@@ -28,6 +28,29 @@ spec:
             subset: v1
           weight: 100
     - match:
+        - headers: 
+            cookie: 
+              regex: ".*app-version-preference=v1.*"
+          uri:
+            prefix: /
+      route:
+        - destination:
+            host: {{ include "sentiment-app-chart.fullname" . }}-app
+            subset: v1
+          weight: 100
+
+    - match:
+        - headers:
+            cookie:
+              regex: ".*app-version-preference=v2.*"
+          uri:
+            prefix: /
+      route:
+        - destination:
+            host: {{ include "sentiment-app-chart.fullname" . }}-app
+            subset: v2
+          weight: 100
+    - match:
         - uri: { prefix: / }
       route:
       - destination: { host: {{ include "sentiment-app-chart.fullname" . }}-app, subset: v1 }

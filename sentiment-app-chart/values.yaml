@@ -25,6 +25,7 @@ grafana:
   ingress:
     host: grafana.local
     servicePort: 80
+    useIstio: true
   
 
 

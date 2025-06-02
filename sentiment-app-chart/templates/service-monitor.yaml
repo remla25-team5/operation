@@ -12,5 +12,6 @@ spec:
       interval: 15s
   selector:
     matchLabels:
-      {{- include "sentiment-app-chart.labels" . | nindent 4 }}
+      {{- include "sentiment-app-chart.labels" . | nindent 6 }}
+      monitoring-target: "true"
 {{- end }}

@@ -4,6 +4,7 @@ metadata:
   name: {{ include "sentiment-app-chart.fullname" . }}-app
   labels:
     {{- include "sentiment-app-chart.labels" . | nindent 4 }}
+    monitoring-target: "true"
 spec:
   ports:
     - name: http
