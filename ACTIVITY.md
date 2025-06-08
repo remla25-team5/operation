@@ -157,3 +157,35 @@ Approved PR: https://github.com/remla25-team5/operation/pull/31
 Created PR: https://github.com/remla25-team5/operation/pull/33 (Contributed to A5, "Continuous Experimentation")
 
 Approved PR: https://github.com/remla25-team5/model-service/pull/14
+
+# Week 7
+
+-- **Kristóf Sándor**: --
+
+Created PR: 
+
+Approved PR: 
+
+-- **Kevin Hoxha**: --
+
+Created PR: 
+
+Approved PR: 
+
+-- **Tadas Žaliauskas**: --
+
+Created PR: 
+
+Approved PR: 
+
+-- **Jorn Dijk** --
+
+Created PR: 
+
+Approved PR: 
+
+-- **Reinier Schep**: --
+
+Created PR: 
+
+Approved PR: 
