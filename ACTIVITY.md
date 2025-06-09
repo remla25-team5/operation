@@ -167,9 +167,9 @@ Approved PR: https://github.com/remla25-team5/operation/pull/43
 
 -- **Kevin Hoxha**: --
 
-Created PR: 
+Created PR: https://github.com/remla25-team5/model-training/pull/18 (Contributed to A4, added new tests to cover all ML Test Score categories and meet all the 'good' rubric requirements)
 
-Approved PR: 
+Approved PR: https://github.com/remla25-team5/lib-ml/pull/10
 
 -- **Tadas Žaliauskas**: --
 
