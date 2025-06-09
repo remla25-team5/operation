@@ -157,3 +157,34 @@ Approved PR: https://github.com/remla25-team5/operation/pull/31
 Created PR: https://github.com/remla25-team5/operation/pull/33 (Contributed to A5, "Continuous Experimentation")
 
 Approved PR: https://github.com/remla25-team5/model-service/pull/14
+
+# Week 7
+
+-- **Kristóf Sándor**: --
+
+Created PR: https://github.com/remla25-team5/model-training/pull/17 (Contributed to A4, Test non functional requirements)
+Approved PR: https://github.com/remla25-team5/operation/pull/43
+
+-- **Kevin Hoxha**: --
+
+Created PR: https://github.com/remla25-team5/model-training/pull/18 (Contributed to A4, added new tests to cover all ML Test Score categories and meet all the 'good' rubric requirements)
+
+Approved PR: https://github.com/remla25-team5/lib-ml/pull/10
+
+-- **Tadas Žaliauskas**: --
+
+Created PR: 
+
+Approved PR: 
+
+-- **Jorn Dijk** --
+
+Created PR: https://github.com/remla25-team5/model-service/pull/15 (Automatic versioning, made the same PR in all repos)
+
+Approved PR: https://github.com/remla25-team5/model-training/pull/18 
+
+-- **Reinier Schep**: --
+
+Created PR: 
+
+Approved PR: 
