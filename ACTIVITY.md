@@ -180,7 +180,7 @@ Approved PR:
 
 -- **Jorn Dijk** --
 
-Created PR: 
+Created PR: https://github.com/remla25-team5/model-service/pull/15 (Automatic versioning, made the same PR in all repos)
 
 Approved PR: 
 
