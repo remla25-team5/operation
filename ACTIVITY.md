@@ -181,7 +181,7 @@ Approved PR:
 
 Created PR: https://github.com/remla25-team5/model-service/pull/15 (Automatic versioning, made the same PR in all repos)
 
-Approved PR: 
+Approved PR: https://github.com/remla25-team5/model-training/pull/18 
 
 -- **Reinier Schep**: --
 
