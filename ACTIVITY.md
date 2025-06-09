@@ -162,9 +162,8 @@ Approved PR: https://github.com/remla25-team5/model-service/pull/14
 
 -- **Kristóf Sándor**: --
 
-Created PR: 
-
-Approved PR: 
+Created PR: https://github.com/remla25-team5/model-training/pull/17 (Contributed to A4, Test non functional requirements)
+Approved PR: https://github.com/remla25-team5/operation/pull/43
 
 -- **Kevin Hoxha**: --
 
