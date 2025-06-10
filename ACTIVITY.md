@@ -173,9 +173,9 @@ Approved PR: https://github.com/remla25-team5/lib-ml/pull/10
 
 -- **Tadas Žaliauskas**: --
 
-Created PR: 
+Created PR: https://github.com/remla25-team5/operation/pull/43 (Contributed to meeting A2 excellent requirements (Setting up Kubernetes))
 
-Approved PR: 
+Approved PR: https://github.com/remla25-team5/lib-ml/pull/10
 
 -- **Jorn Dijk** --
 
