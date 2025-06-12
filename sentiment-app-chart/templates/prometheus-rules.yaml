@@ -12,13 +12,9 @@ spec:
     - alert: RapidSubmissionIncrease
       expr: rate(total_submissions_total[60s]) > 0.25
       for: 2m
-      annotations:
-        title: 'the service receives more than 15 submissions per minute for two minutes straight'
-        description: 'the service receives more than 15 submissions per minute for two minutes straight'
       labels:
         severity: warning
         app: {{ include "sentiment-app-chart.name" . }}
-        namespace: 'default'
   - name: model_quality
   # Test Monitor 7: the model has not experienced a regression in prediction quality on served data
     rules:

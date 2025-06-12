@@ -70,6 +70,7 @@ Vagrant.configure("2") do |config|
     ctrl.vm.box_version = BOX_VERSION
 
     ctrl.vm.synced_folder ".", "/vagrant", type: "virtualbox"
+    ctrl.vm.synced_folder "mnt/shared/", "/mnt/shared"
 
     ctrl.vm.provision :ansible do |a|
       a.playbook = "ansible-provisioning/general.yaml"
@@ -110,6 +111,7 @@ Vagrant.configure("2") do |config|
       node.vm.hostname = "node-#{n}"
       node.vm.box = BOX_IMAGE
       node.vm.box_version = BOX_VERSION
+      node.vm.synced_folder "mnt/shared/", "/mnt/shared"
 
       node.vm.provision :ansible do |a|
         a.playbook = "ansible-provisioning/general.yaml"
