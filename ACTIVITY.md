@@ -188,3 +188,34 @@ Approved PR: https://github.com/remla25-team5/model-training/pull/18
 Created PR: 
 
 Approved PR: 
+
+# Week 8
+
+-- **Kristóf Sándor**: --
+
+Created PR: 
+Approved PR: 
+
+-- **Kevin Hoxha**: --
+
+Created PR: 
+
+Approved PR: 
+
+-- **Tadas Žaliauskas**: --
+
+Created PR: 
+
+Approved PR: 
+
+-- **Jorn Dijk** --
+
+Created PR: 
+
+Approved PR: 
+
+-- **Reinier Schep**: --
+
+Created PR: 
+
+Approved PR: 
