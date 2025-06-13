@@ -194,11 +194,12 @@ Approved PR:
 -- **Kristóf Sándor**: --
 
 Created PR: 
+
 Approved PR: 
 
 -- **Kevin Hoxha**: --
 
-Created PR: 
+Created PR: https://github.com/remla25-team5/model-training/pull/20 (Contributed to A4, calculated the ML Test Score, added mutamorphic tests, reached all 'excellent' rubric requirements)
 
 Approved PR: 
 
