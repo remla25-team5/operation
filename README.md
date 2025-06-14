@@ -248,13 +248,22 @@ helm uninstall sentiment-app
 
 ### Automated tests
 
-Feature and Data here: https://github.com/remla25-team5/lib-ml with pytest
-Model Development: already done before: 
-- Model 1: Every model specification undergoes a
-code review and is checked in to a repository
-- Model 3: All hyperparameters have been tuned:
-ML Infra here: https://github.com/remla25-team5/model-training with pytest
-Monitoring: rubric with Prometheus in operations + code in app to measure if error rate gets worse than a set number
+The testing framework calculates an ML Test Score based on test results across different categories:
+- Features
+- Monitoring
+- ML Infrastructure
+- Model Development
+
+These tests are found under `tests/` in the `model-training` repo. The scores are displayed in the terminal output and contribute to the ML Score badge in the `model-training` README.
+
+#### Mutamorphic Testing with Automatic Repair
+
+The `model-training` repo includes mutamorphic tests that automatically detect and repair inconsistencies in model behavior. These tests check if model predictions remain consistent across different mutations of the same test input data, such as replacing words with synonyms.
+
+Mutamorphic testing works by:
+1. Generating the test input data.
+2. Testing if replacing words with synonyms leads to the same model predictions.
+3. If predictions differ, the test fails and the code attempts to repair the issue by trying other synonyms to automatically repair consistencies.
 
 ## Assignment 5
 
