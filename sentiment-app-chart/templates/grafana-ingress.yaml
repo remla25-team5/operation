@@ -1,4 +1,4 @@
-{{- if and .Values.monitoring.enabled (not .Values.grafana.useIstio) }}
+{{- if and .Values.monitoring.enabled (not .Values.grafana.ingress.useIstio) }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:

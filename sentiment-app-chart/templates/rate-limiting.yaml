@@ -184,7 +184,7 @@ spec:
         context: GATEWAY
         routeConfiguration:
           vhost:
-            name: "*:80"
+            name: "sentiment-app.local:80"
             route:
               name: "api"
       patch:
