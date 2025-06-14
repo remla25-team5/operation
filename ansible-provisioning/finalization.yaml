@@ -59,6 +59,10 @@
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
       spec:
         ingressClassName: nginx
+        tls:
+        - hosts:
+          - dashboard.local
+          secretName: testsecret-tls
         rules:
           - host: "dashboard.local"
             http:
@@ -181,6 +185,22 @@
         content: "{{ dashboard_ingress_setup_yaml }}"
         dest: "/tmp/dashboard-ingress.yaml"
         mode: '0644'
+
+    - name: testsecret-tls
+      ansible.builtin.copy:
+        content: |
+          apiVersion: v1
+          kind: Secret
+          metadata:
+            name: testsecret-tls
+            namespace: kubernetes-dashboard
+          data:
+            tls.crt: {{ lookup('ansible.builtin.file', 'tls.crt') | b64encode }}
+            tls.key: {{ lookup('ansible.builtin.file', 'tls.key') | b64encode }}
+          type: kubernetes.io/tls
+        dest: /etc/testsecret-tls.yml
+    - name: self-signed certificates
+      ansible.builtin.shell: kubectl apply -f /etc/testsecret-tls.yml
 
     - name: Wait ingress-nginx
       ansible.builtin.shell: kubectl wait -n {{ nginx_ingress_repo_name|quote }} --all --for=condition=ready pod --timeout=60s
