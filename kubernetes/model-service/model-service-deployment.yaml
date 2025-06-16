@@ -30,16 +30,4 @@ spec:
           name: model-service
           ports:
             - containerPort: 5000
-          volumeMounts:
-            - mountPath: /app/model-cache
-              name: model-service-claim1
-            - mountPath: /app/cv-cache
-              name: model-service-claim1
       restartPolicy: Always
-      volumes:
-        - name: model-service-claim0
-          persistentVolumeClaim:
-            claimName: model-service-claim0
-        - name: model-service-claim1
-          persistentVolumeClaim:
-            claimName: model-service-claim1
