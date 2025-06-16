@@ -185,6 +185,38 @@ Approved PR: https://github.com/remla25-team5/model-training/pull/18
 
 -- **Reinier Schep**: --
 
+Created PR: https://github.com/remla25-team5/operation/pull/40 (Contributed to Assignment 5, "Deployment Documentation" by adding the necessary documentation like architecture diagram etc.)
+
+Approved PR: https://github.com/remla25-team5/operation/pull/34
+
+# Week 8
+
+-- **Kristóf Sándor**: --
+
 Created PR: 
 
 Approved PR: 
+
+-- **Kevin Hoxha**: --
+
+Created PR: https://github.com/remla25-team5/model-training/pull/20 (Contributed to A4, calculated the ML Test Score, added mutamorphic tests, reached all 'excellent' rubric requirements)
+
+Approved PR: https://github.com/remla25-team5/operation/pull/43
+
+-- **Tadas Žaliauskas**: --
+
+Created PR: https://github.com/remla25-team5/operation/pull/44 (Contributed to A3 mount shared folder in VMs, added test for nondeterminism robustness https://github.com/remla25-team5/model-training/pull/21 , fixed issue regarding k8s modules loading https://github.com/remla25-team5/operation/pull/47 )
+
+Approved PR: https://github.com/remla25-team5/model-training/pull/20
+
+-- **Jorn Dijk** --
+
+Created PR: https://github.com/remla25-team5/model-training/pull/22 (Added better model and fixed pylint, bandit and flake8 issues)
+
+Approved PR: 
+
+-- **Reinier Schep**: --
+
+Created PR: None, my all tasks are already at excellent level
+
+Approved PR: https://github.com/remla25-team5/operation/pull/46
