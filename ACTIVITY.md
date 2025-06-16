@@ -211,7 +211,7 @@ Approved PR: https://github.com/remla25-team5/model-training/pull/20
 
 -- **Jorn Dijk** --
 
-Created PR: 
+Created PR: https://github.com/remla25-team5/model-training/pull/22 (Added better model and fixed pylint, bandit and flake8 issues)
 
 Approved PR: 
 
