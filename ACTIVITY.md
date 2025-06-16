@@ -201,7 +201,7 @@ Approved PR:
 
 Created PR: https://github.com/remla25-team5/model-training/pull/20 (Contributed to A4, calculated the ML Test Score, added mutamorphic tests, reached all 'excellent' rubric requirements)
 
-Approved PR: 
+Approved PR: https://github.com/remla25-team5/operation/pull/43
 
 -- **Tadas Žaliauskas**: --
 
