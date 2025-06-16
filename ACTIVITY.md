@@ -205,9 +205,9 @@ Approved PR: https://github.com/remla25-team5/operation/pull/43
 
 -- **Tadas Žaliauskas**: --
 
-Created PR: 
+Created PR: https://github.com/remla25-team5/operation/pull/44 (Contributed to A3 mount shared folder in VMs, added test for nondeterminism robustness https://github.com/remla25-team5/model-training/pull/21 , fixed issue regarding k8s modules loading https://github.com/remla25-team5/operation/pull/47 )
 
-Approved PR: 
+Approved PR: https://github.com/remla25-team5/model-training/pull/20
 
 -- **Jorn Dijk** --
 
