@@ -185,9 +185,9 @@ Approved PR: https://github.com/remla25-team5/model-training/pull/18
 
 -- **Reinier Schep**: --
 
-Created PR: 
+Created PR: https://github.com/remla25-team5/operation/pull/40 (Contributed to Assignment 5, "Deployment Documentation" by adding the necessary documentation like architecture diagram etc.)
 
-Approved PR: 
+Approved PR: https://github.com/remla25-team5/operation/pull/34
 
 # Week 8
 
@@ -217,6 +217,6 @@ Approved PR:
 
 -- **Reinier Schep**: --
 
-Created PR: 
+Created PR: None, my all tasks are already at excellent level
 
-Approved PR: 
+Approved PR: https://github.com/remla25-team5/operation/pull/46
