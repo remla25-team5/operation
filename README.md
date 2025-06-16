@@ -286,6 +286,11 @@ kubectl apply -f istio-1.26.0/samples/addons/jaeger.yaml
 kubectl apply -f istio-1.26.0/samples/addons/kiali.yaml
 kubectl label ns default istio-injection=enabled
 ```
+If running the cluster on VM, don't forget to execute the following commands for convenience (192.168.56.91 is Istio load balancer IP):
+```bash
+echo "192.168.56.91 sentiment-app.local" | sudo tee -a /etc/hosts
+echo "192.168.56.91 grafana.local" | sudo tee -a /etc/hosts
+```
 If you want to measure prometheus scraping from the service mesh, you should also install the prometheus addon and enable the dashboard of kiali:
 ```bash
 kubectl apply -f istio-1.26.0/samples/addons/prometheus.yaml
