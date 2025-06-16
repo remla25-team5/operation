@@ -237,3 +237,9 @@
       ansible.builtin.shell: istioctl install -y -f config.yml
     - name: Enable Istio
       ansible.builtin.shell: kubectl label ns default istio-injection=enabled
+#    - name: Jaeger
+#      ansible.builtin.shell: kubectl apply -f /usr/local/bin/istio-1.25.2/samples/addons/jaeger.yaml
+#    - name: Kiali
+#      ansible.builtin.shell: kubectl apply -f /usr/local/bin/istio-1.25.2/samples/addons/kiali.yaml
+#    - name: sentiment-app
+#      ansible.builtin.shell: helm install sentiment-app /vagrant/sentiment-app-chart --set monitoring.enabled=true
