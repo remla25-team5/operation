@@ -53,7 +53,9 @@
     # Step 6: Enable br_netfilter
     - name: Ensure br_netfilter is loaded on boot
       ansible.builtin.copy:
-        content: 'overlay br_netfilter'
+        content: |
+          overlay
+          br_netfilter
         dest: /etc/modules-load.d/k8s.conf
 
     - name: Load br_netfilter module now
