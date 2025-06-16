@@ -234,7 +234,10 @@ The grafana UI can be accessed at [http://grafana.local](http://grafana.local) w
 
 In order to see alert manager dashboard, call `minikube service sentiment-app-kube-prometh-alertmanager --url`.
 Submissions can be simulated easily with the command:
-`for i in `seq 1 100`; do curl 'http://127.0.0.1:<app service port>/api/submit' -H 'Content-Type: application/json' --data-raw '{"text":"review"}'; done`
+```bash
+minikube tunnel
+for i in `seq 1 100`; do curl 'http://localhost/api/submit' -H 'Content-Type: application/json' -H 'Host: sentiment-app.local' --data-raw '{"text":"review"}'; done
+```
 
 ##### Uninstalling the Chart
 
@@ -342,7 +345,7 @@ You can verify this by repeatedly refreshing the page or sending multiple curl r
 To test rate limiting, call 
 ```bash
 minikube tunnel
-for i in {1..11}; do curl -s "http://localhost/api/submit" -H 'Content-Type: application/json' -H 'x-user: ricky' --data '{"text":"review"}' -o /dev/null -w "%{http_code}\n"; sleep 1; done
+for i in {1..11}; do curl -s "http://localhost/api/submit" -H 'Content-Type: application/json' -H 'Host: sentiment-app.local' -H 'x-user: ricky' --data '{"text":"review"}' -o /dev/null -w "%{http_code}\n"; sleep 1; done
 ```
 You can vary `x-user` header parameter to notice that limit is being applied per user header for a specific service API (users that send more than 10 requests per minute get temporarily blocked).
 
