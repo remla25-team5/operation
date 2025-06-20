@@ -10,7 +10,7 @@ On top of this, the model version is specified in an .env file, which is still a
 
 ## Solution
 
-![Extension Proposal](conventional-commits.png)
+![Extension Proposal](conventional-commits.jpg)
 
 We came up with an extension to fix these problems based on [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/#summary) and [Release Please](https://github.com/googleapis/release-please). 
 
