@@ -231,7 +231,7 @@ Approved PR:
 
 -- **Kevin Hoxha**: --
 
-Created PR: 
+Created PR: https://github.com/remla25-team5/operation/pull/49 (Contributed to A5, improved the `deployment.md` file by adding an overview of the K8S architecture and improving the existing documentation. Also included dashboard screenshots to the `continuous-experimentation.md` file)
 
 Approved PR: 
 
