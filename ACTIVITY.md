@@ -220,3 +220,35 @@ Approved PR:
 Created PR: None, my all tasks are already at excellent level
 
 Approved PR: https://github.com/remla25-team5/operation/pull/46
+
+# Week 9
+
+-- **Kristóf Sándor**: --
+
+Created PR: 
+
+Approved PR: 
+
+-- **Kevin Hoxha**: --
+
+Created PR: 
+
+Approved PR: 
+
+-- **Tadas Žaliauskas**: --
+
+Created PR: 
+
+Approved PR: 
+
+-- **Jorn Dijk** --
+
+Created PR: 
+
+Approved PR: 
+
+-- **Reinier Schep**: --
+
+Created PR: 
+
+Approved PR: 
