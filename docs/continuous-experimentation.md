@@ -59,8 +59,11 @@ These visualizations help determine whether the experimental version shows meani
 
 ### Example Dashboard
 
-![Grafana Dashboard Screenshot](./grafana-sentiment-experiment.png)
+![Grafana Dashboard Screenshot](grafana-sentiment-experiment.jpg)
 
+### Agreement Rate Comparison
+
+![Agreement Rate Comparison](agreement-rate-comparison.jpg)
 
 ## 7. Decision Process
 
