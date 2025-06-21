@@ -285,6 +285,14 @@ istioctl install
 kubectl apply -f istio-1.26.0/samples/addons/jaeger.yaml
 kubectl apply -f istio-1.26.0/samples/addons/kiali.yaml
 kubectl label ns default istio-injection=enabled
+
+cd ./sentiment-app-chart
+helm dependency build
+cd ..
+
+# Install the Helm chart (optionally, Gmail inbox and App password https://support.google.com/accounts/answer/185833?hl=en are needed for receiving alerts)
+# Default enabled Istio
+helm install sentiment-app ./sentiment-app-chart --set monitoring.enabled=true --set gmailEmail=<value>@gmail.com --set emailPassword=<value>
 ```
 If running the cluster on VM, don't forget to execute the following commands for convenience (192.168.56.91 is Istio load balancer IP):
 ```bash
