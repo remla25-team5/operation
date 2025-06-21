@@ -1,4 +1,4 @@
-{{- if .Values.monitoring.enabled }}
+{{- if and .Values.monitoring.enabled .Values.istioEnabled }}
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:

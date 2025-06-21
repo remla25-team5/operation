@@ -206,7 +206,7 @@ helm dependency build
 cd ..
 
 # Install the Helm chart (optionally, Gmail inbox and App password https://support.google.com/accounts/answer/185833?hl=en are needed for receiving alerts)
-helm install sentiment-app ./sentiment-app-chart --set monitoring.enabled=true --set gmailEmail=<value>@gmail.com --set emailPassword=<value>
+helm install sentiment-app ./sentiment-app-chart --set monitoring.enabled=true --set istioEnabled=false --set gmailEmail=<value>@gmail.com --set emailPassword=<value>
 
 # Verify the deployment
 kubectl get pods
