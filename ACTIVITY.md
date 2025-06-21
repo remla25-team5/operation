@@ -246,9 +246,9 @@ Approved PR:
 
 -- **Jorn Dijk** --
 
-Created PR: 
+Created PR: https://github.com/remla25-team5/app/pull/35 (Contributed to A5, add visual to see if someone is on the feature branch or not and fixed the feature branch)
 
-Approved PR: 
+Approved PR: https://github.com/remla25-team5/operation/pull/49
 
 -- **Reinier Schep**: --
 
