@@ -345,7 +345,8 @@ If no header is present (`x-experiment` not sent), Istio **dynamically splits tr
 * **90%** of users will be routed to `v1`.
 * **10%** will see `v2`.
 
-You can verify this by repeatedly refreshing the page or sending multiple curl requests without the header.
+The version is set using a cookie on first entrance on the web, so repeatedly refreshing will not work. This makes it hard to see the feature version (v2), so to see this we recommend setting the `x-experiment: true` header. 
+This can be done in a browser using an extension such as ModHeader for google chrome: https://chromewebstore.google.com/detail/modheader-modify-http-hea/idgpnmonknjnojddfkpgkljpfnnfcklj?pli=1
 
 To test rate limiting, call 
 ```bash
