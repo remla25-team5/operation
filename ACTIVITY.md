@@ -1,4 +1,6 @@
-# Week 2
+### Week Q4.1 (Apr 21+) -- No work
+
+### Week Q4.2 (Apr 28+)
 
 -- **Kristóf Sándor**: --
 
@@ -30,7 +32,7 @@ Created PR: https://github.com/remla25-team5/app/pull/16 (Contributed to A1, Imp
 
 Approved PR: https://github.com/remla25-team5/lib-ml/pull/6
 
-# Week 3
+### Week Q4.3 (May 5+)
 
 -- **Kristóf Sándor**: --
 
@@ -62,7 +64,7 @@ Created PR: https://github.com/remla25-team5/operation/pull/10 (Contributed to A
 
 Approved PR: https://github.com/remla25-team5/operation/pull/12 
 
-# Week 4
+### Week Q4.4 (May 12+)
 
 -- **Kristóf Sándor**: --
 
@@ -94,7 +96,7 @@ Created PR: https://github.com/remla25-team5/app/pull/24 (Contributed to A3, Imp
 
 Approved PR: https://github.com/remla25-team5/operation/pull/12 
 
-# Week 5
+### Week Q4.5 (May 19+)
 
 -- **Kristóf Sándor**: --
 
@@ -126,7 +128,7 @@ Created PR: https://github.com/remla25-team5/model-training/pull/8 (Contributed 
 
 Approved PR: https://github.com/remla25-team5/model-training/pull/12
 
-# Week 6
+### Week Q4.6 (May 26+)
 
 -- **Kristóf Sándor**: --
 
@@ -158,7 +160,7 @@ Created PR: https://github.com/remla25-team5/operation/pull/33 (Contributed to A
 
 Approved PR: https://github.com/remla25-team5/model-service/pull/14
 
-# Week 7
+### Week Q4.7 (Jun 2+)
 
 -- **Kristóf Sándor**: --
 
@@ -189,7 +191,7 @@ Created PR: https://github.com/remla25-team5/operation/pull/40 (Contributed to A
 
 Approved PR: https://github.com/remla25-team5/operation/pull/34
 
-# Week 8
+### Week Q4.8 (Jun 9+)
 
 -- **Kristóf Sándor**: --
 
@@ -221,7 +223,7 @@ Created PR: None, my all tasks are already at excellent level
 
 Approved PR: https://github.com/remla25-team5/operation/pull/46
 
-# Week 9
+### Week Q4.9 (Jun 16+)
 
 -- **Kristóf Sándor**: --
 
