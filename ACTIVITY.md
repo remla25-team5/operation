@@ -252,6 +252,6 @@ Approved PR: https://github.com/remla25-team5/operation/pull/49
 
 -- **Reinier Schep**: --
 
-Created PR: 
+Created PR: None, my all tasks are already at excellent level
 
-Approved PR: 
+Approved PR: https://github.com/remla25-team5/operation/pull/44
