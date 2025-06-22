@@ -199,6 +199,8 @@ If you're using minikube instead of the Vagrant setup:
 ```bash
 # Start minikube if not already running
 minikube start
+minikube addons enable ingress
+
 
 # Prometheus is added as a dependency which should be fetched is you want monitoring
 cd ./sentiment-app-chart
