@@ -221,7 +221,8 @@ echo "$(minikube ip) sentiment-app.local" | sudo tee -a /etc/hosts
 echo "$(minikube ip) grafana.local" | sudo tee -a /etc/hosts
 ```
 
-Then, you can access the app at [http://sentiment-app.local](http://sentiment-app.local).
+Then, you can access the app at <release_name>.local so for this installation it will be [http://sentiment-app.local](http://sentiment-app.local).
+It is to note that when you deploy the same helm chart multiple times with monitoring enabled, prometheus and grafana will not pick up both, so when testing installation multiple times in a single cluster do `--set monitoring.enabled=false`
 
 If monitoring is enabled you can run the following command to open the port-forwarding to the Prometheus UI:
 ```bash
@@ -240,6 +241,8 @@ Submissions can be simulated easily with the command:
 minikube tunnel
 for i in `seq 1 100`; do curl 'http://localhost/api/submit' -H 'Content-Type: application/json' -H 'Host: sentiment-app.local' --data-raw '{"text":"review"}'; done
 ```
+
+
 
 ##### Uninstalling the Chart
 

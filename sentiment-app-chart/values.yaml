@@ -5,6 +5,9 @@ app:
   tag: latest
   port: 8080
   tagv2: v2.latest
+  ingress:
+    host: .local
+    servicePort: 80
 
 modelService:
   image: ghcr.io/remla25-team5/model-service
