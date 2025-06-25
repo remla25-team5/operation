@@ -67,7 +67,7 @@ By default the app image is run on port 8080, and the model image is run on port
 Run with:
 
 ```bash
-docker-compose up
+docker-compose up --pull always
 ```
 The app can then be accessed at [http://localhost:8080](http://localhost:8080).
 
