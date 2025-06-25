@@ -14,7 +14,7 @@ spec:
         prefix: /                                    
     route:
     - destination:
-        host: sentiment-app-grafana               
+        host: {{ .Release.Name }}-grafana               
         port:
           number: {{ .Values.grafana.ingress.servicePort | default 80 }}
 {{- end }}
