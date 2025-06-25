@@ -4,7 +4,7 @@ kind: VirtualService
 metadata: { name: {{ include "sentiment-app-chart.fullname" . }}-virtualservice }
 spec:
     gateways: [ {{ include "sentiment-app-chart.fullname" . }}-gateway ]
-    hosts: [ "sentiment-app.local" ]
+    hosts: [ {{ printf "%s%s" .Release.Name .Values.app.ingress.host | quote }} ]
     http:
     - match:
         - headers:
