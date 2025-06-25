@@ -33,6 +33,11 @@ Go to `https://github.com/remla25-team5/app/blob/main/Dockerfile`
 Go to `https://github.com/remla25-team5/app/actions/workflows/deployment.yml` and run the workflow to verify it
 
 
+
+![Workflow Diagram](workflow.png)
+
+
+
 ### Software Reuse in Libraries
 
 #### Excellent ✅
@@ -141,6 +146,12 @@ Verify
 - An AlertManager is configured with at least one non-trivial PrometheusRule .
 
 Check `https://github.com/remla25-team5/operation/blob/main/sentiment-app-chart/templates/alert-manager.yaml`
+
+
+To trigger the alert as in the picture below, you need to spam the submission button in our frontend to trigger it.
+![Alert](alert1.png)
+![Alert](alert2.png)
+
 
 - A corresponding Alert is raised in any type of channel (e.g., via email).
 
