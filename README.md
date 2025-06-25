@@ -106,6 +106,8 @@ The Ansible playbooks are located in the `operation/ansible-provisioning` direct
 
 ### Usage Instructions
 
+First, upload your public SSH key to the `ssh_keys/` directory. This key will be used to access the VMs.
+
 To provision the Kubernetes cluster:
 
 ```bash
@@ -139,8 +141,9 @@ To setup the dashboard once the kubernetes cluster is provisoned:
 cd operation
 
 # Run the finalization playbook
+# Update PATH to your private key stored in your device (should be matched to a registered public key)
 ansible-playbook -u vagrant -i 192.168.56.100, \
-                 --private-key=~/.ssh/id_ed25519 \ # or the PATH to your private key (should be matched to a registered public key)
+                 --private-key=~/.ssh/id_ed25519 \
                  ansible-provisioning/finalization.yaml
 
 # Get a token to access the dashboard
@@ -390,18 +393,6 @@ Links to the repositories used in this project:
 - [app](https://github.com/remla25-team5/app)
 - [model-training](https://github.com/remla25-team5/model-training)
 - [lib-version](https://github.com/remla25-team5/lib-version)
-
-## Current status
-
-✅ Assignment 1
-
-✅ Assignment 2
-
-✅ Assignment 3
-
-✅ Assignment 4
-
-✅ Assignment 5
 
 ### Use of Generative AI
 
