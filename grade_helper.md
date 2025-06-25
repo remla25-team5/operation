@@ -169,6 +169,8 @@ Secret configured at `https://github.com/remla25-team5/operation/blob/main/senti
 
 The Grafana dashboard is automatically installed, e.g., through a ConfigMap
 
+If you want data for the histogram, you actually have to make submissions, the other ones are initiallly filled with dummy data.
+
 Check `https://github.com/remla25-team5/operation/blob/main/sentiment-app-chart/templates/grafana-dashboard-configmap.yaml`
 
 
@@ -205,6 +207,10 @@ The documentation explains the decision process for accepting or rejecting the e
 ie.g., which criteria is used and how the available dashboard supports the decision
 
 Check `https://github.com/remla25-team5/operation/blob/main/docs/continuous-experimentation.md`
+
+You can say "I like the food" to trigger a positive sentiment
+You can input "I do not know" will yield the neutral sentiment
+You can input "The food is horrible" to trigger a negative sentiment
 
 ### Deployment Documentation
 
