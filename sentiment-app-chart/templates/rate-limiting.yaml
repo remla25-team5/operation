@@ -5,7 +5,7 @@ metadata:
   name: {{ include "sentiment-app-chart.fullname" . }}-ratelimit-config 
 data:
   config.yaml: |
-    domain: {{ include "sentiment-app-chart.fullname" . }}-ratelimit 
+    domain: {{ include "sentiment-app-chart.fullname" . }}-ratelimit
     descriptors:
       - key: PATH
         value: "api"
@@ -18,9 +18,9 @@ data:
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "sentiment-app-chart.fullname" . }}-redis 
+  name: {{ include "sentiment-app-chart.fullname" . }}-redis
   labels:
-    app: {{ include "sentiment-app-chart.fullname" . }}-redis  (Labels must be unique too)
+    app: {{ include "sentiment-app-chart.fullname" . }}-redis
 spec:
   ports:
   - name: redis
