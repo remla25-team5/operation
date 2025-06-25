@@ -1,3 +1,4 @@
+{{- if .Values.istioEnabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -204,3 +205,4 @@ spec:
               - request_headers:
                   header_name: "x-user"
                   descriptor_key: "x-user"
+{{- end }}

@@ -8,7 +8,7 @@ In the original implementation of our review application, the backend performs s
 
 We modified both the backend and frontend to introduce a third sentiment category: `neutral`.
 
-- **Backend Change**: The sentiment classifier now returns one of `positive`, `neutral`, or `negative`. If model confidence is > 0.8 → `positive`, < 0.2 → `negative`, otherwise → `neutral`.
+- **Backend Change**: The sentiment classifier now returns one of `positive`, `neutral`, or `negative`. If model confidence is > 0.8 for one of the sentiments, then it will return that sentiment and otherwise return `neutral`.
 - **Frontend Change**: Updated the UI to display the `neutral` sentiment visually and handle it as a third possible outcome.
 - **API Change**: `/api/submit` now returns `sentiment_label` as a string (`"positive"`, `"neutral"`, or `"negative"`), instead of a boolean.
 
@@ -55,13 +55,7 @@ A **Grafana dashboard** is used to visualize experiment data and monitor impact 
 - **Submission and verification counts** per version
 - **Statistical test results** to support decision-making
 
-These visualizations help determine whether the experimental version shows meaningful improvement.
-
-### Example Dashboard
-
-![Grafana Dashboard Screenshot](grafana-sentiment-experiment.jpg)
-
-### Agreement Rate Comparison
+These visualizations help determine whether the experimental version shows meaningful improvement.  The exact visualization can be seen below:
 
 ![Agreement Rate Comparison](agreement-rate-comparison.jpg)
 

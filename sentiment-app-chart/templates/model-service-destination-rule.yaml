@@ -1,3 +1,4 @@
+{{- if .Values.istioEnabled }}
 apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata: { name: {{ include "sentiment-app-chart.fullname" . }}-model-service-dr }
@@ -8,3 +9,4 @@ spec:
       labels: { version: v1 }
     - name: v2
       labels: { version: v2 }
+{{- end }}

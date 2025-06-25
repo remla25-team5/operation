@@ -1,3 +1,4 @@
+{{- if .Values.istioEnabled }}
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata: { name: {{ include "sentiment-app-chart.fullname" . }}-model-service-virtualservice }
@@ -10,3 +11,4 @@ spec:
       - destination: { host: {{ include "sentiment-app-chart.fullname" . }}-model-service, subset: v2 }
     - route:
       - destination: { host: {{ include "sentiment-app-chart.fullname" . }}-model-service, subset: v1 }
+{{- end }}

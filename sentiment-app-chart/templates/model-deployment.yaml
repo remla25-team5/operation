@@ -28,6 +28,7 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "sentiment-app-chart.fullname" . }}-model-env
+{{- if .Values.istioEnabled }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -59,3 +60,4 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "sentiment-app-chart.fullname" . }}-model-env
+{{- end }}

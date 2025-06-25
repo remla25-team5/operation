@@ -67,7 +67,7 @@ By default the app image is run on port 8080, and the model image is run on port
 Run with:
 
 ```bash
-docker-compose up
+docker-compose up --pull always
 ```
 The app can then be accessed at [http://localhost:8080](http://localhost:8080).
 
@@ -106,6 +106,8 @@ The Ansible playbooks are located in the `operation/ansible-provisioning` direct
 
 ### Usage Instructions
 
+First, upload your public SSH key to the `ssh_keys/` directory. This key will be used to access the VMs.
+
 To provision the Kubernetes cluster:
 
 ```bash
@@ -139,8 +141,9 @@ To setup the dashboard once the kubernetes cluster is provisoned:
 cd operation
 
 # Run the finalization playbook
+# Update PATH to your private key stored in your device (should be matched to a registered public key)
 ansible-playbook -u vagrant -i 192.168.56.100, \
-                 --private-key=~/.ssh/id_ed25519 \ # or the PATH to your private key (should be matched to a registered public key)
+                 --private-key=~/.ssh/id_ed25519 \
                  ansible-provisioning/finalization.yaml
 
 # Get a token to access the dashboard
@@ -199,6 +202,8 @@ If you're using minikube instead of the Vagrant setup:
 ```bash
 # Start minikube if not already running
 minikube start
+minikube addons enable ingress
+
 
 # Prometheus is added as a dependency which should be fetched is you want monitoring
 cd ./sentiment-app-chart
@@ -206,7 +211,7 @@ helm dependency build
 cd ..
 
 # Install the Helm chart (optionally, Gmail inbox and App password https://support.google.com/accounts/answer/185833?hl=en are needed for receiving alerts)
-helm install sentiment-app ./sentiment-app-chart --set monitoring.enabled=true --set gmailEmail=<value>@gmail.com --set emailPassword=<value>
+helm install sentiment-app ./sentiment-app-chart --set monitoring.enabled=true --set istioEnabled=false --set gmailEmail=<value>@gmail.com --set emailPassword=<value>
 
 # Verify the deployment
 kubectl get pods
@@ -219,7 +224,8 @@ echo "$(minikube ip) sentiment-app.local" | sudo tee -a /etc/hosts
 echo "$(minikube ip) grafana.local" | sudo tee -a /etc/hosts
 ```
 
-Then, you can access the app at [http://sentiment-app.local](http://sentiment-app.local).
+Then, you can access the app at <release_name>.local so for this installation it will be [http://sentiment-app.local](http://sentiment-app.local).
+It is to note that when you deploy the same helm chart multiple times with monitoring enabled, prometheus and grafana will not pick up both, so when testing installation multiple times in a single cluster do `--set monitoring.enabled=false`
 
 If monitoring is enabled you can run the following command to open the port-forwarding to the Prometheus UI:
 ```bash
@@ -238,6 +244,20 @@ Submissions can be simulated easily with the command:
 minikube tunnel
 for i in `seq 1 100`; do curl 'http://localhost/api/submit' -H 'Content-Type: application/json' -H 'Host: sentiment-app.local' --data-raw '{"text":"review"}'; done
 ```
+
+### Grafana Dashboard
+The Helm chart includes a Grafana dashboard for monitoring the sentiment analysis application. The dashboard provides insights into:
+- Total number of submissions received
+- Number of active submissions not yet verified
+- Rate of total number of submissions received
+- Average number of active submissions not yet verified
+- Count sentiment and verified combinations over time
+
+The dashboard is automatically configured when the Helm chart is deployed with monitoring enabled. You can access it at [http://grafana.local](http://grafana.local) after adding the entry to your `/etc/hosts` file.
+
+A visualization of the Grafana dashboard can be seen below:
+
+![Grafana Dashboard Screenshot](docs/grafana-sentiment-experiment.jpg)
 
 ##### Uninstalling the Chart
 
@@ -285,6 +305,14 @@ istioctl install
 kubectl apply -f istio-1.26.0/samples/addons/jaeger.yaml
 kubectl apply -f istio-1.26.0/samples/addons/kiali.yaml
 kubectl label ns default istio-injection=enabled
+
+cd ./sentiment-app-chart
+helm dependency build
+cd ..
+
+# Install the Helm chart (optionally, Gmail inbox and App password https://support.google.com/accounts/answer/185833?hl=en are needed for receiving alerts)
+# Default enabled Istio
+helm install sentiment-app ./sentiment-app-chart --set monitoring.enabled=true --set gmailEmail=<value>@gmail.com --set emailPassword=<value>
 ```
 If running the cluster on VM, don't forget to execute the following commands for convenience (192.168.56.91 is Istio load balancer IP):
 ```bash
@@ -345,7 +373,8 @@ If no header is present (`x-experiment` not sent), Istio **dynamically splits tr
 * **90%** of users will be routed to `v1`.
 * **10%** will see `v2`.
 
-You can verify this by repeatedly refreshing the page or sending multiple curl requests without the header.
+The version is set using a cookie on first entrance on the web, so repeatedly refreshing will not work. This makes it hard to see the feature version (v2), so to see this we recommend setting the `x-experiment: true` header. 
+This can be done in a browser using an extension such as ModHeader for google chrome: https://chromewebstore.google.com/detail/modheader-modify-http-hea/idgpnmonknjnojddfkpgkljpfnnfcklj?pli=1
 
 To test rate limiting, call 
 ```bash
@@ -364,18 +393,6 @@ Links to the repositories used in this project:
 - [app](https://github.com/remla25-team5/app)
 - [model-training](https://github.com/remla25-team5/model-training)
 - [lib-version](https://github.com/remla25-team5/lib-version)
-
-## Current status
-
-✅ Assignment 1
-
-✅ Assignment 2
-
-✅ Assignment 3
-
-✅ Assignment 4
-
-✅ Assignment 5
 
 ### Use of Generative AI
 
