@@ -40,6 +40,7 @@ spec:
         - name: shared-data
           hostPath:
             path: /mnt/shared
+{{- if .Values.istioEnabled }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -83,3 +84,4 @@ spec:
         - name: shared-data
           hostPath:
             path: /mnt/shared
+{{- end }}
