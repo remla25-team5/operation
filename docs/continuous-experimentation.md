@@ -55,13 +55,7 @@ A **Grafana dashboard** is used to visualize experiment data and monitor impact 
 - **Submission and verification counts** per version
 - **Statistical test results** to support decision-making
 
-These visualizations help determine whether the experimental version shows meaningful improvement.
-
-### Example Dashboard
-
-![Grafana Dashboard Screenshot](grafana-sentiment-experiment.jpg)
-
-### Agreement Rate Comparison
+These visualizations help determine whether the experimental version shows meaningful improvement.  The exact visualization can be seen below:
 
 ![Agreement Rate Comparison](agreement-rate-comparison.jpg)
 
