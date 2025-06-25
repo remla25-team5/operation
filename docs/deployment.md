@@ -24,9 +24,13 @@ Each node runs:
 
 Each node hosts multiple Pods, specifically:
 
-- **App Pod**: Contains the frontend application services.
+- **App Pod v1**: Contains version 1 of the frontend application services.
 
-- **Model Service Pod**: Contains the ML model services.
+- **Model Service Pod v1**: Contains version 1 of the ML model services.
+
+- **App Pod v2**: Contains version 2 of the frontend application services.
+
+- **Model Service Pod v2**: Contains version 2 of the ML model services.
 
 Each pod is accompanied by an **Istio Sidecar Proxy**, automatically injected by Istio, to enable service mesh capabilities like traffic routing.
 
