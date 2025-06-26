@@ -28,7 +28,7 @@ spec:
       smarthost: 'smtp.gmail.com:587'
       authUsername: '{{ .Values.gmailEmail }}'
       authPassword:
-        name: gmail-smtp-credentials
+        name: {{ include "sentiment-app-chart.fullname" . }}-gmail-smtp-credentials
         key: appPassword
       authIdentity: '{{ .Values.gmailEmail }}'
       headers:

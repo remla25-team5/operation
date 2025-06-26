@@ -159,7 +159,10 @@ helm install sentiment-app-test ./sentiment-app-chart --set istioEnabled=false
 Check `https://github.com/remla25-team5/operation/blob/main/sentiment-app-chart/templates/alert-manager.yaml`
 
 
-To trigger the alert as in the picture below, you need to spam the submission button in our frontend to trigger it (can take a long time).
+To trigger the alert as in the picture below, you need to spam the submission button in our frontend to trigger it (can take a long time). You can also use a command to send many requests, an example for powershell is down below:
+```bash
+foreach ($i in 1..120) { curl.exe -s -o NUL 'http://localhost/api/submit' -H 'Content-Type: application/json' -H 'Host: sentiment-app.local' --data-raw '{\"text\":\"review\"}'; Write-Host "Sent request #$i of 120"; Start-Sleep -Seconds 2 }
+```
 ![Alert](alert1.png)
 ![Alert](alert2.png)
 
