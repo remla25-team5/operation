@@ -6,7 +6,7 @@ For a quick start, you can run the app using [Docker Compose](#docker-compose).
 
 The whole project contains two docker images, the architecture is taken from the assignment:
 
-![Architecture](architecture.png)
+![Architecture](docs/architecture.png)
 
 
 - The app image (left) is the web app developed with Flask and Vue. It is responsible for the user interface and the interaction with the user. The app image is built using a Dockerfile located in the `app` directory.
@@ -141,31 +141,23 @@ To setup the dashboard once the kubernetes cluster is provisoned:
 cd operation
 
 # Run the finalization playbook
-# Update PATH to your private key stored in your device (should be matched to a registered public key)
 ansible-playbook -u vagrant -i 192.168.56.100, \
-                 --private-key=~/.ssh/id_ed25519 \
                  ansible-provisioning/finalization.yaml
 
 # Get a token to access the dashboard
 kubectl -n kubernetes-dashboard create token admin-user 
 ```
-Remember to add '192.168.56.90 dashboard.local' to your host's DNS file (sudo nano /etc/hosts on Mac)
+Remember to add 
+```bash
+192.168.56.90 dashboard.local
+192.168.56.90 sentiment-app.local
+192.168.56.90 sentiment-app-test.local
+192.168.56.90 grafana.local
+```
+to your host's DNS file (sudo nano /etc/hosts on Mac)
 Once this is done you can access https://dashboard.local in your browser to access the dashboard.
 
 ## **Assignment 3: Operate and Monitor Kubernetes**
-
-### Migrate from docker-compose to kubernetes
-
-To run the migrated setup with kubernetes, you need minikube and kubectl. Then run:
-
-```
-minikube start --driver=docker
-minikube addons enable ingress
-kubectl apply -f kubernetes --recursive
-minikube service list 
-```
-
-Then go to the first IP that is listed at ingress-nginx-controller
 
 ### Using Helm for Deployment
 
@@ -242,7 +234,11 @@ In order to see alert manager dashboard, call `minikube service sentiment-app-ku
 Submissions can be simulated easily with the command:
 ```bash
 minikube tunnel
-for i in `seq 1 100`; do curl 'http://localhost/api/submit' -H 'Content-Type: application/json' -H 'Host: sentiment-app.local' --data-raw '{"text":"review"}'; done
+for i in `seq 1 120`; do curl 'http://localhost/api/submit' -H 'Content-Type: application/json' -H 'Host: sentiment-app.local' --data-raw '{"text":"review"}'; sleep 2; done
+```
+or with VM setup
+```bash
+for i in `seq 1 120`; do curl 'http://192.168.56.90/api/submit' -H 'Content-Type: application/json' -H 'Host: sentiment-app.local' --data-raw '{"text":"review"}'; sleep 2; done
 ```
 
 ### Grafana Dashboard
@@ -291,7 +287,7 @@ Mutamorphic testing works by:
 ## Assignment 5
 
 ### Running the Helm Chart with Istio
-
+Uncomment lines in `finalization.yaml` after the comment `Step 23: Install Istio` to add Istio to VM cluster by re-provisioning (`ansible-playbook -u vagrant -i 192.168.56.100, ansible-provisioning/finalization.yaml`).
 After deploying with Helm (either on Minikube or the Vagrant-based Kubernetes cluster), Istio’s IngressGateway handles traffic routing.
 
 Ensure you have Istio installed in your cluster. If not, download the [latest release](https://github.com/istio/istio/releases/) (1.26.0) that corresponds with your system architecture and OS and unpack it.
@@ -319,7 +315,7 @@ If running the cluster on VM, don't forget to execute the following commands for
 echo "192.168.56.91 sentiment-app.local" | sudo tee -a /etc/hosts
 echo "192.168.56.91 grafana.local" | sudo tee -a /etc/hosts
 ```
-If you want to measure prometheus scraping from the service mesh, you should also install the prometheus addon and enable the dashboard of kiali:
+Make sure these DNS mappings for `sentiment-app.local` and `grafana.local` overwrite previous records and clear cache. If you want to measure prometheus scraping from the service mesh, you should also install the prometheus addon and enable the dashboard of kiali:
 ```bash
 kubectl apply -f istio-1.26.0/samples/addons/prometheus.yaml
 istioctl dashboard kiali
@@ -380,6 +376,10 @@ To test rate limiting, call
 ```bash
 minikube tunnel
 for i in {1..11}; do curl -s "http://localhost/api/submit" -H 'Content-Type: application/json' -H 'Host: sentiment-app.local' -H 'x-user: ricky' --data '{"text":"review"}' -o /dev/null -w "%{http_code}\n"; sleep 1; done
+```
+or with VM setup
+```bash
+for i in {1..11}; do curl -s "http://192.168.56.91/api/submit" -H 'Content-Type: application/json' -H 'Host: sentiment-app.local' -H 'x-user: ricky' --data '{"text":"review"}' -o /dev/null -w "%{http_code}\n"; sleep 1; done
 ```
 You can vary `x-user` header parameter to notice that limit is being applied per user header for a specific service API (users that send more than 10 requests per minute get temporarily blocked). Without the x-user header this will not work, so you need to set the header when testing this.
 
