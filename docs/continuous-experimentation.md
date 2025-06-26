@@ -57,7 +57,7 @@ A **Grafana dashboard** is used to visualize experiment data and monitor impact 
 
 These visualizations help determine whether the experimental version shows meaningful improvement.  The exact visualization can be seen below:
 
-![Agreement Rate Comparison](agreement-rate-comparison.jpg)
+![Agrrement Rate Comparison](agreement-rate-comparison.png)
 
 ## 7. Decision Process
 
