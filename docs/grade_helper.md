@@ -9,6 +9,15 @@ For each rubric we mark the attained level with a ✅
 ## Assignment 1
 
 ### Automated Release Process
+
+#### Good ✅
+
+Versioning is done in the workflows of each repository. Each repo has a delivery and a deployment workflow
+- Delivery will add a pre-release on every push to main. Automatically incremented every push.
+- Deployment uses a workflow dispatch button in the actions tab, where you can define if you want to increase a patch, minor or major version. This makes an empty commit for the official release and then a new commit for the pre release of the next stable release. The images show how this looks with tags and the workflow dispatch button.
+
+![Workflow dispach button](workflow_dispatch.png)
+![Release tags](releases.png)
  
 #### Excellent ✅
 
@@ -134,9 +143,11 @@ Check `https://github.com/remla25-team5/operation/blob/main/sentiment-app-chart/
 
 #### Excellent ✅
 
-- The Helm chart can be installed more than once into the same cluster
-
-Verify 
+- The Helm chart can be installed more than once into the same cluster. Grafana and promeheus however do not pick up both instances, so to check this install the charts without monitoring:
+```bash
+helm install sentiment-app ./sentiment-app-chart --set istioEnabled=false
+helm install sentiment-app-test ./sentiment-app-chart --set istioEnabled=false
+```
 
 
 ### App Monitoring
@@ -148,7 +159,7 @@ Verify
 Check `https://github.com/remla25-team5/operation/blob/main/sentiment-app-chart/templates/alert-manager.yaml`
 
 
-To trigger the alert as in the picture below, you need to spam the submission button in our frontend to trigger it.
+To trigger the alert as in the picture below, you need to spam the submission button in our frontend to trigger it (can take a long time).
 ![Alert](alert1.png)
 ![Alert](alert2.png)
 
@@ -169,11 +180,8 @@ Secret configured at `https://github.com/remla25-team5/operation/blob/main/senti
 
 The Grafana dashboard is automatically installed, e.g., through a ConfigMap
 
-<<<<<<< grader-helper
-If you want data for the histogram, you actually have to make submissions, the other ones are initiallly filled with dummy data.
+If you want data for the histogram, you actually have to make submissions, the other ones are initiallly filled with zero values.
 
-=======
->>>>>>> main
 Check `https://github.com/remla25-team5/operation/blob/main/sentiment-app-chart/templates/grafana-dashboard-configmap.yaml`
 
 
@@ -181,7 +189,7 @@ Check `https://github.com/remla25-team5/operation/blob/main/sentiment-app-chart/
 
 ## Assignment 4
 
-Just run the README for assignment 4 in our operations repo and all requirements should be easily verifiable
+Just run the README for assignment 4 in our operations repo and all requirements should be easily verifiable.
 
 ## Assignment 5
 
@@ -189,7 +197,7 @@ Just run the README for assignment 4 in our operations repo and all requirements
 
 #### Excellent ✅
 
-- The project implements Sticky Sessions, i.e., requests from the same origin have a stable routing
+- The project implements Sticky Sessions, i.e., requests from the same origin have a stable routing. 
 
 Check `https://github.com/remla25-team5/operation/blob/main/sentiment-app-chart/templates/app-virtualservice.yaml`
 
@@ -211,13 +219,10 @@ ie.g., which criteria is used and how the available dashboard supports the decis
 
 Check `https://github.com/remla25-team5/operation/blob/main/docs/continuous-experimentation.md`
 
-<<<<<<< grader-helper
 You can say "I like the food" to trigger a positive sentiment
 You can input "I do not know" will yield the neutral sentiment
 You can input "The food is horrible" to trigger a negative sentiment
 
-=======
->>>>>>> main
 ### Deployment Documentation
 
 #### Excellent ✅
