@@ -226,6 +226,14 @@ You can say "I like the food" to trigger a positive sentiment
 You can input "I do not know" will yield the neutral sentiment
 You can input "The food is horrible" to trigger a negative sentiment
 
+Rate limitting was also done, this can be seen by doing the following command in powershell or something similar in bash:
+```bash
+foreach ($i in 1..11) { curl.exe -s "http://localhost/api/submit" -H 'Content-Type: application/json' -H 'Host: sentiment-app.local' -H 'x-user: ricky' --data '{\"text\":\"review\"}' -o NUL -w "%{http_code}`n"; Start-Sleep -Seconds 1 }
+```
+After 10 requests with the same user in the x-user field have been sent you can see that the following request is rejected:
+![Rate limitting](rate_limiting.png)
+
+
 ### Deployment Documentation
 
 #### Excellent ✅

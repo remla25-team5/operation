@@ -184,7 +184,7 @@ spec:
         context: GATEWAY
         routeConfiguration:
           vhost:
-            name: "{{ printf "%s-%s" .Release.Name .Values.app.ingress.host }}:80"
+            name: "{{ printf "%s%s" .Release.Name .Values.app.ingress.host }}:80"
             route:
               name: "api"
       patch:
