@@ -148,6 +148,11 @@ Check `https://github.com/remla25-team5/operation/blob/main/sentiment-app-chart/
 helm install sentiment-app ./sentiment-app-chart --set istioEnabled=false
 helm install sentiment-app-test ./sentiment-app-chart --set istioEnabled=false
 ```
+or if executing from inside VM
+```bash
+helm install sentiment-app /vagrant/sentiment-app-chart --set istioEnabled=false
+helm install sentiment-app-test /vagrant/sentiment-app-chart --set istioEnabled=false
+```
 
 
 ### App Monitoring

@@ -227,36 +227,36 @@
       vars:
         nginx_ingress_loadbalancer_ip: "192.168.56.90"
 
-    # Step 23: Install Istio
-    - name: Download Istio-1.25.2 and unpack it
-      ansible.builtin.unarchive:
-        src: https://github.com/istio/istio/releases/download/1.25.2/istio-1.25.2-linux-amd64.tar.gz
-        dest: /usr/local/bin
-        remote_src: yes
-    - name: Add the istioctl binary to the PATH variable
-      ansible.builtin.copy:
-        src: /usr/local/bin/istio-1.25.2/bin/istioctl
-        dest: /usr/local/bin/istioctl
-        remote_src: yes
-        mode: "0755"
-    - name: IstioOperator
-      ansible.builtin.copy:
-        content: |
-          apiVersion: install.istio.io/v1alpha1
-          kind: IstioOperator
-          spec:
-            components:
-              ingressGateways:
-              - name: istio-ingressgateway
-                enabled: true
-                k8s:
-                  service:
-                    loadBalancerIP: 192.168.56.91
-        dest: config.yml
-    - name: Install Istio
-      ansible.builtin.shell: istioctl install -y -f config.yml
-    - name: Enable Istio
-      ansible.builtin.shell: kubectl label ns default istio-injection=enabled
+#    # Step 23: Install Istio
+#    - name: Download Istio-1.25.2 and unpack it
+#      ansible.builtin.unarchive:
+#        src: https://github.com/istio/istio/releases/download/1.25.2/istio-1.25.2-linux-amd64.tar.gz
+#        dest: /usr/local/bin
+#        remote_src: yes
+#    - name: Add the istioctl binary to the PATH variable
+#      ansible.builtin.copy:
+#        src: /usr/local/bin/istio-1.25.2/bin/istioctl
+#        dest: /usr/local/bin/istioctl
+#        remote_src: yes
+#        mode: "0755"
+#    - name: IstioOperator
+#      ansible.builtin.copy:
+#        content: |
+#          apiVersion: install.istio.io/v1alpha1
+#          kind: IstioOperator
+#          spec:
+#            components:
+#              ingressGateways:
+#              - name: istio-ingressgateway
+#                enabled: true
+#                k8s:
+#                  service:
+#                    loadBalancerIP: 192.168.56.91
+#        dest: config.yml
+#    - name: Install Istio
+#      ansible.builtin.shell: istioctl install -y -f config.yml
+#    - name: Enable Istio
+#      ansible.builtin.shell: kubectl label ns default istio-injection=enabled
 #    - name: Jaeger
 #      ansible.builtin.shell: kubectl apply -f /usr/local/bin/istio-1.25.2/samples/addons/jaeger.yaml
 #    - name: Kiali
