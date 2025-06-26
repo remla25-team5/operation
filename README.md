@@ -381,7 +381,7 @@ To test rate limiting, call
 minikube tunnel
 for i in {1..11}; do curl -s "http://localhost/api/submit" -H 'Content-Type: application/json' -H 'Host: sentiment-app.local' -H 'x-user: ricky' --data '{"text":"review"}' -o /dev/null -w "%{http_code}\n"; sleep 1; done
 ```
-You can vary `x-user` header parameter to notice that limit is being applied per user header for a specific service API (users that send more than 10 requests per minute get temporarily blocked).
+You can vary `x-user` header parameter to notice that limit is being applied per user header for a specific service API (users that send more than 10 requests per minute get temporarily blocked). Without the x-user header this will not work, so you need to set the header when testing this.
 
 ## Repositories
 
